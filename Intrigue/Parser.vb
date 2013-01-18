@@ -36,10 +36,18 @@ Public Class Parser
 
     Protected Shared Function DoParse(s As String) As Tuple(Of Node, String)
 
+        s = s.Trim
+
         If s.StartsWith("(") Then Return ParseList(s)
-        if s.StartsWith("'(") Then return ParseQuotedList(s)
+        If s.StartsWith("'(") Then Return ParseQuotedList(s)
         If s.StartsWith("""") Then Return ParseString(s)
-        Return ParseValue(s)
+
+        Dim t As Tuple(Of Node, String)
+
+        t = TryParseNumber(s)
+        If t IsNot Nothing Then Return t
+
+        Return ParseSymbol(s)
     End Function
 
     Protected Shared Function ParseList(s As String) As Tuple(Of Node, String)
@@ -66,7 +74,7 @@ Public Class Parser
 
     Protected Shared Function ParseQuotedList(s As String) As Tuple(Of Node, String)
 
-        ' TODO: implement me!
+        Return ParseList("quote " + s)
     End Function
 
     Protected Shared Function ParseString(s As String) As Tuple(Of Node, String)
@@ -96,13 +104,25 @@ Public Class Parser
         Return New Tuple(Of Node, String)(New Node(r), s)
     End Function
 
+    Protected Shared SYMBOL_REGEX As Regex = New Regex("^([^\s]+)(.*)$")
+
+    Protected Shared Function ParseSymbol(s As String) As Tuple(Of Node, String)
+
+        Dim m = SYMBOL_REGEX.Match(s)
+
+        Return New Tuple(Of Node, String)(New Node(m.Groups(1).ToString), m.Groups(2).ToString)
+    End Function
+
     Protected Shared INTEGER_REGEX As Regex = New Regex("^(-?\d+)(.*)$")
 
-    Protected Shared Function ParseValue(s As String) As Tuple(Of Node, String)
+    Protected Shared Function TryParseNumber(s As String) As Tuple(Of Node, String)
 
         ' TODO: go beyond integers!
 
         Dim m = INTEGER_REGEX.Match(s)
+
+        If Not m.Success Then Return Nothing
+
         Dim i = Integer.Parse(m.Groups(1).ToString)
 
         Return New Tuple(Of Node, String)(New Node(i), m.Groups(2).ToString)
@@ -135,6 +155,8 @@ Public Class Parser
             Me.Value = Nothing
         End Sub
 
+        Dim TO_ESCAPE_REGEX As Regex = New Regex("[\s\n""]")
+
         Public Overrides Function ToString() As String
 
             If Me.Value IsNot Nothing Then
@@ -142,6 +164,7 @@ Public Class Parser
                 Dim str = TryCast(Me.Value, String)
 
                 If str Is Nothing Then Return Me.Value.ToString
+                If Not TO_ESCAPE_REGEX.IsMatch(str) Then Return Me.Value.ToString
 
                 Return """" & str.Replace("""", "\""") & """"
             End If

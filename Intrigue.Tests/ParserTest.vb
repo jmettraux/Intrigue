@@ -19,11 +19,14 @@ Imports Intrigue
     <TestMethod()> Public Sub Parser_Parse_strings()
 
         Assert.AreEqual(
-            "(""xxx"")",
+            "(xxx)",
             Intrigue.Parser.Parse("""xxx""").ToString)
         Assert.AreEqual(
             "(""x\""xx"")",
             Intrigue.Parser.Parse("""x\""xx""").ToString)
+        Assert.AreEqual(
+            "(""ab cd"")",
+            Intrigue.Parser.Parse("""ab cd""").ToString)
     End Sub
 
     <TestMethod()> Public Sub Parser_Parse_integers()
@@ -50,5 +53,12 @@ Imports Intrigue
         Assert.AreEqual(
             "(1 2 (3 4))",
             Intrigue.Parser.Parse("(1 2 (3 4))").ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Parser_Parse_symbol()
+
+        Assert.AreEqual(
+            "(alpha)",
+            Intrigue.Parser.Parse("alpha").ToString)
     End Sub
 End Class
