@@ -4,6 +4,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 Imports Intrigue
 
+
 <TestClass()> Public Class ParserTest
 
     <TestMethod()> Public Sub ParserNode_ToString()
@@ -60,5 +61,33 @@ Imports Intrigue
         Assert.AreEqual(
             "(alpha)",
             Intrigue.Parser.Parse("alpha").ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Parser_Parse_nobrackets()
+
+        Assert.AreEqual(
+            "(alpha 1 2 3)",
+            Intrigue.Parser.Parse("alpha 1 2 3").ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Parser_Parse_multilines()
+
+        Assert.AreEqual(
+            "((alpha 1 2 3) (bravo 4 5 6))",
+            Intrigue.Parser.Parse(
+                <string>
+                    (alpha 1 2 3)
+                    (bravo 4 5 6)
+                </string>.Nodes.First.ToString.Trim
+            ).ToString)
+
+        Assert.AreEqual(
+            "((alpha 1 2 3) (bravo 4 5 6))",
+            Intrigue.Parser.Parse(
+                <string>
+                    alpha 1 2 3
+                    bravo 4 5 6
+                </string>.Nodes.First.ToString.Trim
+            ).ToString)
     End Sub
 End Class

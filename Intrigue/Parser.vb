@@ -29,9 +29,22 @@ Public Class Parser
 
     Public Shared Function Parse(s As String) As Node
 
-        Dim t = ParseList(s)
+        Dim nodes = New List(Of Node)
+        Dim tt As Tuple(Of Node, String)
+        Dim ss = s
 
-        Return t.Item1
+        While True
+            tt = ParseList(ss)
+            nodes.Add(tt.Item1)
+            ss = tt.Item2.Trim
+            If ss.Length < 1 Then Exit While
+        End While
+
+        If nodes.Count = 1 Then
+            Return nodes(0)
+        Else
+            Return New Node(nodes)
+        End If
     End Function
 
     Protected Shared Function DoParse(s As String) As Tuple(Of Node, String)
@@ -52,16 +65,24 @@ Public Class Parser
 
     Protected Shared Function ParseList(s As String) As Tuple(Of Node, String)
 
-        If s.StartsWith("(") Then s = s.Substring(1)
+        Dim start = s.Substring(0, 1)
+        If start = "(" Then s = s.Substring(1)
 
         Dim nodes = New List(Of Node)
 
         While True
 
+            If start <> "(" AndAlso (s.StartsWith(vbCrLf) OrElse s.StartsWith(vbCr)) Then
+                Exit While
+            End If
+
             s = s.Trim
 
             If s.Length < 1 Then Exit While
-            If s.StartsWith(")") Then Exit While
+            If s.StartsWith(")") Then
+                s = s.Substring(1)
+                Exit While
+            End If
 
             Dim t = DoParse(s)
 
@@ -104,16 +125,18 @@ Public Class Parser
         Return New Tuple(Of Node, String)(New Node(r), s)
     End Function
 
-    Protected Shared SYMBOL_REGEX As Regex = New Regex("^([^\s]+)(.*)$")
+    Protected Shared SYMBOL_REGEX As Regex = New Regex("^([^\s]+)")
 
     Protected Shared Function ParseSymbol(s As String) As Tuple(Of Node, String)
 
         Dim m = SYMBOL_REGEX.Match(s)
 
-        Return New Tuple(Of Node, String)(New Node(m.Groups(1).ToString), m.Groups(2).ToString)
+        Dim sym = m.Groups(1).ToString
+
+        Return New Tuple(Of Node, String)(New Node(sym), s.Substring(sym.Length))
     End Function
 
-    Protected Shared INTEGER_REGEX As Regex = New Regex("^(-?\d+)(.*)$")
+    Protected Shared INTEGER_REGEX As Regex = New Regex("^(-?\d+)")
 
     Protected Shared Function TryParseNumber(s As String) As Tuple(Of Node, String)
 
@@ -123,9 +146,10 @@ Public Class Parser
 
         If Not m.Success Then Return Nothing
 
-        Dim i = Integer.Parse(m.Groups(1).ToString)
+        Dim si = m.Groups(1).ToString
+        Dim i = Integer.Parse(si)
 
-        Return New Tuple(Of Node, String)(New Node(i), m.Groups(2).ToString)
+        Return New Tuple(Of Node, String)(New Node(i), s.Substring(si.Length))
     End Function
 
     Public Class Node
