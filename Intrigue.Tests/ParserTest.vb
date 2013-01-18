@@ -16,7 +16,7 @@ Imports Intrigue
             (New Intrigue.Parser.Node(1, 2, 3)).ToString)
     End Sub
 
-    <TestMethod()> Public Sub Parser_Parse()
+    <TestMethod()> Public Sub Parser_Parse_strings()
 
         Assert.AreEqual(
             "(""xxx"")",
@@ -24,8 +24,18 @@ Imports Intrigue
         Assert.AreEqual(
             "(""x\""xx"")",
             Intrigue.Parser.Parse("""x\""xx""").ToString)
-        'Assert.AreEqual(
-        '    "(""x"")",
-        '    Intrigue.Parser.Parse("(""x""xx"")").ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Parser_Parse_integers()
+
+        Assert.AreEqual(
+            "(1)",
+            Intrigue.Parser.Parse("1").ToString)
+        Assert.AreEqual(
+            "(12)",
+            Intrigue.Parser.Parse("12").ToString)
+        Assert.AreEqual(
+            "(-12)",
+            Intrigue.Parser.Parse("-12").ToString)
     End Sub
 End Class

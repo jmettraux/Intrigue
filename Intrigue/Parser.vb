@@ -89,7 +89,14 @@ Public Class Parser
         Return New Tuple(Of Node, String)(New Node(r), s)
     End Function
 
+    Protected Shared INTEGER_REGEX As Regex = New Regex("^(-?\d+)(.*)$")
+
     Protected Shared Function ParseValue(s As String) As Tuple(Of Node, String)
+
+        Dim m = INTEGER_REGEX.Match(s)
+        Dim i = Integer.Parse(m.Groups(1).ToString)
+
+        Return New Tuple(Of Node, String)(New Node(i), m.Groups(2).ToString)
     End Function
 
     Public Class Node
