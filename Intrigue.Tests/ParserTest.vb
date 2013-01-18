@@ -38,4 +38,17 @@ Imports Intrigue
             "(-12)",
             Intrigue.Parser.Parse("-12").ToString)
     End Sub
+
+    <TestMethod()> Public Sub Parser_Parse_lists()
+
+        Assert.AreEqual(
+            "(1 2 3)",
+            Intrigue.Parser.Parse("(1 2 3)").ToString)
+        Assert.AreEqual(
+            "(1 ""nada niente"" 3)",
+            Intrigue.Parser.Parse("(1 ""nada niente"" 3)").ToString)
+        Assert.AreEqual(
+            "(1 2 (3 4))",
+            Intrigue.Parser.Parse("(1 2 (3 4))").ToString)
+    End Sub
 End Class

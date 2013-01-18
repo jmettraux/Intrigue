@@ -29,37 +29,44 @@ Public Class Parser
 
     Public Shared Function Parse(s As String) As Node
 
-        s = s.Trim
+        Dim t = ParseList(s)
+
+        Return t.Item1
+    End Function
+
+    Protected Shared Function DoParse(s As String) As Tuple(Of Node, String)
+
+        If s.StartsWith("(") Then Return ParseList(s)
+        if s.StartsWith("'(") Then return ParseQuotedList(s)
+        If s.StartsWith("""") Then Return ParseString(s)
+        Return ParseValue(s)
+    End Function
+
+    Protected Shared Function ParseList(s As String) As Tuple(Of Node, String)
+
+        If s.StartsWith("(") Then s = s.Substring(1)
 
         Dim nodes = New List(Of Node)
 
         While True
 
-            Dim t As Tuple(Of Node, String)
+            s = s.Trim
 
-            If s.StartsWith("(") Then
-                t = ParseList(s)
-            ElseIf s.StartsWith("'(") Then
-                t = ParseQuotedList(s)
-            ElseIf s.StartsWith("""") Then
-                t = ParseString(s)
-            Else
-                t = ParseValue(s)
-            End If
+            If s.Length < 1 Then Exit While
+            If s.StartsWith(")") Then Exit While
+
+            Dim t = DoParse(s)
 
             nodes.Add(t.Item1)
             s = t.Item2
-
-            If s.Length < 1 Then Exit While
         End While
 
-        Return New Node(nodes)
-    End Function
-
-    Protected Shared Function ParseList(s As String) As Tuple(Of Node, String)
+        Return New Tuple(Of Node, String)(New Node(nodes), s)
     End Function
 
     Protected Shared Function ParseQuotedList(s As String) As Tuple(Of Node, String)
+
+        ' TODO: implement me!
     End Function
 
     Protected Shared Function ParseString(s As String) As Tuple(Of Node, String)
@@ -92,6 +99,8 @@ Public Class Parser
     Protected Shared INTEGER_REGEX As Regex = New Regex("^(-?\d+)(.*)$")
 
     Protected Shared Function ParseValue(s As String) As Tuple(Of Node, String)
+
+        ' TODO: go beyond integers!
 
         Dim m = INTEGER_REGEX.Match(s)
         Dim i = Integer.Parse(m.Groups(1).ToString)
