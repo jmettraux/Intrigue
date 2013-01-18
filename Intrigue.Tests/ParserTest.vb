@@ -6,17 +6,18 @@ Imports Intrigue
 
 <TestClass()> Public Class ParserTest
 
-    <TestMethod()> Public Sub Parser_Stringify()
+    <TestMethod()> Public Sub ParserNode_ToString()
 
         Assert.AreEqual(
-            "()",
-            Parser.Stringify(New Object() {}))
+            "1",
+            (New Intrigue.Parser.Node(1)).ToString)
         Assert.AreEqual(
-            "(1 2)",
-            Parser.Stringify(New Object() {1, 2}))
+            "(1 2 3)",
+            (New Intrigue.Parser.Node(1, 2, 3)).ToString)
     End Sub
 
     <TestMethod()> Public Sub Parser_Parse()
+
 
         Assert.AreEqual(
             New Object() {},

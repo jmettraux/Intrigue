@@ -24,27 +24,44 @@
 
 Public Class Parser
 
-    '
-    ' parse
-    '
-
     Public Shared Function Parse(s As String) As Object()
 
         Return New Object() {}
     End Function
 
-    '
-    ' stringify
-    '
-    Public Shared Function Stringify(ByRef a As Object()) As String
+    Public Class Node
 
-        Dim s = "("
+        Protected Property Nodes As List(Of Node)
+        Protected Property Value As Object
 
-        For i As Integer = 0 To a.Count - 1
-            s = s + a(i).ToString
-            If i < a.Count - 1 Then s = s + " "
-        Next
+        Public Sub New(val As Object)
 
-        Return s + ")"
-    End Function
+            Me.Nodes = Nothing
+            Me.Value = val
+        End Sub
+
+        Public Sub New(ParamArray args As Object())
+
+            Me.Nodes = New List(Of Node)
+            For Each a In args
+                Me.Nodes.Add(New Node(a))
+            Next
+
+            Me.Value = Nothing
+        End Sub
+
+        Public Overrides Function ToString() As String
+
+            If Not (Me.Value Is Nothing) Then Return Me.Value.ToString
+
+            Dim s = "("
+
+            For i As Integer = 0 To Me.Nodes.Count - 1
+                s = s + Me.Nodes(i).ToString
+                If i < Me.Nodes.Count - 1 Then s = s + " "
+            Next
+
+            Return s + ")"
+        End Function
+    End Class
 End Class
