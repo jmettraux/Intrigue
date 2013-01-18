@@ -95,7 +95,10 @@ Public Class Parser
 
     Protected Shared Function ParseQuotedList(s As String) As Tuple(Of Node, String)
 
-        Return ParseList("quote " + s)
+        Dim t As Tuple(Of Node, String) = ParseList(s.Substring(1))
+        t.Item1.Nodes.Insert(0, New Node("quote"))
+
+        Return t
     End Function
 
     Protected Shared Function ParseString(s As String) As Tuple(Of Node, String)
@@ -154,8 +157,8 @@ Public Class Parser
 
     Public Class Node
 
-        Protected Property Nodes As List(Of Node)
-        Protected Property Value As Object
+        Public Property Nodes As List(Of Node)
+        public Property Value As Object
 
         Public Sub New(val As Object)
 

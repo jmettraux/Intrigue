@@ -90,4 +90,17 @@ Imports Intrigue
                 </string>.Nodes.First.ToString.Trim
             ).ToString)
     End Sub
+
+    <TestMethod()> Public Sub Parser_Parse_quoted_list()
+
+        Assert.AreEqual(
+            "(quote 1 2 3)",
+            Intrigue.Parser.Parse("(quote 1 2 3)").ToString)
+        Assert.AreEqual(
+            "((quote 1 2 3))",
+            Intrigue.Parser.Parse("'(1 2 3)").ToString)
+        Assert.AreEqual(
+            "(quote 1 2 3)",
+            Intrigue.Parser.Parse("quote 1 2 3").ToString)
+    End Sub
 End Class
