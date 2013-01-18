@@ -18,9 +18,14 @@ Imports Intrigue
 
     <TestMethod()> Public Sub Parser_Parse()
 
-
         Assert.AreEqual(
-            New Object() {},
-            Intrigue.Parser.Parse("(+ 1 2 3)"))
+            "(""xxx"")",
+            Intrigue.Parser.Parse("""xxx""").ToString)
+        Assert.AreEqual(
+            "(""x\""xx"")",
+            Intrigue.Parser.Parse("""x\""xx""").ToString)
+        'Assert.AreEqual(
+        '    "(""x"")",
+        '    Intrigue.Parser.Parse("(""x""xx"")").ToString)
     End Sub
 End Class

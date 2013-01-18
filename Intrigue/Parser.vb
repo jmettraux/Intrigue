@@ -22,11 +22,74 @@
 ' Made in Japan
 '
 
+Imports System.Text.RegularExpressions
+
+
 Public Class Parser
 
-    Public Shared Function Parse(s As String) As Object()
+    Public Shared Function Parse(s As String) As Node
 
-        Return New Object() {}
+        s = s.Trim
+
+        Dim nodes = New List(Of Node)
+
+        While True
+
+            Dim t As Tuple(Of Node, String)
+
+            If s.StartsWith("(") Then
+                t = ParseList(s)
+            ElseIf s.StartsWith("'(") Then
+                t = ParseQuotedList(s)
+            ElseIf s.StartsWith("""") Then
+                t = ParseString(s)
+            Else
+                t = ParseValue(s)
+            End If
+
+            nodes.Add(t.Item1)
+            s = t.Item2
+
+            If s.Length < 1 Then Exit While
+        End While
+
+        Return New Node(nodes)
+    End Function
+
+    Protected Shared Function ParseList(s As String) As Tuple(Of Node, String)
+    End Function
+
+    Protected Shared Function ParseQuotedList(s As String) As Tuple(Of Node, String)
+    End Function
+
+    Protected Shared Function ParseString(s As String) As Tuple(Of Node, String)
+
+        s = s.Substring(1)
+
+        Dim r = ""
+        Dim escape = False
+
+        While True
+
+            Dim c = s.Substring(0, 1)
+            s = s.Substring(1)
+
+            If escape Then
+                r = r + c
+                escape = False
+            ElseIf c = "\" Then
+                escape = True
+            ElseIf c = """" Then
+                Exit While
+            Else
+                r = r + c
+            End If
+        End While
+
+        Return New Tuple(Of Node, String)(New Node(r), s)
+    End Function
+
+    Protected Shared Function ParseValue(s As String) As Tuple(Of Node, String)
     End Function
 
     Public Class Node
@@ -38,6 +101,12 @@ Public Class Parser
 
             Me.Nodes = Nothing
             Me.Value = val
+        End Sub
+
+        Public Sub New(nodes As List(Of Node))
+
+            Me.Nodes = nodes
+            Me.Value = Nothing
         End Sub
 
         Public Sub New(ParamArray args As Object())
@@ -52,7 +121,14 @@ Public Class Parser
 
         Public Overrides Function ToString() As String
 
-            If Not (Me.Value Is Nothing) Then Return Me.Value.ToString
+            If Me.Value IsNot Nothing Then
+
+                Dim str = TryCast(Me.Value, String)
+
+                If str Is Nothing Then Return Me.Value.ToString
+
+                Return """" & str.Replace("""", "\""") & """"
+            End If
 
             Dim s = "("
 
