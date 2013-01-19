@@ -41,18 +41,18 @@ Public Class Interpreter
 
     Public Function Eval(s As String) As Node
 
-        Dim node = Parser.Parse(s)
+        Return Eval(Parser.Parse(s))
+    End Function
+
+    Public Function Eval(ByRef node As Node) As Node
+
         Dim result As Node = Nothing
 
         For Each n In node.Nodes
+            Console.WriteLine("eval: " & n.ToString)
             result = n
         Next
 
         Return result
-    End Function
-
-    Public Function Eval(ByRef n As Node) As Node
-
-        Return Nothing
     End Function
 End Class

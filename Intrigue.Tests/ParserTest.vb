@@ -20,27 +20,30 @@ Imports Intrigue
     <TestMethod()> Public Sub Parser_Parse_strings()
 
         Assert.AreEqual(
-            "(xxx)",
+            "xxx",
             Intrigue.Parser.Parse("""xxx""").ToString)
         Assert.AreEqual(
-            "(""x\""xx"")",
+            """x\""xx""",
             Intrigue.Parser.Parse("""x\""xx""").ToString)
         Assert.AreEqual(
-            "(""ab cd"")",
+            """ab cd""",
             Intrigue.Parser.Parse("""ab cd""").ToString)
     End Sub
 
     <TestMethod()> Public Sub Parser_Parse_integers()
 
         Assert.AreEqual(
-            "(1)",
+            "1",
             Intrigue.Parser.Parse("1").ToString)
         Assert.AreEqual(
-            "(12)",
+            "12",
             Intrigue.Parser.Parse("12").ToString)
         Assert.AreEqual(
-            "(-12)",
+            "-12",
             Intrigue.Parser.Parse("-12").ToString)
+        Assert.AreEqual(
+            "-12" & vbCr & "3",
+            Intrigue.Parser.Parse("-12" & vbCr & "3").ToString)
     End Sub
 
     <TestMethod()> Public Sub Parser_Parse_lists()
@@ -59,7 +62,7 @@ Imports Intrigue
     <TestMethod()> Public Sub Parser_Parse_symbol()
 
         Assert.AreEqual(
-            "(alpha)",
+            "alpha",
             Intrigue.Parser.Parse("alpha").ToString)
     End Sub
 
@@ -73,7 +76,7 @@ Imports Intrigue
     <TestMethod()> Public Sub Parser_Parse_multilines()
 
         Assert.AreEqual(
-            "((alpha 1 2 3) (bravo 4 5 6))",
+            "(alpha 1 2 3)" & vbCr & "(bravo 4 5 6)",
             Intrigue.Parser.Parse(
                 <string>
                     (alpha 1 2 3)
@@ -82,7 +85,7 @@ Imports Intrigue
             ).ToString)
 
         Assert.AreEqual(
-            "((alpha 1 2 3) (bravo 4 5 6))",
+            "(alpha 1 2 3)" & vbCr & "(bravo 4 5 6)",
             Intrigue.Parser.Parse(
                 <string>
                     alpha 1 2 3

@@ -29,22 +29,28 @@ Public Class Parser
 
     Public Shared Function Parse(s As String) As Node
 
-        Dim nodes = New List(Of Node)
-        Dim tt As Tuple(Of Node, String)
-        Dim ss = s
+        Dim parseList = New Node With {.IsParseList = True}
+        Dim currentList = New Node
+        Dim r As Result
 
         While True
-            tt = ParseList(ss)
-            nodes.Add(tt.Item1)
-            ss = tt.Item2.Trim
-            If ss.Length < 1 Then Exit While
+            r = DoParse(s)
+            currentList.Push(r.Node)
+            s = r.Remainder
+            If s.Length < 1 OrElse s.StartsWith(vbCr) Then
+                parseList.Push(currentList.Compact)
+                currentList = New Node
+                s = s.Trim
+            End If
+            If s.Length < 1 Then
+                Exit While
+            End If
         End While
 
-        If nodes.Count = 1 Then Return nodes(0)
-        Return New Node(nodes)
+        Return parseList
     End Function
 
-    Protected Shared Function DoParse(s As String) As Tuple(Of Node, String)
+    Protected Shared Function DoParse(s As String) As Result
 
         s = s.Trim
 
@@ -52,15 +58,15 @@ Public Class Parser
         If s.StartsWith("'(") Then Return ParseList(s)
         If s.StartsWith("""") Then Return ParseString(s)
 
-        Dim t As Tuple(Of Node, String)
+        Dim r As Result
 
-        t = TryParseNumber(s)
-        If t IsNot Nothing Then Return t
+        r = TryParseNumber(s)
+        If r IsNot Nothing Then Return r
 
         Return ParseSymbol(s)
     End Function
 
-    Protected Shared Function ParseList(s As String) As Tuple(Of Node, String)
+    Protected Shared Function ParseList(s As String) As Result
 
         Dim start = s.Substring(0, 1)
 
@@ -75,11 +81,11 @@ Public Class Parser
 
         While True
 
+            s = s.Trim
+
             If start <> "(" AndAlso (s.StartsWith(vbCrLf) OrElse s.StartsWith(vbCr)) Then
                 Exit While
             End If
-
-            s = s.Trim
 
             If s.Length < 1 Then Exit While
             If s.StartsWith(")") Then
@@ -89,14 +95,14 @@ Public Class Parser
 
             Dim t = DoParse(s)
 
-            nodes.Add(t.Item1)
-            s = t.Item2
+            nodes.Add(t.Node)
+            s = t.Remainder
         End While
 
-        Return New Tuple(Of Node, String)(New Node(nodes), s)
+        Return New Result(New Node(nodes), s)
     End Function
 
-    Protected Shared Function ParseString(s As String) As Tuple(Of Node, String)
+    Protected Shared Function ParseString(s As String) As Result
 
         s = s.Substring(1)
 
@@ -120,23 +126,23 @@ Public Class Parser
             End If
         End While
 
-        Return New Tuple(Of Node, String)(New Node(r), s)
+        Return New Result(New Node(r), s)
     End Function
 
     Protected Shared SYMBOL_REGEX As Regex = New Regex("^([^\s]+)")
 
-    Protected Shared Function ParseSymbol(s As String) As Tuple(Of Node, String)
+    Protected Shared Function ParseSymbol(s As String) As Result
 
         Dim m = SYMBOL_REGEX.Match(s)
 
         Dim sym = m.Groups(1).ToString
 
-        Return New Tuple(Of Node, String)(New Node(sym), s.Substring(sym.Length))
+        Return New Result(New Node(sym), s.Substring(sym.Length))
     End Function
 
     Protected Shared INTEGER_REGEX As Regex = New Regex("^(-?\d+)")
 
-    Protected Shared Function TryParseNumber(s As String) As Tuple(Of Node, String)
+    Protected Shared Function TryParseNumber(s As String) As Result
 
         ' TODO: go beyond integers!
 
@@ -147,6 +153,22 @@ Public Class Parser
         Dim si = m.Groups(1).ToString
         Dim i = Integer.Parse(si)
 
-        Return New Tuple(Of Node, String)(New Node(i), s.Substring(si.Length))
+        Return New Result(New Node(i), s.Substring(si.Length))
     End Function
+
+    Protected Class Result
+
+        Public Property Node As Node
+        Public Property Remainder As String
+
+        Public Sub New(ByRef n As Node, ByRef s As String)
+
+            Me.Node = n
+
+            While s.StartsWith(" ")
+                s = s.Substring(1)
+            End While
+            Me.Remainder = s
+        End Sub
+    End Class
 End Class

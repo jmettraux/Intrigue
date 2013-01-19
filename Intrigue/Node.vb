@@ -23,26 +23,39 @@
 '
 
 Imports System.Text.RegularExpressions
+Imports System.Runtime.CompilerServices
 
 
 Public Class Node
 
+    Public Property IsParseList As Boolean
     Public Property Nodes As List(Of Node)
     Public Property Atom As Object
 
+    Public Sub New()
+
+        Me.IsParseList = False
+        Me.Nodes = New List(Of Node)
+        Me.Atom = Nothing
+    End Sub
+
     Public Sub New(val As Object)
 
+        Me.IsParseList = False
         Me.Nodes = Nothing
         Me.Atom = val
     End Sub
 
     Public Sub New(nodes As List(Of Node))
 
+        Me.IsParseList = False
         Me.Nodes = nodes
         Me.Atom = Nothing
     End Sub
 
     Public Sub New(ParamArray args As Object())
+
+        Me.IsParseList = False
 
         Me.Nodes = New List(Of Node)
         For Each a In args
@@ -66,7 +79,16 @@ Public Class Node
             Return """" & str.Replace("""", "\""") & """"
         End If
 
-        Dim s = "("
+        Dim s = ""
+
+        If Me.IsParseList Then
+            For Each n In Me.Nodes
+                s = s & n.ToString & vbCr
+            Next
+            Return s.Trim
+        End If
+
+        s = "("
 
         For i As Integer = 0 To Me.Nodes.Count - 1
             s = s + Me.Nodes(i).ToString
@@ -74,5 +96,16 @@ Public Class Node
         Next
 
         Return s + ")"
+    End Function
+
+    Public Sub Push(ByRef n As Node)
+
+        Me.Nodes.Add(n)
+    End Sub
+
+    Public Function Compact() As Node
+
+        If Me.Nodes.Count > 1 Then Return Me
+        Return Me.Nodes(0)
     End Function
 End Class

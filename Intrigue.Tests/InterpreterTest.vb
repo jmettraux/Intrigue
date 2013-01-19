@@ -21,4 +21,11 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             """hell o""",
             Interpreter.DoEval("""hell o""").ToString)
     End Sub
+
+    <TestMethod()> Public Sub Interpreter_eval_quoted_list()
+
+        Assert.AreEqual(
+            "(1 2 3)",
+            Interpreter.DoEval("'(1 2 3)").ToString)
+    End Sub
 End Class
