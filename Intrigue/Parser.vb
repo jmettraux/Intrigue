@@ -40,11 +40,8 @@ Public Class Parser
             If ss.Length < 1 Then Exit While
         End While
 
-        If nodes.Count = 1 Then
-            Return nodes(0)
-        Else
-            Return New Node(nodes)
-        End If
+        If nodes.Count = 1 Then Return nodes(0)
+        Return New Node(nodes)
     End Function
 
     Protected Shared Function DoParse(s As String) As Tuple(Of Node, String)
@@ -52,7 +49,7 @@ Public Class Parser
         s = s.Trim
 
         If s.StartsWith("(") Then Return ParseList(s)
-        If s.StartsWith("'(") Then Return ParseQuotedList(s)
+        If s.StartsWith("'(") Then Return ParseList(s)
         If s.StartsWith("""") Then Return ParseString(s)
 
         Dim t As Tuple(Of Node, String)
@@ -66,7 +63,13 @@ Public Class Parser
     Protected Shared Function ParseList(s As String) As Tuple(Of Node, String)
 
         Dim start = s.Substring(0, 1)
-        If start = "(" Then s = s.Substring(1)
+
+        If s.StartsWith("'(") Then
+            start = "("
+            s = "quote " & s.Substring(2)
+        ElseIf start = "(" Then
+            s = s.Substring(1)
+        End If
 
         Dim nodes = New List(Of Node)
 
@@ -91,14 +94,6 @@ Public Class Parser
         End While
 
         Return New Tuple(Of Node, String)(New Node(nodes), s)
-    End Function
-
-    Protected Shared Function ParseQuotedList(s As String) As Tuple(Of Node, String)
-
-        Dim t As Tuple(Of Node, String) = ParseList(s.Substring(1))
-        t.Item1.Nodes.Insert(0, New Node("quote"))
-
-        Return t
     End Function
 
     Protected Shared Function ParseString(s As String) As Tuple(Of Node, String)
@@ -157,8 +152,8 @@ Public Class Parser
 
     Public Class Node
 
-        Public Property Nodes As List(Of Node)
-        public Property Value As Object
+        Protected Property Nodes As List(Of Node)
+        Protected Property Value As Object
 
         Public Sub New(val As Object)
 

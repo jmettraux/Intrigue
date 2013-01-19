@@ -97,7 +97,7 @@ Imports Intrigue
             "(quote 1 2 3)",
             Intrigue.Parser.Parse("(quote 1 2 3)").ToString)
         Assert.AreEqual(
-            "((quote 1 2 3))",
+            "(quote 1 2 3)",
             Intrigue.Parser.Parse("'(1 2 3)").ToString)
         Assert.AreEqual(
             "(quote 1 2 3)",
