@@ -22,23 +22,57 @@
 ' Made in Japan
 '
 
+Imports System.Text.RegularExpressions
 
-Public Class Interpreter
 
-    Protected Property Context As Dictionary(Of String, Node)
+Public Class Node
 
-    Public Sub New()
+    Protected Property Nodes As List(Of Node)
+    Protected Property Value As Object
 
-        Me.Context = New Dictionary(Of String, Node)
+    Public Sub New(val As Object)
+
+        Me.Nodes = Nothing
+        Me.Value = val
     End Sub
 
-    Public Function Eval(s As String) As Node
+    Public Sub New(nodes As List(Of Node))
 
-        Return Nothing
-    End Function
+        Me.Nodes = nodes
+        Me.Value = Nothing
+    End Sub
 
-    Public Function Eval(ByRef n As Node) As Node
+    Public Sub New(ParamArray args As Object())
 
-        Return Nothing
+        Me.Nodes = New List(Of Node)
+        For Each a In args
+            Me.Nodes.Add(New Node(a))
+        Next
+
+        Me.Value = Nothing
+    End Sub
+
+    Dim TO_ESCAPE_REGEX As Regex = New Regex("[\s\n""]")
+
+    Public Overrides Function ToString() As String
+
+        If Me.Value IsNot Nothing Then
+
+            Dim str = TryCast(Me.Value, String)
+
+            If str Is Nothing Then Return Me.Value.ToString
+            If Not TO_ESCAPE_REGEX.IsMatch(str) Then Return Me.Value.ToString
+
+            Return """" & str.Replace("""", "\""") & """"
+        End If
+
+        Dim s = "("
+
+        For i As Integer = 0 To Me.Nodes.Count - 1
+            s = s + Me.Nodes(i).ToString
+            If i < Me.Nodes.Count - 1 Then s = s + " "
+        Next
+
+        Return s + ")"
     End Function
 End Class
