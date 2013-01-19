@@ -27,8 +27,8 @@ Imports System.Text.RegularExpressions
 
 Public Class Node
 
-    Protected Property Nodes As List(Of Node)
-    Protected Property Value As Object
+    Public Property Nodes As List(Of Node)
+    Public Property Value As Object
 
     Public Sub New(val As Object)
 

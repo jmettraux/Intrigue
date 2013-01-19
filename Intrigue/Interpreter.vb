@@ -27,6 +27,13 @@ Public Class Interpreter
 
     Protected Property Context As Dictionary(Of String, Node)
 
+    Public Shared Function DoEval(s As String) As Node
+
+        Dim i = New Interpreter
+
+        Return i.Eval(s)
+    End Function
+
     Public Sub New()
 
         Me.Context = New Dictionary(Of String, Node)
@@ -34,7 +41,14 @@ Public Class Interpreter
 
     Public Function Eval(s As String) As Node
 
-        Return Nothing
+        Dim node = Parser.Parse(s)
+        Dim result As Node = Nothing
+
+        For Each n In node.Nodes
+            result = n
+        Next
+
+        Return result
     End Function
 
     Public Function Eval(ByRef n As Node) As Node
