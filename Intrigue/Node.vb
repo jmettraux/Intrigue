@@ -28,18 +28,18 @@ Imports System.Text.RegularExpressions
 Public Class Node
 
     Public Property Nodes As List(Of Node)
-    Public Property Value As Object
+    Public Property Atom As Object
 
     Public Sub New(val As Object)
 
         Me.Nodes = Nothing
-        Me.Value = val
+        Me.Atom = val
     End Sub
 
     Public Sub New(nodes As List(Of Node))
 
         Me.Nodes = nodes
-        Me.Value = Nothing
+        Me.Atom = Nothing
     End Sub
 
     Public Sub New(ParamArray args As Object())
@@ -49,19 +49,19 @@ Public Class Node
             Me.Nodes.Add(New Node(a))
         Next
 
-        Me.Value = Nothing
+        Me.Atom = Nothing
     End Sub
 
     Dim TO_ESCAPE_REGEX As Regex = New Regex("[\s\n""]")
 
     Public Overrides Function ToString() As String
 
-        If Me.Value IsNot Nothing Then
+        If Me.Atom IsNot Nothing Then
 
-            Dim str = TryCast(Me.Value, String)
+            Dim str = TryCast(Me.Atom, String)
 
-            If str Is Nothing Then Return Me.Value.ToString
-            If Not TO_ESCAPE_REGEX.IsMatch(str) Then Return Me.Value.ToString
+            If str Is Nothing Then Return Me.Atom.ToString
+            If Not TO_ESCAPE_REGEX.IsMatch(str) Then Return Me.Atom.ToString
 
             Return """" & str.Replace("""", "\""") & """"
         End If
