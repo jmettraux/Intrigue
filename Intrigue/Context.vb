@@ -23,47 +23,43 @@
 '
 
 
-Public Class Interpreter
+Public Class Context
 
-    Protected Property RootContext As Context
-
-    Public Shared Function DoEval(s As String) As Node
-
-        Dim i = New Interpreter
-
-        Return i.Eval(s)
-    End Function
+    Protected dic As Dictionary(Of String, Node)
+    Protected par As Context
 
     Public Sub New()
 
-        Me.RootContext = NewRootContext()
+        dic = New Dictionary(Of String, Node)
     End Sub
 
-    Public Function Eval(s As String) As Node
+    Public Sub New(ByRef parent As Context)
 
-        Return Eval(Parser.Parse(s))
+        Me.New()
+        par = parent
+    End Sub
+
+    Public Sub Bind(key As String, ByRef node As Node)
+
+        dic(key) = node
+    End Sub
+
+    Public Function Lookup(key As String)
+
+        If dic.ContainsKey(key) Then Return dic(key)
+        If par Is Nothing Then Throw New NotFoundException(key)
+        Return par.Lookup(key)
     End Function
 
     Public Function Eval(ByRef node As Node) As Node
 
-        Dim result As Node = Nothing
+        If node.IsAtom Then Return node
 
-        For Each n In node.ToParseList.Nodes
+        Dim funcName = node.Car.ToString
+        Dim func = TryCast(Lookup(funcName), FunctionNode)
 
-            result = Me.RootContext.Eval(n)
-        Next
+        If func Is Nothing Then Throw New NotApplicableException(funcName)
 
-        Return result
-    End Function
-
-    Protected Function NewRootContext() As Context
-
-        Dim c = New Context
-
-        c.Bind("quote", New QuoteFunctionNode)
-        c.Bind("car", New CarFunctionNode)
-        c.Bind("cdr", New CdrFunctionNode)
-
-        Return c
+        Return func.Apply(node.Cdr, Me)
     End Function
 End Class
