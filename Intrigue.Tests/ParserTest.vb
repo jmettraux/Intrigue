@@ -11,10 +11,10 @@ Imports Intrigue
 
         Assert.AreEqual(
             "1",
-            (New Intrigue.Node(1)).ToString)
+            (New Intrigue.AtomNode(1)).ToString)
         Assert.AreEqual(
             "(1 2 3)",
-            (New Intrigue.Node(1, 2, 3)).ToString)
+            (New Intrigue.ListNode(1, 2, 3)).ToString)
     End Sub
 
     <TestMethod()> Public Sub Parser_Parse_strings()

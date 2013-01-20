@@ -29,8 +29,8 @@ Public Class Parser
 
     Public Shared Function Parse(s As String) As Node
 
-        Dim parseList = New Node With {.IsParseList = True}
-        Dim currentList = New Node
+        Dim parseList = New ParseListNode
+        Dim currentList = New ListNode
         Dim r As Result
 
         While True
@@ -39,7 +39,7 @@ Public Class Parser
             s = r.Remainder
             If s.Length < 1 OrElse s.StartsWith(vbCr) Then
                 parseList.Push(currentList.Compact)
-                currentList = New Node
+                currentList = New ListNode
                 s = s.Trim
             End If
             If s.Length < 1 Then
@@ -99,7 +99,7 @@ Public Class Parser
             s = t.Remainder
         End While
 
-        Return New Result(New Node(nodes), s)
+        Return New Result(New ListNode(nodes), s)
     End Function
 
     Protected Shared Function ParseString(s As String) As Result
@@ -126,7 +126,7 @@ Public Class Parser
             End If
         End While
 
-        Return New Result(New Node(r), s)
+        Return New Result(New AtomNode(r), s)
     End Function
 
     Protected Shared SYMBOL_REGEX As Regex = New Regex("^([^\s]+)")
@@ -137,7 +137,7 @@ Public Class Parser
 
         Dim sym = m.Groups(1).ToString
 
-        Return New Result(New Node(sym), s.Substring(sym.Length))
+        Return New Result(New AtomNode(sym), s.Substring(sym.Length))
     End Function
 
     Protected Shared INTEGER_REGEX As Regex = New Regex("^(-?\d+)")
@@ -153,7 +153,7 @@ Public Class Parser
         Dim si = m.Groups(1).ToString
         Dim i = Integer.Parse(si)
 
-        Return New Result(New Node(i), s.Substring(si.Length))
+        Return New Result(New AtomNode(i), s.Substring(si.Length))
     End Function
 
     Protected Class Result

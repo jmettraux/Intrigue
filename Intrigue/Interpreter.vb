@@ -37,6 +37,7 @@ Public Class Interpreter
     Public Sub New()
 
         Me.Context = New Dictionary(Of String, Node)
+        PopulateContext()
     End Sub
 
     Public Function Eval(s As String) As Node
@@ -48,11 +49,19 @@ Public Class Interpreter
 
         Dim result As Node = Nothing
 
-        For Each n In node.Nodes
+        For Each n In node.ToParseList.Nodes
             Console.WriteLine("eval: " & n.ToString)
-            result = n
+            If n.IsAtom Then
+                result = n
+            Else
+                result = n
+                'result = Apply(xxx)
+            End If
         Next
 
         Return result
     End Function
+
+    Protected Sub PopulateContext()
+    End Sub
 End Class
