@@ -100,6 +100,7 @@ Public Class Interpreter
 
         c("quote") = New QuoteFunctionNode
         c("car") = New CarFunctionNode
+        c("cdr") = New CdrFunctionNode
 
         Return c
     End Function

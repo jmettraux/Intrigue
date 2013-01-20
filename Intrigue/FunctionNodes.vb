@@ -44,3 +44,16 @@ Public Class CarFunctionNode
         Return context.Eval(args.Car).Car
     End Function
 End Class
+
+Public Class CdrFunctionNode
+    Inherits FunctionNode
+
+    Public Overrides Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
+
+        If args.Length <> 1 Then
+            Throw New ArgException("'cdr' expects 1 argument, not " & args.Length)
+        End If
+
+        Return context.Eval(args.Car).Cdr
+    End Function
+End Class
