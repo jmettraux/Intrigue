@@ -26,6 +26,16 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
         Assert.AreEqual(
             "(1 2 3)",
+            Interpreter.DoEval("(quote 1 2 3)").ToString)
+        Assert.AreEqual(
+            "(1 2 3)",
             Interpreter.DoEval("'(1 2 3)").ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Interpreter_eval_car()
+
+        Assert.AreEqual(
+            "1",
+            Interpreter.DoEval("car '(1 2 3)").ToString)
     End Sub
 End Class

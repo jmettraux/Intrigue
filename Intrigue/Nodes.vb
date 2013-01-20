@@ -121,6 +121,11 @@ Public Class ListNode
         Return New ListNode(Me.Nodes.GetRange(1, Me.Nodes.Count - 1))
     End Function
 
+    Public Function Length() As Integer
+
+        Return Me.Nodes.Count
+    End Function
+
     Public Sub Push(ByRef node As Node)
 
         Me.Nodes.Add(node)
@@ -179,5 +184,5 @@ End Class
 Public MustInherit Class FunctionNode
     Inherits Node
 
-    Public MustOverride Function Apply(ByRef list As ListNode, ByRef context As Context) As Node
+    Public MustOverride Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
 End Class

@@ -26,7 +26,34 @@
 Public Class IntrigueException
     Inherits Exception
 
-    Sub New(message As String)
+    Public Sub New(message As String)
+
+        MyBase.New(message)
+    End Sub
+End Class
+
+Public Class NotFoundException
+    Inherits IntrigueException
+
+    Public Sub New(varname As String)
+
+        MyBase.New("did not find a value for variable '" & varname & "'")
+    End Sub
+End Class
+
+Public Class NotApplicableException
+    Inherits IntrigueException
+
+    Public Sub New(varname As String)
+
+        MyBase.New("value held in '" & varname & "' is not applicable")
+    End Sub
+End Class
+
+Public Class ArgException
+    Inherits IntrigueException
+
+    Public Sub New(message As String)
 
         MyBase.New(message)
     End Sub

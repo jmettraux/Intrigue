@@ -26,8 +26,21 @@
 Public Class QuoteFunctionNode
     Inherits FunctionNode
 
-    Public Overrides Function Apply(ByRef list As ListNode, ByRef context As Context) As Node
+    Public Overrides Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
 
-        Return list.Cdr
+        Return args
+    End Function
+End Class
+
+Public Class CarFunctionNode
+    Inherits FunctionNode
+
+    Public Overrides Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
+
+        If args.Length <> 1 Then
+            Throw New ArgException("'car' expects 1 argument, not " & args.Length)
+        End If
+
+        Return context.Eval(args.Car).Car
     End Function
 End Class

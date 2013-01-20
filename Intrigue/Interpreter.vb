@@ -25,11 +25,43 @@
 
 Public Class Context
     Inherits Dictionary(Of String, Node)
+
+    Public Property Parent As Context
+
+    Public Sub New()
+
+        MyBase.New()
+    End Sub
+
+    Public Sub New(ByRef parent As Context)
+
+        MyBase.New()
+        Me.Parent = parent
+    End Sub
+
+    Public Function Eval(ByRef node As Node) As Node
+
+        If node.IsAtom Then Return node
+
+        Dim funcName = node.Car.ToString
+
+        If Not ContainsKey(funcName) Then
+            Throw New NotFoundException(funcName)
+        End If
+
+        Dim func = TryCast(Me(funcName), FunctionNode)
+
+        If func Is Nothing Then
+            Throw New NotApplicableException(funcName)
+        End If
+
+        Return func.Apply(node.Cdr, Me)
+    End Function
 End Class
 
 Public Class Interpreter
 
-    Protected Property Context As Context
+    Protected Property RootContext As Context
 
     Public Shared Function DoEval(s As String) As Node
 
@@ -40,8 +72,7 @@ Public Class Interpreter
 
     Public Sub New()
 
-        Me.Context = New Context
-        PopulateContext()
+        Me.RootContext = NewRootContext()
     End Sub
 
     Public Function Eval(s As String) As Node
@@ -54,23 +85,22 @@ Public Class Interpreter
         Dim result As Node = Nothing
 
         For Each n In node.ToParseList.Nodes
-            Console.WriteLine("eval: " & n.ToString & " (atom? " & n.IsAtom & ") (" & n.GetType.ToString & ")")
-            If n.IsAtom Then
-                result = n
-            Else
-                Dim car = n.Car
-                Console.WriteLine("car: " & car.ToString)
-                Dim func = TryCast(Me.Context(car.ToString), FunctionNode)
-                Console.WriteLine("func: " & func.GetType.ToString)
-                result = func.Apply(n, Me.Context)
-            End If
+
+            result = Me.RootContext.Eval(n)
+
+            '            End If
         Next
 
         Return result
     End Function
 
-    Protected Sub PopulateContext()
+    Protected Function NewRootContext() As Context
 
-        Me.Context("quote") = New QuoteFunctionNode
-    End Sub
+        Dim c = New Context
+
+        c("quote") = New QuoteFunctionNode
+        c("car") = New CarFunctionNode
+
+        Return c
+    End Function
 End Class
