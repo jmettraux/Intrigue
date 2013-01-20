@@ -62,6 +62,8 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions.vb" />
+    <Compile Include="FunctionNodes.vb" />
     <Compile Include="Interpreter.vb" />
     <Compile Include="Nodes.vb" />
     <Compile Include="Parser.vb" />

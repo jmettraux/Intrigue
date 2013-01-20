@@ -23,9 +23,13 @@
 '
 
 
+Public Class Context
+    Inherits Dictionary(Of String, Node)
+End Class
+
 Public Class Interpreter
 
-    Protected Property Context As Dictionary(Of String, Node)
+    Protected Property Context As Context
 
     Public Shared Function DoEval(s As String) As Node
 
@@ -36,7 +40,7 @@ Public Class Interpreter
 
     Public Sub New()
 
-        Me.Context = New Dictionary(Of String, Node)
+        Me.Context = New Context
         PopulateContext()
     End Sub
 
@@ -50,12 +54,15 @@ Public Class Interpreter
         Dim result As Node = Nothing
 
         For Each n In node.ToParseList.Nodes
-            Console.WriteLine("eval: " & n.ToString)
+            Console.WriteLine("eval: " & n.ToString & " (atom? " & n.IsAtom & ") (" & n.GetType.ToString & ")")
             If n.IsAtom Then
                 result = n
             Else
-                result = n
-                'result = Apply(xxx)
+                Dim car = n.Car
+                Console.WriteLine("car: " & car.ToString)
+                Dim func = TryCast(Me.Context(car.ToString), FunctionNode)
+                Console.WriteLine("func: " & func.GetType.ToString)
+                result = func.Apply(n, Me.Context)
             End If
         Next
 
@@ -63,5 +70,7 @@ Public Class Interpreter
     End Function
 
     Protected Sub PopulateContext()
+
+        Me.Context("quote") = New QuoteFunctionNode
     End Sub
 End Class

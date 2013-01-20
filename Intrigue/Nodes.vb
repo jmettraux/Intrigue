@@ -24,6 +24,7 @@
 
 Imports System.Text.RegularExpressions
 
+
 Public MustInherit Class Node
 
     Public Overridable Function IsList() As Boolean
@@ -39,6 +40,16 @@ Public MustInherit Class Node
     Public Overridable Function ToParseList() As ParseListNode
 
         Return New ParseListNode(Me)
+    End Function
+
+    Public Overridable Function Car() As Node
+
+        Throw New IntrigueException("'car' only works on lists")
+    End Function
+
+    Public Overridable Function Cdr() As ListNode
+
+        Throw New IntrigueException("'cdr' only works on lists")
     End Function
 End Class
 
@@ -100,6 +111,16 @@ Public Class ListNode
         Return True
     End Function
 
+    Public Overrides Function Car() As Node
+
+        Return Me.Nodes(0)
+    End Function
+
+    Public Overrides Function Cdr() As ListNode
+
+        Return New ListNode(Me.Nodes.GetRange(1, Me.Nodes.Count - 1))
+    End Function
+
     Public Sub Push(ByRef node As Node)
 
         Me.Nodes.Add(node)
@@ -138,6 +159,11 @@ Public Class ParseListNode
         Me.Nodes.Add(node)
     End Sub
 
+    Public Overrides Function ToParseList() As ParseListNode
+
+        Return Me
+    End Function
+
     Public Overrides Function ToString() As String
 
         Dim s = ""
@@ -148,4 +174,10 @@ Public Class ParseListNode
 
         Return s.Trim
     End Function
+End Class
+
+Public MustInherit Class FunctionNode
+    Inherits Node
+
+    Public MustOverride Function Apply(ByRef list As ListNode, ByRef context As Context) As Node
 End Class
