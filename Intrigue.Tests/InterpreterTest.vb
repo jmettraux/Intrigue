@@ -15,8 +15,8 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
     <TestMethod()> Public Sub Interpreter_eval_string()
 
         Assert.AreEqual(
-            "hello",
-            Interpreter.DoEval("hello").ToString)
+            """hello""",
+            Interpreter.DoEval("""hello""").ToString)
         Assert.AreEqual(
             """hell o""",
             Interpreter.DoEval("""hell o""").ToString)

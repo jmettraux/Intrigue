@@ -90,7 +90,19 @@ Public Class DefineFunctionNode
             Throw New ArgException("'define' expects 2 arguments, not " & args.Length)
         End If
 
-        Dim name = context.Eval(args.Car).ToString
+        Dim car = args.Car
+        Dim name As String
+
+        If car.IsSymbol Then
+            name = car.ToString
+        ElseIf car.IsAtom Then
+            name = TryCast(car.ToAtomNode.Atom, String)
+        End If
+
+        If name Is Nothing Then
+            Throw New ArgException("'define' expects a Symbol/String as first argument")
+        End If
+
         Dim value = context.Eval(args.Cdr.Car)
 
         context.Bind(name, value)

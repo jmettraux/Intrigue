@@ -137,7 +137,7 @@ Public Class Parser
 
         Dim sym = m.Groups(1).ToString
 
-        Return New Result(New AtomNode(sym), s.Substring(sym.Length))
+        Return New Result(New SymbolNode(sym), s.Substring(sym.Length))
     End Function
 
     Protected Shared INTEGER_REGEX As Regex = New Regex("^(-?\d+)")

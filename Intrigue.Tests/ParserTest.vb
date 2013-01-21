@@ -20,7 +20,7 @@ Imports Intrigue
     <TestMethod()> Public Sub Parser_Parse_strings()
 
         Assert.AreEqual(
-            "xxx",
+            """xxx""",
             Intrigue.Parser.Parse("""xxx""").ToString)
         Assert.AreEqual(
             """x\""xx""",
@@ -59,11 +59,14 @@ Imports Intrigue
             Intrigue.Parser.Parse("(1 2 (3 4))").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Parser_Parse_symbol()
+    <TestMethod()> Public Sub Parser_Parse_symbols()
 
         Assert.AreEqual(
             "alpha",
             Intrigue.Parser.Parse("alpha").ToString)
+        Assert.AreEqual(
+            "(x y z)",
+            Intrigue.Parser.Parse("x y z").ToString)
     End Sub
 
     <TestMethod()> Public Sub Parser_Parse_nobrackets()

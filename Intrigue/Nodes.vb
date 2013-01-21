@@ -37,6 +37,26 @@ Public MustInherit Class Node
         Return False
     End Function
 
+    Public Overridable Function IsSymbol() As Boolean
+
+        Return False
+    End Function
+
+    Public Function ToAtomNode() As AtomNode
+
+        Return DirectCast(Me, AtomNode)
+    End Function
+
+    Public Function ToSymbolNode() As SymbolNode
+
+        Return DirectCast(Me, SymbolNode)
+    End Function
+
+    Public Function toListNode() As ListNode
+
+        Return DirectCast(Me, ListNode)
+    End Function
+
     Public Overridable Function ToParseList() As ParseListNode
 
         Return New ParseListNode(Me)
@@ -68,16 +88,32 @@ Public Class AtomNode
         Return True
     End Function
 
-    Protected TO_ESCAPE_REGEX As Regex = New Regex("[\s\n""]")
-
     Public Overrides Function ToString() As String
 
         Dim str = TryCast(Me.Atom, String)
 
         If str Is Nothing Then Return Me.Atom.ToString
-        If Not TO_ESCAPE_REGEX.IsMatch(str) Then Return Me.Atom.ToString
 
         Return """" & str.Replace("""", "\""") & """"
+    End Function
+End Class
+
+Public Class SymbolNode
+    Inherits AtomNode
+
+    Public Sub New(s As String)
+
+        MyBase.New(s)
+    End Sub
+
+    Public Overrides Function IsSymbol() As Boolean
+
+        Return True
+    End Function
+
+    Public Overrides Function ToString() As String
+
+        Return Me.Atom.ToString
     End Function
 End Class
 

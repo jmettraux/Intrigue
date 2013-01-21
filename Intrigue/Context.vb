@@ -53,6 +53,7 @@ Public Class Context
 
     Public Overridable Function Eval(ByRef node As Node) As Node
 
+        If node.IsSymbol Then Return Lookup(node.ToString)
         If node.IsAtom Then Return node
 
         Dim funcName = node.Car.ToString

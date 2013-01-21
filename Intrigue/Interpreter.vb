@@ -27,6 +27,7 @@ Public Class Interpreter
     Inherits Context
 
     Public Sub New()
+
         MyBase.New()
         Populate()
     End Sub
