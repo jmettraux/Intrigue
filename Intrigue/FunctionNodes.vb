@@ -91,9 +91,14 @@ Public Class DefineFunctionNode
         End If
 
         Dim car = args.Car
-        Dim name As String = Nothing
 
-        If car.IsSymbol Then
+        Dim name As String = Nothing
+        Dim value As Node = Nothing
+
+        If car.IsList Then
+            name = TryCast(car.Car.ToAtomNode.Atom, String)
+            value = New LambdaNode(New ListNode(car.Cdr, args.Cdr.Car))
+        ElseIf car.IsSymbol Then
             name = car.ToString
         ElseIf car.IsAtom Then
             name = TryCast(car.ToAtomNode.Atom, String)
@@ -103,7 +108,9 @@ Public Class DefineFunctionNode
             Throw New ArgException("'define' expects a Symbol/String as first argument")
         End If
 
-        Dim value = context.Eval(args.Cdr.Car)
+        If value Is Nothing Then
+            value = context.Eval(args.Cdr.Car)
+        End If
 
         context.Bind(name, value)
 
@@ -122,6 +129,9 @@ Public Class LambdaNode
     End Sub
 
     Public Overrides Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
+
+        Console.WriteLine("def: " & Me.definition.ToString)
+        Console.WriteLine("args: " & args.ToString)
 
         Dim c = New Context(context)
 

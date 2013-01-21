@@ -142,8 +142,16 @@ Public Class ListNode
     Public Sub New(ParamArray args As Object())
 
         Me.Nodes = New List(Of Node)
+
         For Each a In args
-            Me.Nodes.Add(New AtomNode(a))
+
+            Dim n = TryCast(a, Node)
+
+            If n Is Nothing Then
+                Me.Nodes.Add(New AtomNode(a))
+            Else
+                Me.Nodes.Add(n)
+            End If
         Next
     End Sub
 

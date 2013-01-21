@@ -32,4 +32,16 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
                 "a"
             }).ToString)
     End Sub
+
+    <TestMethod()> Public Sub Define_function()
+
+        Assert.AreEqual(
+            "14",
+            Intrigue.Interpreter.DoEval(
+                <string>
+                    define (double x) (+ x x)
+                    double 7
+                </string>.Nodes.First.ToString.Trim
+            ).ToString)
+    End Sub
 End Class
