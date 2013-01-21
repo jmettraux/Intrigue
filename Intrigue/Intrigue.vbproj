@@ -63,8 +63,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context.vb" />
+    <Compile Include="FuncNumeric.vb" />
+    <Compile Include="FuncList.vb" />
+    <Compile Include="FuncMain.vb" />
     <Compile Include="Exceptions.vb" />
-    <Compile Include="FunctionNodes.vb" />
     <Compile Include="Interpreter.vb" />
     <Compile Include="Nodes.vb" />
     <Compile Include="Parser.vb" />
