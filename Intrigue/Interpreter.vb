@@ -24,47 +24,56 @@
 
 
 Public Class Interpreter
+    Inherits Context
 
-    Protected Property RootContext As Context
+    Public Sub New()
+        MyBase.New()
+        Populate()
+    End Sub
 
     Public Shared Function DoEval(s As String) As Node
 
-        Dim i = New Interpreter
-
-        Return i.Eval(s)
+        Return (New Interpreter).Eval(s)
     End Function
 
-    Public Sub New()
+    Public Shared Function DoEval(strings As String()) As Node
 
-        Me.RootContext = NewRootContext()
+        Dim s = ""
+        For Each ss In strings
+            s = s & ss & vbCr
+        Next
+
+        Return DoEval(s.Trim)
+    End Function
+
+    Protected Sub Populate()
+
+        Bind("quote", New QuoteFunctionNode)
+
+        Bind("car", New CarFunctionNode)
+        Bind("cdr", New CdrFunctionNode)
+        Bind("+", New PlusFunctionNode)
+
+        Bind("define", New DefineFunctionNode)
     End Sub
 
-    Public Function Eval(s As String) As Node
+    Public Overloads Function Eval(s As String) As Node
 
         Return Eval(Parser.Parse(s))
     End Function
 
-    Public Function Eval(ByRef node As Node) As Node
+    Public Overrides Function Eval(ByRef node As Node) As Node
+
+        Dim parseList = TryCast(node, ParseListNode)
+
+        If parseList Is Nothing Then Return MyBase.Eval(node)
 
         Dim result As Node = Nothing
 
-        For Each n In node.ToParseList.Nodes
-
-            result = Me.RootContext.Eval(n)
+        For Each n In parseList.Nodes
+            result = Eval(n)
         Next
 
         Return result
-    End Function
-
-    Protected Function NewRootContext() As Context
-
-        Dim c = New Context
-
-        c.Bind("quote", New QuoteFunctionNode)
-        c.Bind("car", New CarFunctionNode)
-        c.Bind("cdr", New CdrFunctionNode)
-        c.Bind("+", New PlusFunctionNode)
-
-        Return c
     End Function
 End Class

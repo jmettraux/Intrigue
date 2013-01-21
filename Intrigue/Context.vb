@@ -51,7 +51,7 @@ Public Class Context
         Return par.Lookup(key)
     End Function
 
-    Public Function Eval(ByRef node As Node) As Node
+    Public Overridable Function Eval(ByRef node As Node) As Node
 
         If node.IsAtom Then Return node
 

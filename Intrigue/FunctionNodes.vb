@@ -80,3 +80,21 @@ Public Class PlusFunctionNode
         Return New AtomNode(i)
     End Function
 End Class
+
+Public Class DefineFunctionNode
+    Inherits FunctionNode
+
+    Public Overrides Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
+
+        If args.Length <> 2 Then
+            Throw New ArgException("'define' expects 2 arguments, not " & args.Length)
+        End If
+
+        Dim name = context.Eval(args.Car).ToString
+        Dim value = context.Eval(args.Cdr.Car)
+
+        context.Bind(name, value)
+
+        Return New AtomNode(name)
+    End Function
+End Class
