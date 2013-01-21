@@ -45,3 +45,28 @@ Public Class PlusFunctionNode
         Return New AtomNode(i)
     End Function
 End Class
+
+
+Public Class GreaterFunctionNode
+    Inherits FunctionNode
+
+    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+
+        If args.Length <> 2 Then
+            Throw New ArgException("'" & funcName & "' expects 2 arguments, not " & args.Length)
+        End If
+
+        Dim na = context.Eval(args.Nodes(0)).ToAtomNode
+        Dim nb = context.Eval(args.Nodes(1)).ToAtomNode
+        Dim ia = Convert.ToInt64(na.Atom)
+        Dim ib = Convert.ToInt64(nb.Atom)
+
+        If funcName.EndsWith("=") AndAlso ia = ib Then Return New AtomNode(True)
+
+        If funcName.StartsWith("<") Then
+            Return New AtomNode(ia < ib)
+        Else
+            Return New AtomNode(ia > ib)
+        End If
+    End Function
+End Class

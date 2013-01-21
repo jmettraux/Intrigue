@@ -95,6 +95,10 @@ Public Class AtomNode
 
     Public Overrides Function ToString() As String
 
+        If Me.Atom.GetType.ToString = "System.Boolean" Then
+            Return Me.Atom.ToString.ToLower
+        End If
+
         Dim str = TryCast(Me.Atom, String)
 
         If str Is Nothing Then Return Me.Atom.ToString

@@ -56,6 +56,11 @@ Public Class Interpreter
         Bind("cons", New ConsFunctionNode)
 
         Bind("+", New PlusFunctionNode)
+        Bind("=", New GreaterFunctionNode)
+        Bind("<", New GreaterFunctionNode)
+        Bind("<=", New GreaterFunctionNode)
+        Bind(">", New GreaterFunctionNode)
+        Bind(">=", New GreaterFunctionNode)
 
         Bind("define", New DefineFunctionNode)
         Bind("lambda", New LambdaFunctionNode)
