@@ -109,4 +109,14 @@ Imports Intrigue
             "(quote 1 2 3)",
             Intrigue.Parser.Parse("quote 1 2 3").ToString)
     End Sub
+
+    <TestMethod()> Public Sub Parser_Parse_empty_string()
+
+        Dim n As Node = Intrigue.Parser.Parse("")
+
+        Console.WriteLine(n.Inspect)
+
+        Assert.AreEqual("", n.ToString)
+        Assert.AreEqual(0, n.toListNode.Nodes.Count)
+    End Sub
 End Class

@@ -76,6 +76,11 @@ Public MustInherit Class Node
 
         Throw New IntrigueException("'cdr' only works on lists")
     End Function
+
+    Public Overridable Function Inspect() As String
+
+        Return Me.GetType.ToString & ":" & Me.ToString
+    End Function
 End Class
 
 Public Class AtomNode
@@ -173,6 +178,19 @@ Public Class ListNode
         Next
 
         Return s + ")"
+    End Function
+
+    Public Overrides Function Inspect() As String
+
+        Dim s = Me.GetType.ToString & ":["
+
+        For i = 0 To Me.Nodes.Count - 1
+            Dim n = Me.Nodes(i)
+            s = s & n.Inspect
+            If i < Me.Nodes.Count - 1 Then s = s & ", "
+        Next
+
+        Return s & "]"
     End Function
 End Class
 

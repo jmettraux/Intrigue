@@ -42,9 +42,7 @@ Public Class Parser
                 currentList = New ListNode
                 s = s.Trim
             End If
-            If s.Length < 1 Then
-                Exit While
-            End If
+            If s.Length < 1 Then Exit While
         End While
 
         Return parseList
