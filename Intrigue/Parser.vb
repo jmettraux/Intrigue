@@ -35,11 +35,11 @@ Public Class Parser
 
         While True
 
-            s = s.Trim
+            s = Shave(s)
             r = DoParse(s)
 
             If r.HasNode Then currentList.Push(r.Node)
-            s = r.Remainder
+            s = Shave(r.Remainder)
 
             If s.Length < 1 OrElse s.StartsWith(vbCr) Then
                 parseList.CompactAndPush(currentList)
@@ -95,13 +95,11 @@ Public Class Parser
 
         While True
 
-            s = s.Trim
+            s = Shave(s)
 
-            If start <> "(" AndAlso (s.StartsWith(vbCrLf) OrElse s.StartsWith(vbCr)) Then
-                Exit While
-            End If
-
+            If start <> "(" AndAlso s.StartsWith(vbCr) Then Exit While
             If s.Length < 1 Then Exit While
+
             If s.StartsWith(")") Then
                 s = s.Substring(1)
                 Exit While
@@ -109,7 +107,7 @@ Public Class Parser
 
             Dim t = DoParse(s)
 
-            nodes.Add(t.Node)
+            If t.HasNode Then nodes.Add(t.Node)
             s = t.Remainder
         End While
 
@@ -143,7 +141,7 @@ Public Class Parser
         Return New Result(New AtomNode(r), s)
     End Function
 
-    Protected Shared SYMBOL_REGEX As Regex = New Regex("^([^\s]+)")
+    Protected Shared SYMBOL_REGEX As Regex = New Regex("^([^\s\)\(\r\n]+)")
 
     Protected Shared Function ParseSymbol(s As String) As Result
 
@@ -172,6 +170,15 @@ Public Class Parser
         Return New Result(New AtomNode(i), s.Substring(si.Length))
     End Function
 
+    Protected Shared Function Shave(s As String) As String
+
+        While s.StartsWith(" ")
+            s = s.Substring(1)
+        End While
+
+        Return s
+    End Function
+
     Protected Class Result
 
         Public Property Node As Node
@@ -180,11 +187,7 @@ Public Class Parser
         Public Sub New(ByRef n As Node, ByRef s As String)
 
             Me.Node = n
-
-            While s.StartsWith(" ")
-                s = s.Substring(1)
-            End While
-            Me.Remainder = s
+            Me.Remainder = Parser.Shave(s)
         End Sub
 
         Public Function HasNode() As Boolean

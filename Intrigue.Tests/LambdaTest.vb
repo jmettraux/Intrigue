@@ -13,7 +13,7 @@ Imports Intrigue
             "3",
             Intrigue.Interpreter.DoEval(
                 <string>
-                    define plus (lambda (x y) (+ x y))
+                    (define plus (lambda (x y) (+ x y)))
                     plus 1 2
                     nada
                 </string>.Nodes.First.ToString.Trim

@@ -67,6 +67,9 @@ Imports Intrigue
         Assert.AreEqual(
             "(x y z)",
             Intrigue.Parser.Parse("x y z").ToString)
+        Assert.AreEqual(
+            "(x y z)",
+            Intrigue.Parser.Parse("(x y z)").ToString)
     End Sub
 
     <TestMethod()> Public Sub Parser_Parse_nobrackets()
@@ -79,10 +82,10 @@ Imports Intrigue
     <TestMethod()> Public Sub Parser_Parse_multilines()
 
         Assert.AreEqual(
-            "(alpha 1 2 3)" & vbCr & "(bravo 4 5 6)",
+            "(alpha (1 2) 3)" & vbCr & "(bravo 4 5 6)",
             Intrigue.Parser.Parse(
                 <string>
-                    (alpha 1 2 3)
+                    (alpha (1 2) 3)
                     (bravo 4 5 6)
                 </string>.Nodes.First.ToString.Trim
             ).ToString)
@@ -92,6 +95,18 @@ Imports Intrigue
             Intrigue.Parser.Parse(
                 <string>
                     alpha 1 2 3
+                    bravo 4 5 6
+                </string>.Nodes.First.ToString.Trim
+            ).ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Parser_Parse_multilines_2()
+
+        Assert.AreEqual(
+            "(define x (lambda (y) y))" & vbCr & "(bravo 4 5 6)",
+            Intrigue.Parser.Parse(
+                <string>
+                    (define x (lambda (y) y))
                     bravo 4 5 6
                 </string>.Nodes.First.ToString.Trim
             ).ToString)
