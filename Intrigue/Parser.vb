@@ -57,6 +57,10 @@ Public Class Parser
 
         s = s.Trim
 
+        If s.StartsWith(")") Then
+            Throw New UnbalancedParentheseException
+        End If
+
         If s.StartsWith("#") Then Return ParseComment(s)
         If s.StartsWith("(") Then Return ParseList(s)
         If s.StartsWith("'(") Then Return ParseList(s)

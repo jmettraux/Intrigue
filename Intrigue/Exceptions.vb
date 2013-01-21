@@ -58,3 +58,12 @@ Public Class ArgException
         MyBase.New(message)
     End Sub
 End Class
+
+Public Class UnbalancedParentheseException
+    Inherits IntrigueException
+
+    Public Sub New()
+
+        MyBase.New("unbalanced parenthese")
+    End Sub
+End Class

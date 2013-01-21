@@ -39,9 +39,5 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         End Try
 
         Assert.AreEqual("Intrigue.ArgException", e.GetType.ToString)
-
-        'Assert.AreEqual(
-        '    "(3 2)",
-        '    Interpreter.DoEval("cons 3 2)").ToString) <-----------------------------------------------!!!!
     End Sub
 End Class

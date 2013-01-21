@@ -178,4 +178,16 @@ Imports Intrigue
                 </string>.Nodes.First.ToString.Trim
             ).ToString)
     End Sub
+
+    <TestMethod()> Public Sub Parser_Parse_raise_on_missing_parenthese()
+
+        Dim e As Exception = Nothing
+
+        Try
+            Intrigue.Parser.Parse("quote 1 2 3)")
+        Catch e
+        End Try
+
+        Assert.AreEqual("unbalanced parenthese", e.Message)
+    End Sub
 End Class
