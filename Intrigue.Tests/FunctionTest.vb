@@ -34,4 +34,14 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             "(2 3)",
             Interpreter.DoEval("(cdr (quote 1 2 3))").ToString)
     End Sub
+
+    <TestMethod()> Public Sub Function_plus()
+
+        Assert.AreEqual(
+            "5",
+            Interpreter.DoEval("(+ 2 3)").ToString)
+        Assert.AreEqual(
+            "5",
+            Interpreter.DoEval("+ 2 3").ToString)
+    End Sub
 End Class

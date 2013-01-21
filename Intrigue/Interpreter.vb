@@ -63,6 +63,7 @@ Public Class Interpreter
         c.Bind("quote", New QuoteFunctionNode)
         c.Bind("car", New CarFunctionNode)
         c.Bind("cdr", New CdrFunctionNode)
+        c.Bind("+", New PlusFunctionNode)
 
         Return c
     End Function

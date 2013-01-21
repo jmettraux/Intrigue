@@ -57,3 +57,26 @@ Public Class CdrFunctionNode
         Return context.Eval(args.Car).Cdr
     End Function
 End Class
+
+Public Class PlusFunctionNode
+    Inherits FunctionNode
+
+    Public Overrides Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
+
+        Dim i = 0
+        Dim v As AtomNode
+
+        For Each n In args.Nodes
+
+            v = TryCast(context.Eval(n), AtomNode)
+
+            If v Is Nothing Then
+                Throw New ArgException("'+' cannot add lists")
+            End If
+
+            i = i + Convert.ToInt64(v.Atom)
+        Next
+
+        Return New AtomNode(i)
+    End Function
+End Class
