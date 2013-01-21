@@ -27,19 +27,24 @@ Imports System.Text.RegularExpressions
 
 Public MustInherit Class Node
 
-    Public Overridable Function IsList() As Boolean
+    Public Function IsList() As Boolean
 
-        Return False
+        Return Me.GetType.ToString.EndsWith("ListNode")
     End Function
 
-    Public Overridable Function IsAtom() As Boolean
+    Public Function IsAtom() As Boolean
 
-        Return False
+        Return Me.GetType.ToString = "Intrigue.AtomNode"
     End Function
 
-    Public Overridable Function IsSymbol() As Boolean
+    Public Function IsSymbol() As Boolean
 
-        Return False
+        Return Me.GetType.ToString = "Intrigue.SymbolNode"
+    End Function
+
+    Public Function IsFunction() As Boolean
+
+        Return Me.GetType.ToString.EndsWith("FunctionNode")
     End Function
 
     Public Function ToAtomNode() As AtomNode
@@ -83,11 +88,6 @@ Public Class AtomNode
         Me.Atom = atom
     End Sub
 
-    Public Overrides Function IsAtom() As Boolean
-
-        Return True
-    End Function
-
     Public Overrides Function ToString() As String
 
         Dim str = TryCast(Me.Atom, String)
@@ -105,11 +105,6 @@ Public Class SymbolNode
 
         MyBase.New(s)
     End Sub
-
-    Public Overrides Function IsSymbol() As Boolean
-
-        Return True
-    End Function
 
     Public Overrides Function ToString() As String
 
@@ -141,11 +136,6 @@ Public Class ListNode
             Me.Nodes.Add(New AtomNode(a))
         Next
     End Sub
-
-    Public Overrides Function IsList() As Boolean
-
-        Return True
-    End Function
 
     Public Overrides Function Car() As Node
 

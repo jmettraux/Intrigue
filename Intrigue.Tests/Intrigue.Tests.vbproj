@@ -80,6 +80,7 @@
     <Import Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LambdaTest.vb" />
     <Compile Include="DefineTest.vb" />
     <Compile Include="FunctionTest.vb" />
     <Compile Include="ParserTest.vb" />
