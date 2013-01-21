@@ -132,6 +132,11 @@ Public Class ListNode
         Me.Nodes = nodes
     End Sub
 
+    Public Sub Push(ByRef node As Node)
+
+        Me.Nodes.Add(node)
+    End Sub
+
     ' Used in tests
     '
     Public Sub New(ParamArray args As Object())
@@ -155,17 +160,6 @@ Public Class ListNode
     Public Function Length() As Integer
 
         Return Me.Nodes.Count
-    End Function
-
-    Public Sub Push(ByRef node As Node)
-
-        Me.Nodes.Add(node)
-    End Sub
-
-    Public Function Compact() As Node
-
-        If Me.Nodes.Count > 1 Then Return Me
-        Return Me.Nodes(0)
     End Function
 
     Public Overrides Function ToString() As String
@@ -206,6 +200,15 @@ Public Class ParseListNode
 
         MyBase.New()
         Me.Nodes.Add(node)
+    End Sub
+
+    Public Sub CompactAndPush(ByRef list As ListNode)
+
+        If list.Nodes.Count = 1 Then
+            Me.Nodes.Add(list.Nodes(0))
+        ElseIf list.Nodes.Count > 1 Then
+            Me.Nodes.Add(list)
+        End If
     End Sub
 
     Public Overrides Function ToParseList() As ParseListNode

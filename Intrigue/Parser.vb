@@ -34,15 +34,20 @@ Public Class Parser
         Dim r As Result
 
         While True
+
+            s = s.Trim
             r = DoParse(s)
-            currentList.Push(r.Node)
+
+            If r.HasNode Then currentList.Push(r.Node)
             s = r.Remainder
+
             If s.Length < 1 OrElse s.StartsWith(vbCr) Then
-                parseList.Push(currentList.Compact)
+                parseList.CompactAndPush(currentList)
                 currentList = New ListNode
-                s = s.Trim
             End If
-            If s.Length < 1 Then Exit While
+            If s.Length < 1 Then
+                Exit While
+            End If
         End While
 
         Return parseList
@@ -52,16 +57,27 @@ Public Class Parser
 
         s = s.Trim
 
+        If s.StartsWith("#") Then Return ParseComment(s)
         If s.StartsWith("(") Then Return ParseList(s)
         If s.StartsWith("'(") Then Return ParseList(s)
         If s.StartsWith("""") Then Return ParseString(s)
 
         Dim r As Result
 
-        r = TryParseNumber(s)
-        If r IsNot Nothing Then Return r
+        r = ParseNumber(s)
+        If r.HasNode Then Return r
 
-        Return ParseSymbol(s)
+        r = ParseSymbol(s)
+        Return r
+    End Function
+
+    Protected Shared COMMENT_REGEX As Regex = New Regex("^([^\r\n]+)")
+
+    Protected Shared Function ParseComment(s As String) As Result
+
+        Dim m = COMMENT_REGEX.Match(s)
+
+        Return New Result(Nothing, s.Substring(m.Groups(1).ToString.Length))
     End Function
 
     Protected Shared Function ParseList(s As String) As Result
@@ -133,6 +149,8 @@ Public Class Parser
 
         Dim m = SYMBOL_REGEX.Match(s)
 
+        If Not m.Success Then Return New Result(Nothing, s)
+
         Dim sym = m.Groups(1).ToString
 
         Return New Result(New SymbolNode(sym), s.Substring(sym.Length))
@@ -140,13 +158,13 @@ Public Class Parser
 
     Protected Shared INTEGER_REGEX As Regex = New Regex("^(-?\d+)")
 
-    Protected Shared Function TryParseNumber(s As String) As Result
+    Protected Shared Function ParseNumber(s As String) As Result
 
         ' TODO: go beyond integers!
 
         Dim m = INTEGER_REGEX.Match(s)
 
-        If Not m.Success Then Return Nothing
+        If Not m.Success Then Return New Result(Nothing, s)
 
         Dim si = m.Groups(1).ToString
         Dim i = Integer.Parse(si)
@@ -168,5 +186,10 @@ Public Class Parser
             End While
             Me.Remainder = s
         End Sub
+
+        Public Function HasNode() As Boolean
+
+            Return (Me.Node IsNot Nothing)
+        End Function
     End Class
 End Class

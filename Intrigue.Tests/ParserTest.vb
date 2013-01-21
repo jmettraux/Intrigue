@@ -114,9 +114,53 @@ Imports Intrigue
 
         Dim n As Node = Intrigue.Parser.Parse("")
 
+        Assert.AreEqual("", n.ToString)
+        Assert.AreEqual(0, n.toListNode.Nodes.Count)
+    End Sub
+
+    <TestMethod()> Public Sub Parser_Parse_empty_string_2()
+
+        Dim n As Node = Intrigue.Parser.Parse(vbCr & vbCrLf & vbCr)
+
         Console.WriteLine(n.Inspect)
 
         Assert.AreEqual("", n.ToString)
         Assert.AreEqual(0, n.toListNode.Nodes.Count)
+    End Sub
+
+    <TestMethod()> Public Sub Parser_Parse_comments()
+
+        Dim n As Node = Intrigue.Parser.Parse("# nada")
+
+        Console.WriteLine(n.Inspect)
+
+        Assert.AreEqual("", n.ToString)
+        Assert.AreEqual(0, n.toListNode.Nodes.Count)
+    End Sub
+
+    <TestMethod()> Public Sub Parser_Parse_comments_multi()
+
+        Assert.AreEqual(
+            "(alpha 1 2 3)" & vbCr & "(bravo 4 5 6)",
+            Intrigue.Parser.Parse(
+                <string>
+                    (alpha 1 2 3)
+                    # nada
+                    bravo 4 5 6
+                </string>.Nodes.First.ToString.Trim
+            ).ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Parser_Parse_comments_eol()
+
+        Assert.AreEqual(
+            "(alpha 1 2 3)" & vbCr & "(bravo 4 5 6)",
+            Intrigue.Parser.Parse(
+                <string>
+                    (alpha 1 2 3) # nada
+                    # nada
+                    bravo 4 5 6 # nada
+                </string>.Nodes.First.ToString.Trim
+            ).ToString)
     End Sub
 End Class
