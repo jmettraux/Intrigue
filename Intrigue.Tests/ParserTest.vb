@@ -59,6 +59,22 @@ Imports Intrigue
             Intrigue.Parser.Parse("(1 2 (3 4))").ToString)
     End Sub
 
+    <TestMethod()> Public Sub Parser_Parse_multiline_lists()
+
+        Assert.AreEqual(
+            "(alpha 1 2 (""a"" ""b"") 3)" & vbCr & "(+ 4 5 6)",
+            Intrigue.Parser.Parse(
+                <string>
+                    (alpha
+                      1 2 # the meat
+                      ("a"
+                       "b")
+                      3)
+                    + 4 5 6
+                </string>.Nodes.First.ToString.Trim
+            ).ToString)
+    End Sub
+
     <TestMethod()> Public Sub Parser_Parse_symbols()
 
         Assert.AreEqual(
