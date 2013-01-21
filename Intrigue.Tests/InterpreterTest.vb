@@ -21,4 +21,14 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             """hell o""",
             Interpreter.DoEval("""hell o""").ToString)
     End Sub
+
+    <TestMethod()> Public Sub Interpreter_eval_boolean()
+
+        Assert.AreEqual(
+            "true",
+            Interpreter.DoEval("true").ToString)
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("false").ToString)
+    End Sub
 End Class

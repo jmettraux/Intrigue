@@ -49,6 +49,9 @@ Public Class Interpreter
 
     Protected Sub Populate()
 
+        Bind("true", New AtomNode(True))
+        Bind("false", New AtomNode(False))
+
         Bind("quote", New QuoteFunctionNode)
         Bind("define", New DefineFunctionNode)
         Bind("lambda", New LambdaFunctionNode)
