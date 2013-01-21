@@ -239,5 +239,5 @@ End Class
 Public MustInherit Class FunctionNode
     Inherits Node
 
-    Public MustOverride Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
+    Public MustOverride Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 End Class

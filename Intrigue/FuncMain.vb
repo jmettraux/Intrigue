@@ -26,7 +26,7 @@
 Public Class QuoteFunctionNode
     Inherits FunctionNode
 
-    Public Overrides Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
+    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
         Return args
     End Function
@@ -35,7 +35,7 @@ End Class
 Public Class DefineFunctionNode
     Inherits FunctionNode
 
-    Public Overrides Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
+    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
         If args.Length <> 2 Then
             Throw New ArgException("'define' expects 2 arguments, not " & args.Length)
@@ -79,10 +79,7 @@ Public Class LambdaNode
         Me.definition = definition
     End Sub
 
-    Public Overrides Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
-
-        Console.WriteLine("def: " & Me.definition.ToString)
-        Console.WriteLine("args: " & args.ToString)
+    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
         Dim c = New Context(context)
 
@@ -104,7 +101,7 @@ End Class
 Public Class LambdaFunctionNode
     Inherits FunctionNode
 
-    Public Overrides Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
+    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
         Return New LambdaNode(args)
     End Function

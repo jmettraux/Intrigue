@@ -61,6 +61,6 @@ Public Class Context
 
         If func Is Nothing Then Throw New NotApplicableException(funcName)
 
-        Return func.Apply(node.Cdr, Me)
+        Return func.Apply(funcName, node.Cdr, Me)
     End Function
 End Class

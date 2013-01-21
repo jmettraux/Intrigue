@@ -26,7 +26,7 @@
 Public Class CarFunctionNode
     Inherits FunctionNode
 
-    Public Overrides Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
+    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
         If args.Length <> 1 Then
             Throw New ArgException("'car' expects 1 argument, not " & args.Length)
@@ -39,7 +39,7 @@ End Class
 Public Class CdrFunctionNode
     Inherits FunctionNode
 
-    Public Overrides Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
+    Public Overrides Function Apply(funcName as String, ByRef args As ListNode, ByRef context As Context) As Node
 
         If args.Length <> 1 Then
             Throw New ArgException("'cdr' expects 1 argument, not " & args.Length)
@@ -52,7 +52,7 @@ End Class
 Public Class ConsFunctionNode
     Inherits FunctionNode
 
-    Public Overrides Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
+    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
         If args.Length <> 2 Then
             Throw New ArgException("'cons' expects 2 arguments, not " & args.Length)

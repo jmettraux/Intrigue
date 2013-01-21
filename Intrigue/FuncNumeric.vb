@@ -26,7 +26,7 @@
 Public Class PlusFunctionNode
     Inherits FunctionNode
 
-    Public Overrides Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
+    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
         Dim i = 0
         Dim v As AtomNode
