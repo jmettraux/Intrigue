@@ -50,6 +50,9 @@ Public Class Interpreter
     Protected Sub Populate()
 
         Bind("quote", New QuoteFunctionNode)
+        Bind("define", New DefineFunctionNode)
+        Bind("lambda", New LambdaFunctionNode)
+        Bind("if", New IfFunctionNode)
 
         Bind("car", New CarFunctionNode)
         Bind("cdr", New CdrFunctionNode)
@@ -61,9 +64,6 @@ Public Class Interpreter
         Bind("<=", New GreaterFunctionNode)
         Bind(">", New GreaterFunctionNode)
         Bind(">=", New GreaterFunctionNode)
-
-        Bind("define", New DefineFunctionNode)
-        Bind("lambda", New LambdaFunctionNode)
     End Sub
 
     Public Overloads Function Eval(s As String) As Node

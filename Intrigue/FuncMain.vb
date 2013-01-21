@@ -106,3 +106,27 @@ Public Class LambdaFunctionNode
         Return New LambdaNode(args)
     End Function
 End Class
+
+Public Class IfFunctionNode
+    Inherits FunctionNode
+
+    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+
+        If args.Length < 2 OrElse args.Length > 3 Then
+            Throw New ArgException("'if' expects 2 or 3 arguments, not " & args.Length)
+        End If
+
+        Dim pred = context.Eval(args.Car)
+        Dim consequence As Node = Nothing
+
+        If pred.ToString = "true" Then
+            consequence = args.Cdr.Car
+        ElseIf args.Length > 2 Then
+            consequence = args.Cdr.Cdr.Car
+        Else
+            consequence = New AtomNode(False)
+        End If
+
+        Return context.Eval(consequence)
+    End Function
+End Class

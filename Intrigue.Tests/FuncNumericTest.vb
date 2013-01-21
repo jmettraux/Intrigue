@@ -34,5 +34,8 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual(
             "true",
             Interpreter.DoEval("(= 3 3)").ToString)
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("(= 3 2)").ToString)
     End Sub
 End Class

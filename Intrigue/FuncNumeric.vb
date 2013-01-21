@@ -62,6 +62,7 @@ Public Class GreaterFunctionNode
         Dim ib = Convert.ToInt64(nb.Atom)
 
         If funcName.EndsWith("=") AndAlso ia = ib Then Return New AtomNode(True)
+        If funcName = "=" Then Return New AtomNode(False)
 
         If funcName.StartsWith("<") Then
             Return New AtomNode(ia < ib)
