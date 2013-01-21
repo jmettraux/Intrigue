@@ -111,11 +111,40 @@ Public Class DefineFunctionNode
     End Function
 End Class
 
+Public Class LambdaNode
+    Inherits FunctionNode
+
+    Protected definition As ListNode
+
+    Public Sub New(ByRef definition As ListNode)
+
+        Me.definition = definition
+    End Sub
+
+    Public Overrides Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
+
+        Dim c = New Context(context)
+
+        Dim argnames = Me.definition.Car.toListNode.Nodes
+        Dim body = Me.definition.Cdr.Car
+
+        For i = 0 To argnames.Count - 1
+
+            Dim argname = argnames(i).ToString
+            Dim value = context.Eval(args.Nodes(i))
+
+            c.Bind(argname, value)
+        Next
+
+        Return c.Eval(body)
+    End Function
+End Class
+
 Public Class LambdaFunctionNode
     Inherits FunctionNode
 
     Public Overrides Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
 
-        Return New AtomNode("nada!")
+        Return New LambdaNode(args)
     End Function
 End Class

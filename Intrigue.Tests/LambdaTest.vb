@@ -15,7 +15,6 @@ Imports Intrigue
                 <string>
                     (define plus (lambda (x y) (+ x y)))
                     plus 1 2
-                    nada
                 </string>.Nodes.First.ToString.Trim
             ).ToString)
     End Sub
