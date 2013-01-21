@@ -56,6 +56,7 @@ Public Class Interpreter
         Bind("+", New PlusFunctionNode)
 
         Bind("define", New DefineFunctionNode)
+        Bind("lambda", New LambdaFunctionNode)
     End Sub
 
     Public Overloads Function Eval(s As String) As Node

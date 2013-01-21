@@ -91,7 +91,7 @@ Public Class DefineFunctionNode
         End If
 
         Dim car = args.Car
-        Dim name As String
+        Dim name As String = Nothing
 
         If car.IsSymbol Then
             name = car.ToString
@@ -108,5 +108,14 @@ Public Class DefineFunctionNode
         context.Bind(name, value)
 
         Return New AtomNode(name)
+    End Function
+End Class
+
+Public Class LambdaFunctionNode
+    Inherits FunctionNode
+
+    Public Overrides Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
+
+        Return New AtomNode("nada!")
     End Function
 End Class
