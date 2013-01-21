@@ -33,6 +33,15 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             }).ToString)
     End Sub
 
+    <TestMethod()> Public Sub Define_bind_dynamic_var()
+
+        Dim i = New Intrigue.Interpreter
+
+        i.Eval("(define ""a"" 10)")
+
+        Assert.AreEqual("10", i.Lookup("a").ToString)
+    End Sub
+
     <TestMethod()> Public Sub Define_function()
 
         Assert.AreEqual(
@@ -44,4 +53,16 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
                 </string>.Nodes.First.ToString.Trim
             ).ToString)
     End Sub
+
+    '<TestMethod()> Public Sub Define_function_with_computed_name()
+    '
+    '    Assert.AreEqual(
+    '        "14",
+    '        Intrigue.Interpreter.DoEval(
+    '            <string>
+    '                define (name x) (+ x x)
+    '                double 7
+    '            </string>.Nodes.First.ToString.Trim
+    '        ).ToString)
+    'End Sub
 End Class
