@@ -130,3 +130,24 @@ Public Class IfFunctionNode
         Return context.Eval(consequence)
     End Function
 End Class
+
+Public Class CondFunctionNode
+    Inherits FunctionNode
+
+    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+
+        For Each n In args.Nodes
+
+            If (Not n.IsList) OrElse n.toListNode.Length <> 2 Then
+                Throw New ArgException("'cond' cannot deal with " & n.ToString)
+            End If
+
+            Dim pred = context.Eval(n.Car)
+            Dim cons = n.Cdr.Car
+
+            If pred.ToString = "true" Then Return context.Eval(cons)
+        Next
+
+        Return New AtomNode(False)
+    End Function
+End Class

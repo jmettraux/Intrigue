@@ -56,6 +56,7 @@ Public Class Interpreter
         Bind("define", New DefineFunctionNode)
         Bind("lambda", New LambdaFunctionNode)
         Bind("if", New IfFunctionNode)
+        Bind("cond", New CondFunctionNode)
 
         Bind("car", New CarFunctionNode)
         Bind("cdr", New CdrFunctionNode)

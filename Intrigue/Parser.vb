@@ -29,6 +29,11 @@ Public Class Parser
 
     Public Shared Function Parse(s As String) As Node
 
+        If s.StartsWith("<![CDATA[") Then
+            s = s.Substring(9)
+            s = s.Substring(0, s.Length - 3)
+        End If
+
         Dim parseList = New ParseListNode
         Dim currentList = New ListNode
         Dim r As Result
@@ -101,7 +106,7 @@ Public Class Parser
 
             s = Shave(s)
 
-            If start <> "(" AndAlso s.StartsWith(vbCr) Then Exit While
+            If start <> "(" AndAlso (s.StartsWith(vbCr) OrElse s.StartsWith(vbNewLine)) Then Exit While
             If s.Length < 1 Then Exit While
 
             If s.StartsWith(")") Then

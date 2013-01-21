@@ -34,4 +34,31 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             "false",
             Interpreter.DoEval("if (= 7 6) 1").ToString)
     End Sub
+
+    <TestMethod()> Public Sub Function_cond()
+
+        Assert.AreEqual(
+            """plus""",
+            Intrigue.Interpreter.DoEval(
+                <![CDATA[
+                    define a 7
+                    (cond
+                      ((= a 6) "six")
+                      ((> a 6) "plus")
+                      (true "minus"))
+                ]]>.ToString.Trim
+            ).ToString)
+
+        Assert.AreEqual(
+            """minus""",
+            Intrigue.Interpreter.DoEval(
+                <![CDATA[
+                    define a 5
+                    (cond
+                      ((= a 6) "six")
+                      ((> a 6) "plus")
+                      (true "minus"))
+                ]]>.ToString.Trim
+            ).ToString)
+    End Sub
 End Class
