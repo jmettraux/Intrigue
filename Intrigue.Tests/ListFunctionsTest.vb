@@ -24,4 +24,14 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             "(2 3)",
             Interpreter.DoEval("(cdr (quote 1 2 3))").ToString)
     End Sub
+
+    <TestMethod()> Public Sub Function_cons()
+
+        Assert.AreEqual(
+            "(1 2 3)",
+            Interpreter.DoEval("cons 1 '(2 3)").ToString)
+        'Assert.AreEqual(
+        '    "(3 2)",
+        '    Interpreter.DoEval("cons 3 2)").ToString)
+    End Sub
 End Class

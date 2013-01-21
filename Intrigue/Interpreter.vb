@@ -53,6 +53,8 @@ Public Class Interpreter
 
         Bind("car", New CarFunctionNode)
         Bind("cdr", New CdrFunctionNode)
+        Bind("cons", New ConsFunctionNode)
+
         Bind("+", New PlusFunctionNode)
 
         Bind("define", New DefineFunctionNode)

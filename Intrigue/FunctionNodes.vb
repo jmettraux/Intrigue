@@ -58,6 +58,27 @@ Public Class CdrFunctionNode
     End Function
 End Class
 
+Public Class ConsFunctionNode
+    Inherits FunctionNode
+
+    Public Overrides Function Apply(ByRef args As ListNode, ByRef context As Context) As Node
+
+        If args.Length <> 2 Then
+            Throw New ArgException("'cons' expects 2 arguments, not " & args.Length)
+        End If
+
+        Dim head = context.Eval(args.Car)
+        Dim tail = context.Eval(args.Cdr.Car)
+
+        If tail.IsList Then
+            tail.toListNode.Nodes.Insert(0, head)
+            Return tail
+        Else
+            Return New ListNode(head, tail)
+        End If
+    End Function
+End Class
+
 Public Class PlusFunctionNode
     Inherits FunctionNode
 
