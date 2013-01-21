@@ -61,11 +61,12 @@ Public Class ConsFunctionNode
         Dim head = context.Eval(args.Car)
         Dim tail = context.Eval(args.Cdr.Car)
 
-        If tail.IsList Then
-            tail.toListNode.Nodes.Insert(0, head)
-            Return tail
-        Else
-            Return New ListNode(head, tail)
+        If Not tail.IsList Then
+            Throw New ArgException("'cons' expects a list as second argument, not " & tail.ToString)
         End If
+
+        tail.toListNode.Nodes.Insert(0, head)
+
+        Return tail
     End Function
 End Class
