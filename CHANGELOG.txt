@@ -1,0 +1,7 @@
+
+= Intrigue
+
+== release 0.9.0    not yet released
+
+- initial release
+
