@@ -40,4 +40,24 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
         Assert.AreEqual("Intrigue.ArgException", e.GetType.ToString)
     End Sub
+
+    <TestMethod()> Public Sub Function_empty()
+
+        Assert.AreEqual(
+            "true",
+            Interpreter.DoEval("empty? '()").ToString)
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("empty? '(1)").ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Function_any()
+
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("any? '()").ToString)
+        Assert.AreEqual(
+            "true",
+            Interpreter.DoEval("any? '(1)").ToString)
+    End Sub
 End Class

@@ -70,3 +70,21 @@ Public Class ConsFunctionNode
         Return tail
     End Function
 End Class
+
+Public Class EmptyFunctionNode
+    Inherits FunctionNode
+
+    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+
+        If args.Length <> 1 Then
+            Throw New ArgException("'" & funcName & "' expects 1 argument, not " & args.Length)
+        End If
+
+        Dim l = context.Eval(args.Car).toListNode
+
+        Dim r = l.Length < 1
+        If funcName = "any?" then r = Not r
+
+        Return New AtomNode(r)
+    End Function
+End Class
