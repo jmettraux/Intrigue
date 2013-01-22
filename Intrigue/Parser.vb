@@ -24,6 +24,8 @@
 
 Imports System.Text.RegularExpressions
 
+Imports Intrigue.Nodes
+
 
 Public Class Parser
 
@@ -63,7 +65,7 @@ Public Class Parser
         s = s.Trim
 
         If s.StartsWith(")") Then
-            Throw New UnbalancedParentheseException
+            Throw New Ex.UnbalancedParentheseException
         End If
 
         If s.StartsWith("#") Then Return ParseComment(s)

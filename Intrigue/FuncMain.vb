@@ -22,161 +22,163 @@
 ' Made in Japan
 '
 
+Namespace Nodes
 
-Public Class QuoteFunctionNode
-    Inherits FunctionNode
+    Public Class QuoteFunctionNode
+        Inherits FunctionNode
 
-    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
-        Return args
-    End Function
-End Class
+            Return args
+        End Function
+    End Class
 
-Public Class DefineFunctionNode
-    Inherits FunctionNode
+    Public Class DefineFunctionNode
+        Inherits FunctionNode
 
-    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
-        CheckArgCount(funcName, args, 2)
+            CheckArgCount(funcName, args, 2)
 
-        Dim car = args.Car
+            Dim car = args.Car
 
-        Dim name As String = Nothing
-        Dim value As Node = Nothing
+            Dim name As String = Nothing
+            Dim value As Node = Nothing
 
-        If car.IsList Then
-            name = TryCast(car.Car.ToAtomNode.Atom, String)
-            value = New LambdaNode(New ListNode(car.Cdr, args.Cdr.Car))
-        ElseIf car.IsSymbol Then
-            name = car.ToString
-        ElseIf car.IsAtom Then
-            name = TryCast(car.ToAtomNode.Atom, String)
-        End If
-
-        If name Is Nothing Then
-            Throw New ArgException("'define' expects a Symbol/String as first argument")
-        End If
-
-        If value Is Nothing Then
-            value = context.Eval(args.Cdr.Car)
-        End If
-
-        context.Bind(name, value)
-
-        Return New AtomNode(name)
-    End Function
-End Class
-
-Public Class LambdaNode
-    Inherits FunctionNode
-
-    Protected definition As ListNode
-
-    Public Sub New(ByRef definition As ListNode)
-
-        Me.definition = definition
-    End Sub
-
-    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
-
-        Dim c = New Context(context)
-
-        Dim argnames = Me.definition.Car.toListNode.Nodes
-        Dim body = Me.definition.Cdr.Car
-
-        For i = 0 To argnames.Count - 1
-
-            Dim argname = argnames(i).ToString
-            Dim value = context.Eval(args.Nodes(i))
-
-            c.Bind(argname, value)
-        Next
-
-        Return c.Eval(body)
-    End Function
-End Class
-
-Public Class LambdaFunctionNode
-    Inherits FunctionNode
-
-    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
-
-        Return New LambdaNode(args)
-    End Function
-End Class
-
-Public Class IfFunctionNode
-    Inherits FunctionNode
-
-    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
-
-        If args.Length < 2 OrElse args.Length > 3 Then
-            Throw New ArgException("'if' expects 2 or 3 arguments, not " & args.Length)
-        End If
-
-        Dim pred = context.Eval(args.Car)
-        Dim consequence As Node = Nothing
-
-        If pred.ToString = "true" Then
-            consequence = args.Cdr.Car
-        ElseIf args.Length > 2 Then
-            consequence = args.Cdr.Cdr.Car
-        Else
-            consequence = New AtomNode(False)
-        End If
-
-        Return context.Eval(consequence)
-    End Function
-End Class
-
-Public Class CondFunctionNode
-    Inherits FunctionNode
-
-    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
-
-        For Each n In args.Nodes
-
-            If (Not n.IsList) OrElse n.toListNode.Length <> 2 Then
-                Throw New ArgException("'cond' cannot deal with " & n.ToString)
+            If car.IsList Then
+                name = TryCast(car.Car.ToAtomNode.Atom, String)
+                value = New LambdaNode(New ListNode(car.Cdr, args.Cdr.Car))
+            ElseIf car.IsSymbol Then
+                name = car.ToString
+            ElseIf car.IsAtom Then
+                name = TryCast(car.ToAtomNode.Atom, String)
             End If
 
-            Dim pred = context.Eval(n.Car)
-            Dim cons = n.Cdr.Car
+            If name Is Nothing Then
+                Throw New Ex.ArgException("'define' expects a Symbol/String as first argument")
+            End If
 
-            If pred.ToString = "true" Then Return context.Eval(cons)
-        Next
+            If value Is Nothing Then
+                value = context.Eval(args.Cdr.Car)
+            End If
 
-        Return New AtomNode(False)
-    End Function
-End Class
+            context.Bind(name, value)
 
-Public Class EqualFunctionNode
-    Inherits FunctionNode
+            Return New AtomNode(name)
+        End Function
+    End Class
 
-    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+    Public Class LambdaNode
+        Inherits FunctionNode
 
-        CheckArgCount(funcName, args, 2)
+        Protected definition As ListNode
 
-        Dim sa = context.Eval(args.Car).ToString
-        Dim sb = context.Eval(args.Cdr.Car).ToString
+        Public Sub New(ByRef definition As ListNode)
 
-        Return New AtomNode(sa = sb)
-    End Function
-End Class
+            Me.definition = definition
+        End Sub
 
-Public Class TypeFunctionNode
-    Inherits FunctionNode
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
-    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+            Dim c = New Context(context)
 
-        CheckArgCount(funcName, args, 1)
+            Dim argnames = Me.definition.Car.toListNode.Nodes
+            Dim body = Me.definition.Cdr.Car
 
-        Dim x = context.Eval(args.Car)
+            For i = 0 To argnames.Count - 1
 
-        If funcName = "atom?" Then
-            Return New AtomNode(x.IsAtom)
-        Else ' list?
-            Return New AtomNode(x.IsList)
-        End If
-    End Function
-End Class
+                Dim argname = argnames(i).ToString
+                Dim value = context.Eval(args.Nodes(i))
+
+                c.Bind(argname, value)
+            Next
+
+            Return c.Eval(body)
+        End Function
+    End Class
+
+    Public Class LambdaFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+
+            Return New LambdaNode(args)
+        End Function
+    End Class
+
+    Public Class IfFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+
+            If args.Length < 2 OrElse args.Length > 3 Then
+                Throw New Ex.ArgException("'if' expects 2 or 3 arguments, not " & args.Length)
+            End If
+
+            Dim pred = context.Eval(args.Car)
+            Dim consequence As Node = Nothing
+
+            If pred.ToString = "true" Then
+                consequence = args.Cdr.Car
+            ElseIf args.Length > 2 Then
+                consequence = args.Cdr.Cdr.Car
+            Else
+                consequence = New AtomNode(False)
+            End If
+
+            Return context.Eval(consequence)
+        End Function
+    End Class
+
+    Public Class CondFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+
+            For Each n In args.Nodes
+
+                If (Not n.IsList) OrElse n.toListNode.Length <> 2 Then
+                    Throw New Ex.ArgException("'cond' cannot deal with " & n.ToString)
+                End If
+
+                Dim pred = context.Eval(n.Car)
+                Dim cons = n.Cdr.Car
+
+                If pred.ToString = "true" Then Return context.Eval(cons)
+            Next
+
+            Return New AtomNode(False)
+        End Function
+    End Class
+
+    Public Class EqualFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+
+            CheckArgCount(funcName, args, 2)
+
+            Dim sa = context.Eval(args.Car).ToString
+            Dim sb = context.Eval(args.Cdr.Car).ToString
+
+            Return New AtomNode(sa = sb)
+        End Function
+    End Class
+
+    Public Class TypeFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+
+            CheckArgCount(funcName, args, 1)
+
+            Dim x = context.Eval(args.Car)
+
+            If funcName = "atom?" Then
+                Return New AtomNode(x.IsAtom)
+            Else ' list?
+                Return New AtomNode(x.IsList)
+            End If
+        End Function
+    End Class
+End Namespace

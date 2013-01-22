@@ -22,48 +22,50 @@
 ' Made in Japan
 '
 
+Namespace Ex
 
-Public Class IntrigueException
-    Inherits Exception
+    Public Class IntrigueException
+        Inherits Exception
 
-    Public Sub New(message As String)
+        Public Sub New(message As String)
 
-        MyBase.New(message)
-    End Sub
-End Class
+            MyBase.New(message)
+        End Sub
+    End Class
 
-Public Class NotFoundException
-    Inherits IntrigueException
+    Public Class NotFoundException
+        Inherits IntrigueException
 
-    Public Sub New(varname As String)
+        Public Sub New(varname As String)
 
-        MyBase.New("did not find a value for variable '" & varname & "'")
-    End Sub
-End Class
+            MyBase.New("did not find a value for variable '" & varname & "'")
+        End Sub
+    End Class
 
-Public Class NotApplicableException
-    Inherits IntrigueException
+    Public Class NotApplicableException
+        Inherits IntrigueException
 
-    Public Sub New(varname As String)
+        Public Sub New(varname As String)
 
-        MyBase.New("value held in '" & varname & "' is not applicable")
-    End Sub
-End Class
+            MyBase.New("value held in '" & varname & "' is not applicable")
+        End Sub
+    End Class
 
-Public Class ArgException
-    Inherits IntrigueException
+    Public Class ArgException
+        Inherits IntrigueException
 
-    Public Sub New(message As String)
+        Public Sub New(message As String)
 
-        MyBase.New(message)
-    End Sub
-End Class
+            MyBase.New(message)
+        End Sub
+    End Class
 
-Public Class UnbalancedParentheseException
-    Inherits IntrigueException
+    Public Class UnbalancedParentheseException
+        Inherits IntrigueException
 
-    Public Sub New()
+        Public Sub New()
 
-        MyBase.New("unbalanced parenthese")
-    End Sub
-End Class
+            MyBase.New("unbalanced parenthese")
+        End Sub
+    End Class
+End Namespace

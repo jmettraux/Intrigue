@@ -3,6 +3,7 @@ Imports System.Text
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 Imports Intrigue
+Imports Intrigue.Nodes
 
 
 <TestClass()> Public Class ParserTest
@@ -11,10 +12,10 @@ Imports Intrigue
 
         Assert.AreEqual(
             "1",
-            (New Intrigue.AtomNode(1)).ToString)
+            (New Intrigue.Nodes.AtomNode(1)).ToString)
         Assert.AreEqual(
             "(1 2 3)",
-            (New Intrigue.ListNode(1, 2, 3)).ToString)
+            (New Intrigue.Nodes.ListNode(1, 2, 3)).ToString)
     End Sub
 
     <TestMethod()> Public Sub Parser_Parse_strings()

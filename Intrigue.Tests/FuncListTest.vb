@@ -38,7 +38,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Catch e
         End Try
 
-        Assert.AreEqual("Intrigue.ArgException", e.GetType.ToString)
+        Assert.AreEqual("Intrigue.Ex.ArgException", e.GetType.ToString)
     End Sub
 
     <TestMethod()> Public Sub Function_empty()

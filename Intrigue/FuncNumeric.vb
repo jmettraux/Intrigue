@@ -22,50 +22,52 @@
 ' Made in Japan
 '
 
+Namespace Nodes
 
-Public Class PlusFunctionNode
-    Inherits FunctionNode
+    Public Class PlusFunctionNode
+        Inherits FunctionNode
 
-    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
-        Dim i = 0
-        Dim v As AtomNode
+            Dim i = 0
+            Dim v As AtomNode
 
-        For Each n In args.Nodes
+            For Each n In args.Nodes
 
-            v = TryCast(context.Eval(n), AtomNode)
+                v = TryCast(context.Eval(n), AtomNode)
 
-            If v Is Nothing Then
-                Throw New ArgException("'+' cannot add lists")
+                If v Is Nothing Then
+                    Throw New Ex.ArgException("'+' cannot add lists")
+                End If
+
+                i = i + Convert.ToInt64(v.Atom)
+            Next
+
+            Return New AtomNode(i)
+        End Function
+    End Class
+
+
+    Public Class GreaterFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+
+            CheckArgCount(funcName, args, 2)
+
+            Dim na = context.Eval(args.Nodes(0)).ToAtomNode
+            Dim nb = context.Eval(args.Nodes(1)).ToAtomNode
+            Dim ia = Convert.ToInt64(na.Atom)
+            Dim ib = Convert.ToInt64(nb.Atom)
+
+            If funcName.EndsWith("=") AndAlso ia = ib Then Return New AtomNode(True)
+            If funcName = "=" Then Return New AtomNode(False)
+
+            If funcName.StartsWith("<") Then
+                Return New AtomNode(ia < ib)
+            Else
+                Return New AtomNode(ia > ib)
             End If
-
-            i = i + Convert.ToInt64(v.Atom)
-        Next
-
-        Return New AtomNode(i)
-    End Function
-End Class
-
-
-Public Class GreaterFunctionNode
-    Inherits FunctionNode
-
-    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
-
-        CheckArgCount(funcName, args, 2)
-
-        Dim na = context.Eval(args.Nodes(0)).ToAtomNode
-        Dim nb = context.Eval(args.Nodes(1)).ToAtomNode
-        Dim ia = Convert.ToInt64(na.Atom)
-        Dim ib = Convert.ToInt64(nb.Atom)
-
-        If funcName.EndsWith("=") AndAlso ia = ib Then Return New AtomNode(True)
-        If funcName = "=" Then Return New AtomNode(False)
-
-        If funcName.StartsWith("<") Then
-            Return New AtomNode(ia < ib)
-        Else
-            Return New AtomNode(ia > ib)
-        End If
-    End Function
-End Class
+        End Function
+    End Class
+End Namespace

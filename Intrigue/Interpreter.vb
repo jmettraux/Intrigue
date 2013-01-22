@@ -22,6 +22,8 @@
 ' Made in Japan
 '
 
+Imports Intrigue.Nodes
+
 
 Public Class Interpreter
     Inherits Context

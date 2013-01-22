@@ -22,6 +22,8 @@
 ' Made in Japan
 '
 
+Imports Intrigue.Nodes
+
 
 Public Class Context
 
@@ -47,7 +49,7 @@ Public Class Context
     Public Function Lookup(key As String)
 
         If dic.ContainsKey(key) Then Return dic(key)
-        If par Is Nothing Then Throw New NotFoundException(key)
+        If par Is Nothing Then Throw New Ex.NotFoundException(key)
         Return par.Lookup(key)
     End Function
 
@@ -57,9 +59,9 @@ Public Class Context
         If node.IsAtom Then Return node
 
         Dim funcName = node.Car.ToString
-        Dim func = TryCast(Lookup(funcName), FunctionNode)
+        Dim func = TryCast(Lookup(funcName), Nodes.FunctionNode)
 
-        If func Is Nothing Then Throw New NotApplicableException(funcName)
+        If func Is Nothing Then Throw New Ex.NotApplicableException(funcName)
 
         Return func.Apply(funcName, node.Cdr, Me)
     End Function

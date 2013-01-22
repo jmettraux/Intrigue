@@ -16,18 +16,19 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
 
     <description>a mini Lisp</description>
+
     <releaseNotes>https://github.com/jmettraux/Intrigue/blob/master/CHANGELOG.txt</releaseNotes>
 
     <copyright>Copyright 2013</copyright>
-    <tags>lisp interpreter</tags>
+    <tags>scheme lisp interpreter</tags>
 
     <dependencies>
       <!--dependency id="SampleDependency" version="1.0" /-->
     </dependencies>
 
-    <references>
+    <!--references>
       <reference file="Intrigue.dll" />
-    </references>
+    </references-->
   </metadata>
 
   <files>

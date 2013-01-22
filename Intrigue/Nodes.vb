@@ -24,235 +24,236 @@
 
 Imports System.Text.RegularExpressions
 
+Namespace Nodes
 
-Public MustInherit Class Node
+    Public MustInherit Class Node
 
-    Public Function IsList() As Boolean
+        Public Function IsList() As Boolean
 
-        Return Me.GetType.ToString.EndsWith("ListNode")
-    End Function
+            Return Me.GetType.ToString.EndsWith("ListNode")
+        End Function
 
-    Public Function IsAtom() As Boolean
+        Public Function IsAtom() As Boolean
 
-        Return Me.GetType.ToString = "Intrigue.AtomNode"
-    End Function
+            Return Me.GetType.ToString = "Intrigue.Nodes.AtomNode"
+        End Function
 
-    Public Function IsSymbol() As Boolean
+        Public Function IsSymbol() As Boolean
 
-        Return Me.GetType.ToString = "Intrigue.SymbolNode"
-    End Function
+            Return Me.GetType.ToString = "Intrigue.Nodes.SymbolNode"
+        End Function
 
-    Public Function IsFunction() As Boolean
+        Public Function IsFunction() As Boolean
 
-        Return Me.GetType.ToString.EndsWith("FunctionNode")
-    End Function
+            Return Me.GetType.ToString.EndsWith("FunctionNode")
+        End Function
 
-    Public Function ToAtomNode() As AtomNode
+        Public Function ToAtomNode() As AtomNode
 
-        Return DirectCast(Me, AtomNode)
-    End Function
+            Return DirectCast(Me, AtomNode)
+        End Function
 
-    Public Function ToSymbolNode() As SymbolNode
+        Public Function ToSymbolNode() As SymbolNode
 
-        Return DirectCast(Me, SymbolNode)
-    End Function
+            Return DirectCast(Me, SymbolNode)
+        End Function
 
-    Public Function toListNode() As ListNode
+        Public Function toListNode() As ListNode
 
-        Return DirectCast(Me, ListNode)
-    End Function
+            Return DirectCast(Me, ListNode)
+        End Function
 
-    Public Overridable Function ToParseList() As ParseListNode
+        Public Overridable Function ToParseList() As ParseListNode
 
-        Return New ParseListNode(Me)
-    End Function
+            Return New ParseListNode(Me)
+        End Function
 
-    Public Overridable Function Car() As Node
+        Public Overridable Function Car() As Node
 
-        Throw New IntrigueException("'car' only works on lists")
-    End Function
+            Throw New Ex.IntrigueException("'car' only works on lists")
+        End Function
 
-    Public Overridable Function Cdr() As ListNode
+        Public Overridable Function Cdr() As ListNode
 
-        Throw New IntrigueException("'cdr' only works on lists")
-    End Function
+            Throw New Ex.IntrigueException("'cdr' only works on lists")
+        End Function
 
-    Public Overridable Function Inspect() As String
+        Public Overridable Function Inspect() As String
 
-        Return Me.GetType.ToString & ":" & Me.ToString
-    End Function
-End Class
+            Return Me.GetType.ToString & ":" & Me.ToString
+        End Function
+    End Class
 
-Public Class AtomNode
-    Inherits Node
+    Public Class AtomNode
+        Inherits Node
 
-    Public Property Atom As Object
+        Public Property Atom As Object
 
-    Public Sub New(ByRef atom As Object)
+        Public Sub New(ByRef atom As Object)
 
-        Me.Atom = atom
-    End Sub
+            Me.Atom = atom
+        End Sub
 
-    Public Overrides Function ToString() As String
+        Public Overrides Function ToString() As String
 
-        If Me.Atom.GetType.ToString = "System.Boolean" Then
-            Return Me.Atom.ToString.ToLower
-        End If
-
-        Dim str = TryCast(Me.Atom, String)
-
-        If str Is Nothing Then Return Me.Atom.ToString
-
-        Return """" & str.Replace("""", "\""") & """"
-    End Function
-End Class
-
-Public Class SymbolNode
-    Inherits AtomNode
-
-    Public Sub New(s As String)
-
-        MyBase.New(s)
-    End Sub
-
-    Public Overrides Function ToString() As String
-
-        Return Me.Atom.ToString
-    End Function
-End Class
-
-Public Class ListNode
-    Inherits Node
-
-    Public Property Nodes As List(Of Node)
-
-    Public Sub New()
-
-        Me.Nodes = New List(Of Node)
-    End Sub
-
-    Public Sub New(ByRef nodes As List(Of Node))
-
-        Me.Nodes = nodes
-    End Sub
-
-    Public Sub Push(ByRef node As Node)
-
-        Me.Nodes.Add(node)
-    End Sub
-
-    ' Used in tests
-    '
-    Public Sub New(ParamArray args As Object())
-
-        Me.Nodes = New List(Of Node)
-
-        For Each a In args
-
-            Dim n = TryCast(a, Node)
-
-            If n Is Nothing Then
-                Me.Nodes.Add(New AtomNode(a))
-            Else
-                Me.Nodes.Add(n)
+            If Me.Atom.GetType.ToString = "System.Boolean" Then
+                Return Me.Atom.ToString.ToLower
             End If
-        Next
-    End Sub
 
-    Public Overrides Function Car() As Node
+            Dim str = TryCast(Me.Atom, String)
 
-        Return Me.Nodes(0)
-    End Function
+            If str Is Nothing Then Return Me.Atom.ToString
 
-    Public Overrides Function Cdr() As ListNode
+            Return """" & str.Replace("""", "\""") & """"
+        End Function
+    End Class
 
-        Return New ListNode(Me.Nodes.GetRange(1, Me.Nodes.Count - 1))
-    End Function
+    Public Class SymbolNode
+        Inherits AtomNode
 
-    Public Function Length() As Integer
+        Public Sub New(s As String)
 
-        Return Me.Nodes.Count
-    End Function
+            MyBase.New(s)
+        End Sub
 
-    Public Overrides Function ToString() As String
+        Public Overrides Function ToString() As String
 
-        Dim s = "("
+            Return Me.Atom.ToString
+        End Function
+    End Class
 
-        For i As Integer = 0 To Me.Nodes.Count - 1
-            s = s + Me.Nodes(i).ToString
-            If i < Me.Nodes.Count - 1 Then s = s + " "
-        Next
+    Public Class ListNode
+        Inherits Node
 
-        Return s + ")"
-    End Function
+        Public Property Nodes As List(Of Node)
 
-    Public Overrides Function Inspect() As String
+        Public Sub New()
 
-        Dim s = Me.GetType.ToString & ":["
+            Me.Nodes = New List(Of Node)
+        End Sub
 
-        For i = 0 To Me.Nodes.Count - 1
-            Dim n = Me.Nodes(i)
-            s = s & n.Inspect
-            If i < Me.Nodes.Count - 1 Then s = s & ", "
-        Next
+        Public Sub New(ByRef nodes As List(Of Node))
 
-        Return s & "]"
-    End Function
-End Class
+            Me.Nodes = nodes
+        End Sub
 
-Public Class ParseListNode
-    Inherits ListNode
+        Public Sub Push(ByRef node As Node)
 
-    Public Sub New()
+            Me.Nodes.Add(node)
+        End Sub
 
-        MyBase.New()
-    End Sub
+        ' Used in tests
+        '
+        Public Sub New(ParamArray args As Object())
 
-    Public Sub New(ByRef node As Node)
+            Me.Nodes = New List(Of Node)
 
-        MyBase.New()
-        Me.Nodes.Add(node)
-    End Sub
+            For Each a In args
 
-    Public Sub CompactAndPush(ByRef list As ListNode)
+                Dim n = TryCast(a, Node)
 
-        If list.Nodes.Count = 1 Then
-            Me.Nodes.Add(list.Nodes(0))
-        ElseIf list.Nodes.Count > 1 Then
-            Me.Nodes.Add(list)
-        End If
-    End Sub
+                If n Is Nothing Then
+                    Me.Nodes.Add(New AtomNode(a))
+                Else
+                    Me.Nodes.Add(n)
+                End If
+            Next
+        End Sub
 
-    Public Overrides Function ToParseList() As ParseListNode
+        Public Overrides Function Car() As Node
 
-        Return Me
-    End Function
+            Return Me.Nodes(0)
+        End Function
 
-    Public Overrides Function ToString() As String
+        Public Overrides Function Cdr() As ListNode
 
-        Dim s = ""
+            Return New ListNode(Me.Nodes.GetRange(1, Me.Nodes.Count - 1))
+        End Function
 
-        For Each n In Me.Nodes
-            s = s & n.ToString & vbCr
-        Next
+        Public Function Length() As Integer
 
-        Return s.Trim
-    End Function
-End Class
+            Return Me.Nodes.Count
+        End Function
 
-Public MustInherit Class FunctionNode
-    Inherits Node
+        Public Overrides Function ToString() As String
 
-    Public MustOverride Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+            Dim s = "("
 
-    Protected Sub CheckArgCount(funcName As String, ByRef args As ListNode, argCount As Integer)
+            For i As Integer = 0 To Me.Nodes.Count - 1
+                s = s + Me.Nodes(i).ToString
+                If i < Me.Nodes.Count - 1 Then s = s + " "
+            Next
 
-        If args.Length = argCount Then Return
+            Return s + ")"
+        End Function
 
-        If argCount = 1 Then
-            Throw New ArgException("'" & funcName & "' expects 1 argument, not " & args.Length)
-        Else
-            Throw New ArgException("'" & funcName & "' expects " & argCount & "arguments, not " & args.Length)
-        End If
-    End Sub
-End Class
+        Public Overrides Function Inspect() As String
+
+            Dim s = Me.GetType.ToString & ":["
+
+            For i = 0 To Me.Nodes.Count - 1
+                Dim n = Me.Nodes(i)
+                s = s & n.Inspect
+                If i < Me.Nodes.Count - 1 Then s = s & ", "
+            Next
+
+            Return s & "]"
+        End Function
+    End Class
+
+    Public Class ParseListNode
+        Inherits ListNode
+
+        Public Sub New()
+
+            MyBase.New()
+        End Sub
+
+        Public Sub New(ByRef node As Node)
+
+            MyBase.New()
+            Me.Nodes.Add(node)
+        End Sub
+
+        Public Sub CompactAndPush(ByRef list As ListNode)
+
+            If list.Nodes.Count = 1 Then
+                Me.Nodes.Add(list.Nodes(0))
+            ElseIf list.Nodes.Count > 1 Then
+                Me.Nodes.Add(list)
+            End If
+        End Sub
+
+        Public Overrides Function ToParseList() As ParseListNode
+
+            Return Me
+        End Function
+
+        Public Overrides Function ToString() As String
+
+            Dim s = ""
+
+            For Each n In Me.Nodes
+                s = s & n.ToString & vbCr
+            Next
+
+            Return s.Trim
+        End Function
+    End Class
+
+    Public MustInherit Class FunctionNode
+        Inherits Node
+
+        Public MustOverride Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+
+        Protected Sub CheckArgCount(funcName As String, ByRef args As ListNode, argCount As Integer)
+
+            If args.Length = argCount Then Return
+
+            Dim m = "'" & funcName & "' expects " & argCount & "arguments, not " & args.Length
+            If argCount = 1 Then m = "'" & funcName & "' expects 1 argument, not " & args.Length
+
+            Throw New Ex.ArgException(m)
+        End Sub
+    End Class
+End Namespace

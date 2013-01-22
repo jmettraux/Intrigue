@@ -25,17 +25,20 @@
 Imports System.Reflection
 
 
-Public Class CallFunctionNode
-    Inherits FunctionNode
+Namespace Nodes
 
-    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+    Public Class CallFunctionNode
+        Inherits FunctionNode
 
-        Dim target = context.Eval(args.Car).ToAtomNode.Atom
-        Dim methodName = context.Eval(args.Cdr.Car).ToAtomNode.Atom.ToString
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
-        Dim method = target.GetType.GetMethod(methodName, New Type() {})
-        Dim result = method.Invoke(target, New Object() {})
+            Dim target = context.Eval(args.Car).ToAtomNode.Atom
+            Dim methodName = context.Eval(args.Cdr.Car).ToAtomNode.Atom.ToString
 
-        Return New AtomNode(result)
-    End Function
-End Class
+            Dim method = target.GetType.GetMethod(methodName, New Type() {})
+            Dim result = method.Invoke(target, New Object() {})
+
+            Return New AtomNode(result)
+        End Function
+    End Class
+End Namespace

@@ -23,60 +23,63 @@
 '
 
 
-Public Class CarFunctionNode
-    Inherits FunctionNode
+Namespace Nodes
 
-    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+    Public Class CarFunctionNode
+        Inherits FunctionNode
 
-        CheckArgCount(funcName, args, 1)
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
-        Return context.Eval(args.Car).Car
-    End Function
-End Class
+            CheckArgCount(funcName, args, 1)
 
-Public Class CdrFunctionNode
-    Inherits FunctionNode
+            Return context.Eval(args.Car).Car
+        End Function
+    End Class
 
-    Public Overrides Function Apply(funcName as String, ByRef args As ListNode, ByRef context As Context) As Node
+    Public Class CdrFunctionNode
+        Inherits FunctionNode
 
-        CheckArgCount(funcName, args, 1)
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
-        Return context.Eval(args.Car).Cdr
-    End Function
-End Class
+            CheckArgCount(funcName, args, 1)
 
-Public Class ConsFunctionNode
-    Inherits FunctionNode
+            Return context.Eval(args.Car).Cdr
+        End Function
+    End Class
 
-    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+    Public Class ConsFunctionNode
+        Inherits FunctionNode
 
-        CheckArgCount(funcName, args, 2)
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
-        Dim head = context.Eval(args.Car)
-        Dim tail = context.Eval(args.Cdr.Car)
+            CheckArgCount(funcName, args, 2)
 
-        If Not tail.IsList Then
-            Throw New ArgException("'cons' expects a list as second argument, not " & tail.ToString)
-        End If
+            Dim head = context.Eval(args.Car)
+            Dim tail = context.Eval(args.Cdr.Car)
 
-        tail.toListNode.Nodes.Insert(0, head)
+            If Not tail.IsList Then
+                Throw New Ex.ArgException("'cons' expects a list as second argument, not " & tail.ToString)
+            End If
 
-        Return tail
-    End Function
-End Class
+            tail.toListNode.Nodes.Insert(0, head)
 
-Public Class EmptyFunctionNode
-    Inherits FunctionNode
+            Return tail
+        End Function
+    End Class
 
-    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+    Public Class EmptyFunctionNode
+        Inherits FunctionNode
 
-        CheckArgCount(funcName, args, 1)
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
-        Dim l = context.Eval(args.Car).toListNode
+            CheckArgCount(funcName, args, 1)
 
-        Dim r = l.Length < 1
-        If funcName = "any?" then r = Not r
+            Dim l = context.Eval(args.Car).toListNode
 
-        Return New AtomNode(r)
-    End Function
-End Class
+            Dim r = l.Length < 1
+            If funcName = "any?" Then r = Not r
+
+            Return New AtomNode(r)
+        End Function
+    End Class
+End Namespace
