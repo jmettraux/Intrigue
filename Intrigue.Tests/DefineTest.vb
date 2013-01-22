@@ -65,4 +65,20 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
     '            </string>.Nodes.First.ToString.Trim
     '        ).ToString)
     'End Sub
+
+    <TestMethod()> Public Sub Function_meta_map()
+
+        Assert.AreEqual(
+            "(12 22 32)",
+            Intrigue.Interpreter.DoEval(
+                <![CDATA[
+                    (define
+                      (map f l)
+                      (if (empty? l)
+                        l
+                        (cons (f (car l)) (map f (cdr l)))))
+                    (map (lambda (x) (+ x 2)) '(10 20 30))
+                ]]>.ToString.Trim
+            ).ToString)
+    End Sub
 End Class
