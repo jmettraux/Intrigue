@@ -37,9 +37,7 @@ Public Class DefineFunctionNode
 
     Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
-        If args.Length <> 2 Then
-            Throw New ArgException("'define' expects 2 arguments, not " & args.Length)
-        End If
+        CheckArgCount(funcName, args, 2)
 
         Dim car = args.Car
 
@@ -157,9 +155,7 @@ Public Class EqualFunctionNode
 
     Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
-        If args.Length <> 2 Then
-            Throw New ArgException("'equal?' expects 2 arguments, not " & args.Length)
-        End If
+        CheckArgCount(funcName, args, 2)
 
         Dim sa = context.Eval(args.Car).ToString
         Dim sb = context.Eval(args.Cdr.Car).ToString
@@ -173,9 +169,7 @@ Public Class TypeFunctionNode
 
     Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
-        If args.Length <> 1 Then
-            Throw New ArgException("'" & funcName & "' expects 1 argument, not " & args.Length)
-        End If
+        CheckArgCount(funcName, args, 1)
 
         Dim x = context.Eval(args.Car)
 

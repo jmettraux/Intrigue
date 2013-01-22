@@ -244,4 +244,15 @@ Public MustInherit Class FunctionNode
     Inherits Node
 
     Public MustOverride Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+
+    Protected Sub CheckArgCount(funcName As String, ByRef args As ListNode, argCount As Integer)
+
+        If args.Length = argCount Then Return
+
+        If argCount = 1 Then
+            Throw New ArgException("'" & funcName & "' expects 1 argument, not " & args.Length)
+        Else
+            Throw New ArgException("'" & funcName & "' expects " & argCount & "arguments, not " & args.Length)
+        End If
+    End Sub
 End Class

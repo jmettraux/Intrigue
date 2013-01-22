@@ -52,9 +52,7 @@ Public Class GreaterFunctionNode
 
     Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
-        If args.Length <> 2 Then
-            Throw New ArgException("'" & funcName & "' expects 2 arguments, not " & args.Length)
-        End If
+        CheckArgCount(funcName, args, 2)
 
         Dim na = context.Eval(args.Nodes(0)).ToAtomNode
         Dim nb = context.Eval(args.Nodes(1)).ToAtomNode

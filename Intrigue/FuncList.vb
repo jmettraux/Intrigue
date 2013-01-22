@@ -28,9 +28,7 @@ Public Class CarFunctionNode
 
     Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
-        If args.Length <> 1 Then
-            Throw New ArgException("'car' expects 1 argument, not " & args.Length)
-        End If
+        CheckArgCount(funcName, args, 1)
 
         Return context.Eval(args.Car).Car
     End Function
@@ -41,9 +39,7 @@ Public Class CdrFunctionNode
 
     Public Overrides Function Apply(funcName as String, ByRef args As ListNode, ByRef context As Context) As Node
 
-        If args.Length <> 1 Then
-            Throw New ArgException("'cdr' expects 1 argument, not " & args.Length)
-        End If
+        CheckArgCount(funcName, args, 1)
 
         Return context.Eval(args.Car).Cdr
     End Function
@@ -54,9 +50,7 @@ Public Class ConsFunctionNode
 
     Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
-        If args.Length <> 2 Then
-            Throw New ArgException("'cons' expects 2 arguments, not " & args.Length)
-        End If
+        CheckArgCount(funcName, args, 2)
 
         Dim head = context.Eval(args.Car)
         Dim tail = context.Eval(args.Cdr.Car)
@@ -76,9 +70,7 @@ Public Class EmptyFunctionNode
 
     Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
-        If args.Length <> 1 Then
-            Throw New ArgException("'" & funcName & "' expects 1 argument, not " & args.Length)
-        End If
+        CheckArgCount(funcName, args, 1)
 
         Dim l = context.Eval(args.Car).toListNode
 
