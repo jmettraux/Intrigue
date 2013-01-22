@@ -73,6 +73,8 @@ Public Class Interpreter
         Bind("<=", New GreaterFunctionNode)
         Bind(">", New GreaterFunctionNode)
         Bind(">=", New GreaterFunctionNode)
+
+        Bind("call", New CallFunctionNode)
     End Sub
 
     Public Overloads Function Eval(s As String) As Node

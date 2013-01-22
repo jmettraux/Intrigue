@@ -3,7 +3,7 @@ Imports System.Text
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 
-<TestClass()> Public Class FunctionsTest
+<TestClass()> Public Class FuncMainTest
 
     <TestMethod()> Public Sub Function_quote()
 

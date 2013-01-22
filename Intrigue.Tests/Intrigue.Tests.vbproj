@@ -80,6 +80,7 @@
     <Import Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FuncCallTest.vb" />
     <Compile Include="FuncListTest.vb" />
     <Compile Include="FuncMainTest.vb" />
     <Compile Include="FuncNumericTest.vb" />
