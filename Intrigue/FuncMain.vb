@@ -151,3 +151,19 @@ Public Class CondFunctionNode
         Return New AtomNode(False)
     End Function
 End Class
+
+Public Class EqualFunctionNode
+    Inherits FunctionNode
+
+    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+
+        If args.Length <> 2 Then
+            Throw New ArgException("'equal?' expects 2 arguments, not " & args.Length)
+        End If
+
+        Dim sa = context.Eval(args.Car).ToString
+        Dim sb = context.Eval(args.Cdr.Car).ToString
+
+        Return New AtomNode(sa = sb)
+    End Function
+End Class

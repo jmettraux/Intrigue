@@ -61,4 +61,14 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
                 ]]>.ToString.Trim
             ).ToString)
     End Sub
+
+    <TestMethod()> Public Sub Function_equal()
+
+        Assert.AreEqual(
+            "true",
+            Intrigue.Interpreter.DoEval("equal? '(1 2) '(1 2)").ToString)
+        Assert.AreEqual(
+            "false",
+            Intrigue.Interpreter.DoEval("equal? '(1 2) '(3 4)").ToString)
+    End Sub
 End Class
