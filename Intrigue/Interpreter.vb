@@ -81,7 +81,7 @@ Public Class Interpreter
 
     Public Overloads Function Eval(s As String) As Node
 
-        Return Eval(Parser.Parse(s))
+        Return Eval(Parsing.Parser.Parse(s))
     End Function
 
     Public Overrides Function Eval(ByRef node As Node) As Node

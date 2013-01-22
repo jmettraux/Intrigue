@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context.vb" />
+    <Compile Include="Tokenizer.vb" />
     <Compile Include="FuncCall.vb" />
     <Compile Include="FuncNumeric.vb" />
     <Compile Include="FuncList.vb" />
