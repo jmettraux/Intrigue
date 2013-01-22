@@ -58,6 +58,8 @@ Public Class Interpreter
         Bind("if", New IfFunctionNode)
         Bind("cond", New CondFunctionNode)
         Bind("equal?", New EqualFunctionNode)
+        Bind("atom?", New TypeFunctionNode)
+        Bind("list?", New TypeFunctionNode)
 
         Bind("car", New CarFunctionNode)
         Bind("cdr", New CdrFunctionNode)

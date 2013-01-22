@@ -71,4 +71,30 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             "false",
             Intrigue.Interpreter.DoEval("equal? '(1 2) '(3 4)").ToString)
     End Sub
+
+    <TestMethod()> Public Sub Function_list()
+
+        Assert.AreEqual(
+            "true",
+            Intrigue.Interpreter.DoEval("list? '(1 2)").ToString)
+        Assert.AreEqual(
+            "false",
+            Intrigue.Interpreter.DoEval("list? ""a""").ToString)
+        Assert.AreEqual(
+            "false",
+            Intrigue.Interpreter.DoEval("list? false").ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Function_atom()
+
+        Assert.AreEqual(
+            "false",
+            Intrigue.Interpreter.DoEval("atom? '(1 2)").ToString)
+        Assert.AreEqual(
+            "true",
+            Intrigue.Interpreter.DoEval("atom? ""a""").ToString)
+        Assert.AreEqual(
+            "true",
+            Intrigue.Interpreter.DoEval("atom? false").ToString)
+    End Sub
 End Class

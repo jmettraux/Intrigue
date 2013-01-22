@@ -167,3 +167,22 @@ Public Class EqualFunctionNode
         Return New AtomNode(sa = sb)
     End Function
 End Class
+
+Public Class TypeFunctionNode
+    Inherits FunctionNode
+
+    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+
+        If args.Length <> 1 Then
+            Throw New ArgException("'" & funcName & "' expects 1 argument, not " & args.Length)
+        End If
+
+        Dim x = context.Eval(args.Car)
+
+        If funcName = "atom?" Then
+            Return New AtomNode(x.IsAtom)
+        Else ' list?
+            Return New AtomNode(x.IsList)
+        End If
+    End Function
+End Class
