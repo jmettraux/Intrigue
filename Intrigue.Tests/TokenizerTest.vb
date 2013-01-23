@@ -21,17 +21,17 @@ Imports Intrigue.Parsing
 
         'Console.WriteLine(Tokenizer.TokensToString(ts))
 
-        Assert.AreEqual(26, ts.Count)
+        Assert.AreEqual(16, ts.Count)
 
         Assert.AreEqual(
             "newline off 0 lin 1 col 1 ><",
             ts(0).ToString)
         Assert.AreEqual(
             "number off 99 lin 4 col 30 >6<",
-            ts(20).ToString)
+            ts(12).ToString)
         Assert.AreEqual(
             "string off 128 lin 5 col 20 >hello<",
-            ts(23).ToString)
+            ts(14).ToString)
     End Sub
 
     <TestMethod()> Public Sub Tokenizer_Tokenize_and_strings_and_lines()
@@ -47,19 +47,19 @@ cde" "volley"
 
         'Console.WriteLine(Tokenizer.TokensToString(ts))
 
-        Assert.AreEqual(9, ts.Count)
+        Assert.AreEqual(6, ts.Count)
 
         Assert.AreEqual(
             "string off 0 lin 1 col 1 >nada<",
             ts(0).ToString)
         Assert.AreEqual(
             "string off 28 lin 2 col 21 >abc" & vbCrLf & "cde<",
-            ts(3).ToString)
+            ts(2).ToString)
         Assert.AreEqual(
             "string off 39 lin 3 col 6 >volley<",
-            ts(5).ToString)
+            ts(3).ToString)
         Assert.AreEqual(
             "string off 69 lin 4 col 21 >beach<",
-            ts(8).ToString)
+            ts(5).ToString)
     End Sub
 End Class

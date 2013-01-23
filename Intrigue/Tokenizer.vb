@@ -121,6 +121,12 @@ Namespace Parsing
             Return Me.Typ = "comment"
         End Function
 
+        Public Function IsBlank() As Boolean
+
+            'Return IsSpace() OrElse IsNewline() OrElse IsComment()
+            Return IsSpace() OrElse IsComment()
+        End Function
+
         Public Function IsOpeningParenthesis() As Boolean
 
             Return Me.Typ.EndsWith("(")
@@ -229,7 +235,8 @@ Namespace Parsing
             While True
                 If s.Substring(pos.Offset).Length < 1 Then Exit While
                 t = Tokenize(s, pos)
-                If t.Typ <> "comment" Then l.Add(t)
+                'If t.Typ <> "comment" Then l.Add(t)
+                If Not t.IsBlank Then l.Add(t)
                 pos = pos.Skip(t)
             End While
 
