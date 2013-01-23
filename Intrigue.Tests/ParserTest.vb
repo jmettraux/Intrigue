@@ -65,16 +65,16 @@ Imports Intrigue.Parsing
 
         Assert.AreEqual(
             "(alpha 1 2 (""a"" ""b"") 3)" & vbCr & "(+ 4 5 6)",
-            Parser.Parse(
-                <string>
-                    (alpha
-                      1 2 # the meat
-                      ("a"
-                       "b")
-                      3)
-                    + 4 5 6
-                </string>.Nodes.First.ToString.Trim
-            ).ToString)
+            Parser.parse(
+                Util.NewString(
+                    <string>
+                        (alpha
+                          1 2 # the meat
+                          ("a"
+                           "b")
+                          3)
+                        + 4 5 6
+                    </string>)).ToString)
     End Sub
 
     <TestMethod()> Public Sub Parser_Parse_symbols()
@@ -101,33 +101,33 @@ Imports Intrigue.Parsing
 
         Assert.AreEqual(
             "(alpha (1 2) 3)" & vbCr & "(bravo 4 5 6)",
-            Parser.Parse(
-                <string>
-                    (alpha (1 2) 3)
-                    (bravo 4 5 6)
-                </string>.Nodes.First.ToString.Trim
-            ).ToString)
+            Parser.parse(
+                Util.NewString(
+                    <string>
+                        (alpha (1 2) 3)
+                        (bravo 4 5 6)
+                    </string>)).ToString)
 
         Assert.AreEqual(
             "(alpha 1 2 3)" & vbCr & "(bravo 4 5 6)",
-            Parser.Parse(
-                <string>
-                    alpha 1 2 3
-                    bravo 4 5 6
-                </string>.Nodes.First.ToString.Trim
-            ).ToString)
+            Parser.parse(
+                Util.NewString(
+                    <string>
+                        alpha 1 2 3
+                        bravo 4 5 6
+                    </string>)).ToString)
     End Sub
 
     <TestMethod()> Public Sub Parser_Parse_multilines_2()
 
         Assert.AreEqual(
             "(define x (lambda (y) y))" & vbCr & "(bravo 4 5 6)",
-            Parser.Parse(
-                <string>
-                    (define x (lambda (y) y))
-                    bravo 4 5 6
-                </string>.Nodes.First.ToString.Trim
-            ).ToString)
+            Parser.parse(
+                Util.NewString(
+                    <string>
+                        (define x (lambda (y) y))
+                        bravo 4 5 6
+                    </string>)).ToString)
     End Sub
 
     <TestMethod()> Public Sub Parser_Parse_quoted_list()
@@ -155,7 +155,7 @@ Imports Intrigue.Parsing
 
         Dim n As Node = Parser.Parse(vbCr & vbCrLf & vbCr)
 
-        Console.WriteLine(n.Inspect)
+        'Console.WriteLine(n.Inspect)
 
         Assert.AreEqual("", n.ToString)
         Assert.AreEqual(0, n.toListNode.Nodes.Count)
@@ -165,7 +165,7 @@ Imports Intrigue.Parsing
 
         Dim n As Node = Parser.Parse("# nada")
 
-        Console.WriteLine(n.Inspect)
+        'Console.WriteLine(n.Inspect)
 
         Assert.AreEqual("", n.ToString)
         Assert.AreEqual(0, n.toListNode.Nodes.Count)
@@ -175,26 +175,26 @@ Imports Intrigue.Parsing
 
         Assert.AreEqual(
             "(alpha 1 2 3)" & vbCr & "(bravo 4 5 6)",
-            Parser.Parse(
-                <string>
-                    (alpha 1 2 3)
-                    # nada
-                    bravo 4 5 6
-                </string>.Nodes.First.ToString.Trim
-            ).ToString)
+            Parser.parse(
+                Util.NewString(
+                    <string>
+                        (alpha 1 2 3)
+                        # nada
+                        bravo 4 5 6
+                    </string>)).ToString)
     End Sub
 
     <TestMethod()> Public Sub Parser_Parse_comments_eol()
 
         Assert.AreEqual(
             "(alpha 1 2 3)" & vbCr & "(bravo 4 5 6)",
-            Parser.Parse(
-                <string>
-                    (alpha 1 2 3) # nada
-                    # nada
-                    bravo 4 5 6 # nada
-                </string>.Nodes.First.ToString.Trim
-            ).ToString)
+            Parser.parse(
+                Util.NewString(
+                    <string>
+                        (alpha 1 2 3) # nada
+                        # nada
+                        bravo 4 5 6 # nada
+                    </string>)).ToString)
     End Sub
 
     <TestMethod()> Public Sub Parser_Parse_raise_on_missing_parenthese()
