@@ -40,18 +40,42 @@ Namespace Parsing
             Me.Column = col
         End Sub
 
+        Protected R_NEWLINE As Regex = New Regex("^[^\r\n]*(\r\n|\r)")
+
         Public Function Skip(t As Token)
 
             Dim off = Me.Offset + t.Length
             Dim lin = Me.Line
-            Dim col = Me.Column + t.Length
+            Dim col = Me.Column
 
             If t.IsNewline Then
+
                 lin += 1
                 col = 1
-            End If
 
-            ' TODO: deal with multiline strings...
+            ElseIf t.IsString Then
+
+                Dim s = t.Tex
+                Dim m As Match
+
+                While True
+
+                    m = R_NEWLINE.Match(s)
+
+                    If m.Success Then
+                        lin += 1
+                        col = 1
+                        s = s.Substring(m.ToString.Length)
+                    Else
+                        col += s.Length
+                        Exit While
+                    End If
+                End While
+
+            Else
+
+                col = col + t.Length
+            End If
 
             Return New Position(off, lin, col)
         End Function
@@ -105,6 +129,11 @@ Namespace Parsing
         Public Function IsClosingParenthesis() As Boolean
 
             Return Me.Typ = ")"
+        End Function
+
+        Public Function IsString() As Boolean
+
+            Return Me.Typ = "string"
         End Function
 
         Public Overrides Function ToString() As String
