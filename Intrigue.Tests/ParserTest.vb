@@ -208,4 +208,18 @@ Imports Intrigue.Parsing
 
         Assert.AreEqual("unbalanced parenthese", e.Message)
     End Sub
+
+    <TestMethod()> Public Sub Parser_Parse_no_brackets()
+
+        Assert.AreEqual(
+            "(define (plus x y) (+ x y))" & vbCr & "(plus 5 6)",
+            Parser.parse(
+                Util.NewString(
+                    <string>
+                        define # big change
+                          plus x y
+                          + x y
+                        plus 5 6
+                    </string>)).ToString)
+    End Sub
 End Class
