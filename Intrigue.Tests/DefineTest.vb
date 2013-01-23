@@ -71,14 +71,14 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual(
             "(12 22 32)",
             Intrigue.Interpreter.DoEval(
-                <![CDATA[
-                    (define
-                      (map f l)
-                      (if (empty? l)
-                        l
-                        (cons (f (car l)) (map f (cdr l)))))
-                    (map (lambda (x) (+ x 2)) '(10 20 30))
-                ]]>.ToString.Trim
-            ).ToString)
+                Util.NewString(
+                    <![CDATA[
+                        (define
+                          (map f l)
+                          (if (empty? l)
+                            l
+                            (cons (f (car l)) (map f (cdr l)))))
+                        (map (lambda (x) (+ x 2)) '(10 20 30))
+                    ]]>)).ToString)
     End Sub
 End Class

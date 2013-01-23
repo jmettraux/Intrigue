@@ -10,10 +10,10 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual(
             """fox""",
             Intrigue.Interpreter.DoEval(
-                <![CDATA[
-                    define a " fox "
-                    call a "Trim"
-                ]]>.ToString.Trim
-            ).ToString)
+                Util.NewString(
+                    <![CDATA[
+                        define a " fox "
+                        call a "Trim"
+                    ]]>)).ToString)
     End Sub
 End Class

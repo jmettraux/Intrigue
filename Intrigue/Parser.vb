@@ -88,7 +88,7 @@ Namespace Parsing
         Protected Shared Function ParseList(ByRef start As Token, ByRef tokens As List(Of Token)) As Node
 
             Dim plain As Boolean = (start.Tex.IndexOf("(") > -1)
-            If start.Tex.StartsWith("'") Then tokens.Insert(0, New Token("symbol", start.Off, "quote", "quote"))
+            If start.Tex.StartsWith("'") Then tokens.Insert(0, New Token("symbol", start.Pos, "quote", "quote"))
 
             Dim nodes = New List(Of Node)
             Dim token As Token

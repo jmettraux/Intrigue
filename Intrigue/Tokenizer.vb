@@ -27,19 +27,52 @@ Imports System.Text.RegularExpressions
 
 Namespace Parsing
 
-    ' TODO: add line to Token[izer]
+    Public Class Position
+
+        Property Offset As Integer
+        Property Line As Integer
+        Property Column As Integer
+
+        Public Sub New(off As Integer, lin As Integer, col As Integer)
+
+            Me.Offset = off
+            Me.Line = lin
+            Me.Column = col
+        End Sub
+
+        Public Function Skip(t As Token)
+
+            Dim off = Me.Offset + t.Length
+            Dim lin = Me.Line
+            Dim col = Me.Column + t.Length
+
+            If t.IsNewline Then
+                lin += 1
+                col = 1
+            End If
+
+            ' TODO: deal with multiline strings...
+
+            Return New Position(off, lin, col)
+        End Function
+
+        Public Overrides Function ToString() As String
+
+            Return "off " & Me.Offset & " lin " & Me.Line & " col " & Me.Column
+        End Function
+    End Class
 
     Public Class Token
 
         Public Property Typ As String
-        Public Property Off As Integer
+        Public Property Pos As Position
         Public Property Tex As String
         Public Property Val As Object
 
-        Public Sub New(typ As String, off As Integer, tex As String, val As Object)
+        Public Sub New(typ As String, pos As Position, tex As String, val As Object)
 
             Me.Typ = typ
-            Me.Off = off
+            Me.Pos = pos
             Me.Tex = tex
             Me.Val = val
         End Sub
@@ -76,7 +109,10 @@ Namespace Parsing
 
         Public Overrides Function ToString() As String
 
-            Return "(" & Me.Typ & " " & Me.Off & " """ & Me.Val & """)"
+            Dim val = Me.Val
+            If val IsNot Nothing Then val = val.ToString
+
+            Return Me.Typ & " " & Me.Pos.ToString & " >" & val & "<"
         End Function
     End Class
 
@@ -90,9 +126,9 @@ Namespace Parsing
         Protected Shared T_NUMBER As Regex = New Regex("^-?\d[^"" \t\r\n\(\)]*")
         Protected Shared T_SYMBOL As Regex = New Regex("^[^"" \t\r\n\(\)]+")
 
-        Protected Shared Function TokenizeString(s As String, off As Integer) As Token
+        Protected Shared Function TokenizeString(s As String, ByRef pos As Position) As Token
 
-            Dim ss = s.Substring(off)
+            Dim ss = s.Substring(pos.Offset)
 
             If Not ss.StartsWith("""") Then Return Nothing
 
@@ -121,56 +157,51 @@ Namespace Parsing
                 End If
             End While
 
-            Return New Token("string", off, tex, val)
+            Return New Token("string", pos, tex, val)
         End Function
 
-        Protected Shared Function Tokenize(s As String, off As Integer) As Token
+        Protected Shared Function Tokenize(s As String, pos As Position) As Token
 
-            Dim ss = s.Substring(off)
+            Dim ss = s.Substring(pos.Offset)
 
             Dim m = T_COMMENT.Match(ss)
-            If m.Success Then Return New Token("comment", off, m.ToString, Nothing)
+            If m.Success Then Return New Token("comment", pos, m.ToString, Nothing)
 
             m = T_NEWLINE.Match(ss)
-            If m.Success Then Return New Token("newline", off, m.ToString, Nothing)
+            If m.Success Then Return New Token("newline", pos, m.ToString, Nothing)
 
             m = T_SPACE.Match(ss)
-            If m.Success Then Return New Token("space", off, m.ToString, Nothing)
+            If m.Success Then Return New Token("space", pos, m.ToString, Nothing)
 
             m = T_QUOTE.Match(ss)
-            If m.Success Then Return New Token("'(", off, m.ToString, Nothing)
+            If m.Success Then Return New Token("'(", pos, m.ToString, Nothing)
 
             m = T_PAREN.Match(ss)
-            If m.Success Then Return New Token(m.ToString, off, m.ToString, Nothing)
+            If m.Success Then Return New Token(m.ToString, pos, m.ToString, Nothing)
 
             m = T_NUMBER.Match(ss)
-            If m.Success Then Return New Token("number", off, m.ToString, Convert.ToInt64(m.ToString))
+            If m.Success Then Return New Token("number", pos, m.ToString, Convert.ToInt64(m.ToString))
 
-            Dim t = TokenizeString(s, off)
+            Dim t = TokenizeString(s, pos)
             If t IsNot Nothing Then Return t
 
             m = T_SYMBOL.Match(ss)
-            If m.Success Then Return New Token("symbol", off, m.ToString, m.ToString)
+            If m.Success Then Return New Token("symbol", pos, m.ToString, m.ToString)
 
             Throw New Ex.IntrigueException("cannot parse >" & ss & "<")
         End Function
 
         Public Shared Function Tokenize(s As String) As List(Of Token)
 
-            If s.StartsWith("<![CDATA[") Then
-                s = s.Substring(9)
-                s = s.Substring(0, s.Length - 3)
-            End If
-
             Dim l = New List(Of Token)
-            Dim off = 0
+            Dim pos = New Position(0, 1, 1)
             Dim t As Token
 
             While True
-                If s.Substring(off).Length < 1 Then Exit While
-                t = Tokenize(s, off)
+                If s.Substring(pos.Offset).Length < 1 Then Exit While
+                t = Tokenize(s, pos)
                 If t.Typ <> "comment" Then l.Add(t)
-                off += t.Length
+                pos = pos.Skip(t)
             End While
 
             Return l
