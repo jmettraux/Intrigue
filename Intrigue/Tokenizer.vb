@@ -128,8 +128,7 @@ Namespace Parsing
 
         Public Function IsBlank() As Boolean
 
-            'Return IsSpace() OrElse IsNewline() OrElse IsComment()
-            Return IsSpace() OrElse IsComment()
+            Return IsSpace() OrElse IsNewline() OrElse IsComment()
         End Function
 
         Public Function IsOpeningParenthesis() As Boolean
@@ -145,6 +144,11 @@ Namespace Parsing
         Public Function IsString() As Boolean
 
             Return Me.Typ = "string"
+        End Function
+
+        Public Function IsSymbol() As Boolean
+
+            Return Me.Typ = "symbol"
         End Function
 
         Public Overrides Function ToString() As String

@@ -31,30 +31,64 @@ Namespace Parsing
 
         Public Shared Function Parse(s As String) As Node
 
-            Dim parseList = New ParseListNode
-            Dim currentList = New ListNode
-            Dim node As Node
-
             Dim tokens = Tokenizer.Tokenize(s)
 
             'Console.WriteLine(Tokenizer.TokensToString(tokens))
 
+            Return ParseVertical(tokens).toListNode.ToParseListNode
+        End Function
+
+        Protected Shared Function ParseVertical(ByRef tokens As List(Of Token)) As Node
+
+            Dim l = New ListNode
+
             While True
-
-                If tokens.Count < 1 OrElse tokens(0).IsNewline Then
-                    Shift(tokens)
-                    parseList.CompactAndPush(currentList)
-                    currentList = New ListNode
-                End If
-
                 If tokens.Count < 1 Then Exit While
-
-                node = DoParse(tokens)
-                If node IsNot Nothing Then currentList.Push(node)
+                l.Push(ParseHorizontal(tokens))
             End While
 
-            Return parseList
+            Return l
         End Function
+
+        Protected Shared Function ParseHorizontal(ByRef tokens As List(Of Token)) As Node
+
+            Return ParsePlain(tokens)
+        End Function
+
+        Protected Shared Function ParsePlain(ByRef tokens As List(Of Token)) As Node
+
+            'Console.WriteLine("pp >" & tokens(0).ToString)
+
+            If tokens(0).IsClosingParenthesis Then Throw New Ex.UnbalancedParentheseException
+            If tokens(0).IsOpeningParenthesis Then Return ParseList(tokens)
+
+            Dim token = Shift(tokens)
+
+            If token.IsSymbol Then Return New SymbolNode(token.Val)
+            Return New AtomNode(token.Val)
+        End Function
+
+        Protected Shared Function ParseList(ByRef tokens As List(Of Token)) As Node
+
+            Return Nothing
+        End Function
+
+        '        Protected Shared Function DoParse(ByRef tokens As List(Of Token)) As Node
+
+        '            Dim token = Shift(tokens)
+
+        '            If token.IsSpace Then Return Nothing
+        '            If token.IsNewline Then Return Nothing
+        '            If token.IsComment Then Return Nothing
+
+        '            If token.IsClosingParenthesis Then Throw New Ex.UnbalancedParentheseException
+
+        '            If token.IsOpeningParenthesis Then Return ParseList(token, tokens)
+
+        '            If token.Typ = "symbol" Then Return New SymbolNode(token.Val)
+
+        '            Return New AtomNode(token.Val)
+        '        End Function
 
         Protected Shared Function Shift(ByRef tokens As List(Of Token)) As Token
 
@@ -66,52 +100,62 @@ Namespace Parsing
             Return token
         End Function
 
-        Protected Shared Function DoParse(ByRef tokens As List(Of Token)) As Node
+        '        Public Shared Function Parse(s As String) As Node
 
-            Dim token = Shift(tokens)
+        '            Dim parseList = New ParseListNode
+        '            Dim currentList = New ListNode
+        '            Dim node As Node
 
-            If token.IsSpace Then Return Nothing
-            If token.IsNewline Then Return Nothing
-            If token.IsComment Then Return Nothing
+        '            Dim tokens = Tokenizer.Tokenize(s)
 
-            If token.IsClosingParenthesis Then Throw New Ex.UnbalancedParentheseException
+        '            'Console.WriteLine(Tokenizer.TokensToString(tokens))
 
-            If token.IsOpeningParenthesis Then Return ParseList(token, tokens)
+        '            While True
 
-            If token.Typ = "symbol" Then Return New SymbolNode(token.Val)
+        '                If tokens.Count < 1 OrElse tokens(0).IsNewline Then
+        '                    Shift(tokens)
+        '                    parseList.CompactAndPush(currentList)
+        '                    currentList = New ListNode
+        '                End If
 
-            Return New AtomNode(token.Val)
-        End Function
+        '                If tokens.Count < 1 Then Exit While
 
-        Protected Shared Function ParseList(ByRef start As Token, ByRef tokens As List(Of Token)) As Node
+        '                node = DoParse(tokens)
+        '                If node IsNot Nothing Then currentList.Push(node)
+        '            End While
 
-            Dim plain As Boolean = (start.Tex.IndexOf("(") > -1)
-            If start.Tex.StartsWith("'") Then tokens.Insert(0, New Token("symbol", start.Pos, "quote", "quote"))
+        '            Return parseList
+        '        End Function
 
-            Dim nodes = New List(Of Node)
-            Dim token As Token
-            Dim node As Node
+        '        Protected Shared Function ParseList(ByRef start As Token, ByRef tokens As List(Of Token)) As Node
 
-            While True
+        '            Dim plain As Boolean = (start.Tex.IndexOf("(") > -1)
+        '            If start.Tex.StartsWith("'") Then tokens.Insert(0, New Token("symbol", start.Pos, "quote", "quote"))
 
-                token = tokens(0)
+        '            Dim nodes = New List(Of Node)
+        '            Dim token As Token
+        '            Dim node As Node
 
-                If token Is Nothing Then Exit While
+        '            While True
 
-                If Not plain AndAlso token.IsNewline Then
-                    Shift(tokens)
-                    Exit While
-                End If
-                If plain AndAlso token.IsClosingParenthesis Then
-                    Shift(tokens)
-                    Exit While
-                End If
+        '                token = tokens(0)
 
-                node = DoParse(tokens)
-                If node IsNot Nothing Then nodes.Add(node)
-            End While
+        '                If token Is Nothing Then Exit While
 
-            Return New ListNode(nodes)
-        End Function
+        '                If Not plain AndAlso token.IsNewline Then
+        '                    Shift(tokens)
+        '                    Exit While
+        '                End If
+        '                If plain AndAlso token.IsClosingParenthesis Then
+        '                    Shift(tokens)
+        '                    Exit While
+        '                End If
+
+        '                node = DoParse(tokens)
+        '                If node IsNot Nothing Then nodes.Add(node)
+        '            End While
+
+        '            Return New ListNode(nodes)
+        '        End Function
     End Class
 End Namespace
