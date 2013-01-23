@@ -65,7 +65,7 @@ Imports Intrigue.Parsing
 
         Assert.AreEqual(
             "(alpha 1 2 (""a"" ""b"") 3)" & vbCr & "(+ 4 5 6)",
-            Parser.parse(
+            Parser.Parse(
                 Util.NewString(
                     <string>
                         (alpha
@@ -101,7 +101,7 @@ Imports Intrigue.Parsing
 
         Assert.AreEqual(
             "(alpha (1 2) 3)" & vbCr & "(bravo 4 5 6)",
-            Parser.parse(
+            Parser.Parse(
                 Util.NewString(
                     <string>
                         (alpha (1 2) 3)
@@ -110,7 +110,7 @@ Imports Intrigue.Parsing
 
         Assert.AreEqual(
             "(alpha 1 2 3)" & vbCr & "(bravo 4 5 6)",
-            Parser.parse(
+            Parser.Parse(
                 Util.NewString(
                     <string>
                         alpha 1 2 3
@@ -122,7 +122,7 @@ Imports Intrigue.Parsing
 
         Assert.AreEqual(
             "(define x (lambda (y) y))" & vbCr & "(bravo 4 5 6)",
-            Parser.parse(
+            Parser.Parse(
                 Util.NewString(
                     <string>
                         (define x (lambda (y) y))
@@ -175,7 +175,7 @@ Imports Intrigue.Parsing
 
         Assert.AreEqual(
             "(alpha 1 2 3)" & vbCr & "(bravo 4 5 6)",
-            Parser.parse(
+            Parser.Parse(
                 Util.NewString(
                     <string>
                         (alpha 1 2 3)
@@ -188,7 +188,7 @@ Imports Intrigue.Parsing
 
         Assert.AreEqual(
             "(alpha 1 2 3)" & vbCr & "(bravo 4 5 6)",
-            Parser.parse(
+            Parser.Parse(
                 Util.NewString(
                     <string>
                         (alpha 1 2 3) # nada
@@ -213,7 +213,7 @@ Imports Intrigue.Parsing
 
         Assert.AreEqual(
             "(define (plus x y) (+ x y))" & vbCr & "(plus 5 6)",
-            Parser.parse(
+            Parser.Parse(
                 Util.NewString(
                     <string>
                         define # big change

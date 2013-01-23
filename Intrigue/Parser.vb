@@ -31,7 +31,7 @@ Namespace Parsing
 
     Public Class Parser
 
-        Public Shared Function parse(s As String) As Node
+        Public Shared Function Parse(s As String) As Node
 
             Dim parseList = New ParseListNode
             Dim currentList = New ListNode
