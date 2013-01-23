@@ -31,182 +31,89 @@ Namespace Parsing
 
     Public Class Parser
 
-        Public Shared Function Parse(s As String) As Node
-
-            If s.StartsWith("<![CDATA[") Then
-                s = s.Substring(9)
-                s = s.Substring(0, s.Length - 3)
-            End If
+        Public Shared Function parse(s As String) As Node
 
             Dim parseList = New ParseListNode
             Dim currentList = New ListNode
-            Dim r As Result
+            Dim node As Node
+
+            Dim tokens = Tokenizer.Tokenize(s)
+
+            'Console.WriteLine(Tokenizer.TokensToString(tokens))
 
             While True
 
-                s = Shave(s)
-                r = DoParse(s)
-
-                If r.HasNode Then currentList.Push(r.Node)
-                s = Shave(r.Remainder)
-
-                If s.Length < 1 OrElse s.StartsWith(vbCr) Then
+                If tokens.Count < 1 OrElse tokens(0).IsNewline Then
+                    Shift(tokens)
                     parseList.CompactAndPush(currentList)
                     currentList = New ListNode
                 End If
-                If s.Length < 1 Then
-                    Exit While
-                End If
+
+                If tokens.Count < 1 Then Exit While
+
+                node = DoParse(tokens)
+                If node IsNot Nothing Then currentList.Push(node)
             End While
 
             Return parseList
         End Function
 
-        Protected Shared Function DoParse(s As String) As Result
+        Protected Shared Function Shift(ByRef tokens As List(Of Token)) As Token
 
-            s = s.Trim
+            If tokens.Count < 1 Then Return Nothing
 
-            If s.StartsWith(")") Then
-                Throw New Ex.UnbalancedParentheseException
-            End If
+            Dim token = tokens(0)
+            tokens.RemoveAt(0)
 
-            If s.StartsWith("#") Then Return ParseComment(s)
-            If s.StartsWith("(") Then Return ParseList(s)
-            If s.StartsWith("'(") Then Return ParseList(s)
-            If s.StartsWith("""") Then Return ParseString(s)
-
-            Dim r As Result
-
-            r = ParseNumber(s)
-            If r.HasNode Then Return r
-
-            r = ParseSymbol(s)
-            Return r
+            Return token
         End Function
 
-        Protected Shared COMMENT_REGEX As Regex = New Regex("^([^\r\n]+)")
+        Protected Shared Function DoParse(ByRef tokens As List(Of Token)) As Node
 
-        Protected Shared Function ParseComment(s As String) As Result
+            Dim token = Shift(tokens)
 
-            Dim m = COMMENT_REGEX.Match(s)
+            If token.IsSpace Then Return Nothing
+            If token.IsNewline Then Return Nothing
+            If token.IsComment Then Return Nothing
 
-            Return New Result(Nothing, s.Substring(m.Groups(1).ToString.Length))
+            If token.IsClosingParenthesis Then Throw New Ex.UnbalancedParentheseException
+
+            If token.IsOpeningParenthesis Then Return ParseList(token, tokens)
+
+            If token.Typ = "symbol" Then Return New SymbolNode(token.Val)
+
+            Return New AtomNode(token.Val)
         End Function
 
-        Protected Shared Function ParseList(s As String) As Result
+        Protected Shared Function ParseList(ByRef start As Token, ByRef tokens As List(Of Token)) As Node
 
-            Dim start = s.Substring(0, 1)
-
-            If s.StartsWith("'(") Then
-                start = "("
-                s = "quote " & s.Substring(2)
-            ElseIf start = "(" Then
-                s = s.Substring(1)
-            End If
+            Dim plain As Boolean = (start.Tex.IndexOf("(") > -1)
+            If start.Tex.StartsWith("'") Then tokens.Insert(0, New Token("symbol", start.Off, "quote", "quote"))
 
             Dim nodes = New List(Of Node)
+            Dim token As Token
+            Dim node As Node
 
             While True
 
-                s = Shave(s)
+                token = tokens(0)
 
-                If start <> "(" AndAlso (s.StartsWith(vbCr) OrElse s.StartsWith(vbNewLine)) Then Exit While
-                If s.Length < 1 Then Exit While
+                If token Is Nothing Then Exit While
 
-                If s.StartsWith(")") Then
-                    s = s.Substring(1)
+                If Not plain AndAlso token.IsNewline Then
+                    Shift(tokens)
+                    Exit While
+                End If
+                If plain AndAlso token.IsClosingParenthesis Then
+                    Shift(tokens)
                     Exit While
                 End If
 
-                Dim t = DoParse(s)
-
-                If t.HasNode Then nodes.Add(t.Node)
-                s = t.Remainder
+                node = DoParse(tokens)
+                If node IsNot Nothing Then nodes.Add(node)
             End While
 
-            Return New Result(New ListNode(nodes), s)
+            Return New ListNode(nodes)
         End Function
-
-        Protected Shared Function ParseString(s As String) As Result
-
-            s = s.Substring(1)
-
-            Dim r = ""
-            Dim escape = False
-
-            While True
-
-                Dim c = s.Substring(0, 1)
-                s = s.Substring(1)
-
-                If escape Then
-                    r = r + c
-                    escape = False
-                ElseIf c = "\" Then
-                    escape = True
-                ElseIf c = """" Then
-                    Exit While
-                Else
-                    r = r + c
-                End If
-            End While
-
-            Return New Result(New AtomNode(r), s)
-        End Function
-
-        Protected Shared SYMBOL_REGEX As Regex = New Regex("^([^\s\)\(\r\n]+)")
-
-        Protected Shared Function ParseSymbol(s As String) As Result
-
-            Dim m = SYMBOL_REGEX.Match(s)
-
-            If Not m.Success Then Return New Result(Nothing, s)
-
-            Dim sym = m.Groups(1).ToString
-
-            Return New Result(New SymbolNode(sym), s.Substring(sym.Length))
-        End Function
-
-        Protected Shared INTEGER_REGEX As Regex = New Regex("^(-?\d+)")
-
-        Protected Shared Function ParseNumber(s As String) As Result
-
-            ' TODO: go beyond integers!
-
-            Dim m = INTEGER_REGEX.Match(s)
-
-            If Not m.Success Then Return New Result(Nothing, s)
-
-            Dim si = m.Groups(1).ToString
-            Dim i = Integer.Parse(si)
-
-            Return New Result(New AtomNode(i), s.Substring(si.Length))
-        End Function
-
-        Protected Shared Function Shave(s As String) As String
-
-            While s.StartsWith(" ")
-                s = s.Substring(1)
-            End While
-
-            Return s
-        End Function
-
-        Protected Class Result
-
-            Public Property Node As Node
-            Public Property Remainder As String
-
-            Public Sub New(ByRef n As Node, ByRef s As String)
-
-                Me.Node = n
-                Me.Remainder = Parser.Shave(s)
-            End Sub
-
-            Public Function HasNode() As Boolean
-
-                Return (Me.Node IsNot Nothing)
-            End Function
-        End Class
     End Class
 End Namespace

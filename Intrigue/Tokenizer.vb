@@ -27,27 +27,56 @@ Imports System.Text.RegularExpressions
 
 Namespace Parsing
 
+    ' TODO: add line to Token[izer]
+
     Public Class Token
 
         Public Property Typ As String
         Public Property Off As Integer
-        Public Property Str As String
+        Public Property Tex As String
+        Public Property Val As Object
 
-        Public Sub New(typ As String, off As Integer, s As String)
+        Public Sub New(typ As String, off As Integer, tex As String, val As Object)
 
             Me.Typ = typ
             Me.Off = off
-            Me.Str = s
+            Me.Tex = tex
+            Me.Val = val
         End Sub
 
         Public Function Length() As Integer
 
-            Return Me.Str.Length
+            Return Me.Tex.Length
+        End Function
+
+        Public Function IsSpace() As Boolean
+
+            Return Me.Typ = "space"
+        End Function
+
+        Public Function IsNewline() As Boolean
+
+            Return Me.Typ = "newline"
+        End Function
+
+        Public Function IsComment() As Boolean
+
+            Return Me.Typ = "comment"
+        End Function
+
+        Public Function IsOpeningParenthesis() As Boolean
+
+            Return Me.Typ.EndsWith("(")
+        End Function
+
+        Public Function IsClosingParenthesis() As Boolean
+
+            Return Me.Typ = ")"
         End Function
 
         Public Overrides Function ToString() As String
 
-            Return "(" & Me.Typ & " " & Me.Off & " """ & Me.Str & """)"
+            Return "(" & Me.Typ & " " & Me.Off & " """ & Me.Val & """)"
         End Function
     End Class
 
@@ -69,7 +98,8 @@ Namespace Parsing
 
             ss = ss.Substring(1)
 
-            Dim r = """"
+            Dim tex = """"
+            Dim val = ""
             Dim escape = False
 
             While True
@@ -77,20 +107,21 @@ Namespace Parsing
                 Dim c = ss.Substring(0, 1)
                 ss = ss.Substring(1)
 
+                tex += c
+
                 If escape Then
-                    r = r + c
+                    val += c
                     escape = False
                 ElseIf c = "\" Then
                     escape = True
                 ElseIf c = """" Then
-                    r = r + c
                     Exit While
                 Else
-                    r = r + c
+                    val += c
                 End If
             End While
 
-            Return New Token("string", off, r)
+            Return New Token("string", off, tex, val)
         End Function
 
         Protected Shared Function Tokenize(s As String, off As Integer) As Token
@@ -98,33 +129,38 @@ Namespace Parsing
             Dim ss = s.Substring(off)
 
             Dim m = T_COMMENT.Match(ss)
-            If m.Success Then Return New Token("comment", off, m.ToString)
+            If m.Success Then Return New Token("comment", off, m.ToString, Nothing)
 
             m = T_NEWLINE.Match(ss)
-            If m.Success Then Return New Token("newline", off, m.ToString)
+            If m.Success Then Return New Token("newline", off, m.ToString, Nothing)
 
             m = T_SPACE.Match(ss)
-            If m.Success Then Return New Token("space", off, m.ToString)
+            If m.Success Then Return New Token("space", off, m.ToString, Nothing)
 
             m = T_QUOTE.Match(ss)
-            If m.Success Then Return New Token("quote", off, m.ToString)
+            If m.Success Then Return New Token("'(", off, m.ToString, Nothing)
 
             m = T_PAREN.Match(ss)
-            If m.Success Then Return New Token(m.ToString, off, m.ToString)
+            If m.Success Then Return New Token(m.ToString, off, m.ToString, Nothing)
 
             m = T_NUMBER.Match(ss)
-            If m.Success Then Return New Token("number", off, m.ToString)
+            If m.Success Then Return New Token("number", off, m.ToString, Convert.ToInt64(m.ToString))
 
             Dim t = TokenizeString(s, off)
             If t IsNot Nothing Then Return t
 
             m = T_SYMBOL.Match(ss)
-            If m.Success Then Return New Token("symbol", off, m.ToString)
+            If m.Success Then Return New Token("symbol", off, m.ToString, m.ToString)
 
             Throw New Ex.IntrigueException("cannot parse >" & ss & "<")
         End Function
 
         Public Shared Function Tokenize(s As String) As List(Of Token)
+
+            If s.StartsWith("<![CDATA[") Then
+                s = s.Substring(9)
+                s = s.Substring(0, s.Length - 3)
+            End If
 
             Dim l = New List(Of Token)
             Dim off = 0
@@ -138,6 +174,17 @@ Namespace Parsing
             End While
 
             Return l
+        End Function
+
+        Public Shared Function TokensToString(ts As List(Of Token)) As String
+
+            Dim s = "tokens:" & vbCr
+
+            For i = 0 To ts.Count - 1
+                s = s & i & " > " & ts(i).ToString & vbCr
+            Next
+
+            Return s
         End Function
     End Class
 End Namespace
