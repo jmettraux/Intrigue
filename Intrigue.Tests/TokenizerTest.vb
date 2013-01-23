@@ -24,13 +24,13 @@ Imports Intrigue.Parsing
         Assert.AreEqual(16, ts.Count)
 
         Assert.AreEqual(
-            "newline off 0 lin 1 col 1 ><",
+            "newline of0.li1.co1 >< of2.li2.co1",
             ts(0).ToString)
         Assert.AreEqual(
-            "number off 99 lin 4 col 30 >6<",
+            "number of99.li4.co30 >6< of100.li4.co31",
             ts(12).ToString)
         Assert.AreEqual(
-            "string off 128 lin 5 col 20 >hello<",
+            "string of128.li5.co20 >hello< of135.li5.co27",
             ts(14).ToString)
     End Sub
 
@@ -50,16 +50,16 @@ cde" "volley"
         Assert.AreEqual(6, ts.Count)
 
         Assert.AreEqual(
-            "string off 0 lin 1 col 1 >nada<",
+            "string of0.li1.co1 >nada< of6.li1.co7",
             ts(0).ToString)
         Assert.AreEqual(
-            "string off 28 lin 2 col 21 >abc" & vbCrLf & "cde<",
+            "string of28.li2.co21 >abc" & vbCrLf & "cde< of38.li3.co5",
             ts(2).ToString)
         Assert.AreEqual(
-            "string off 39 lin 3 col 6 >volley<",
+            "string of39.li3.co6 >volley< of47.li3.co14",
             ts(3).ToString)
         Assert.AreEqual(
-            "string off 69 lin 4 col 21 >beach<",
+            "string of69.li4.co21 >beach< of76.li4.co28",
             ts(5).ToString)
     End Sub
 End Class

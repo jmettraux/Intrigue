@@ -77,21 +77,25 @@ Namespace Parsing
                 col = col + t.Length
             End If
 
-            Return New Position(off, lin, col)
+            t.Nex = New Position(off, lin, col)
+
+            Return t.Nex
         End Function
 
         Public Overrides Function ToString() As String
 
-            Return "off " & Me.Offset & " lin " & Me.Line & " col " & Me.Column
+            Return "of" & Me.Offset & ".li" & Me.Line & ".co" & Me.Column
         End Function
     End Class
 
     Public Class Token
 
         Public Property Typ As String
-        Public Property Pos As Position
         Public Property Tex As String
         Public Property Val As Object
+
+        Public Property Pos As Position
+        Public Property Nex As Position
 
         Public Sub New(typ As String, pos As Position, tex As String, val As Object)
 
@@ -99,6 +103,7 @@ Namespace Parsing
             Me.Pos = pos
             Me.Tex = tex
             Me.Val = val
+            Me.Nex = Nothing
         End Sub
 
         Public Function Length() As Integer
@@ -147,7 +152,7 @@ Namespace Parsing
             Dim val = Me.Val
             If val IsNot Nothing Then val = val.ToString
 
-            Return Me.Typ & " " & Me.Pos.ToString & " >" & val & "<"
+            Return Me.Typ & " " & Me.Pos.ToString & " >" & val & "< " & Me.Nex.ToString
         End Function
     End Class
 
@@ -235,7 +240,6 @@ Namespace Parsing
             While True
                 If s.Substring(pos.Offset).Length < 1 Then Exit While
                 t = Tokenize(s, pos)
-                'If t.Typ <> "comment" Then l.Add(t)
                 If Not t.IsBlank Then l.Add(t)
                 pos = pos.Skip(t)
             End While
