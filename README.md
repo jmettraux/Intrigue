@@ -48,8 +48,8 @@ Intrigue.Interpreter.DoEval(
   define
     map f l
     if (empty? l)
-      l     # then
-      cons  # else
+      l     ; then
+      cons  ; else
         f (car l)
         map f (cdr l)
 
@@ -75,51 +75,65 @@ TODO
 
 ## builtin 'functions'
 
-(will implement more)
+(more on the way)
 
-* true - the equivalent of #t in a true Scheme
-* false - same for #f
+### true
+the equivalent of #t in a true Scheme
 
-* quote - quotes a list ```'(1 2 3)``` is equivalent to ```(quote 1 2 3)```
-* define - binds a variable in the current context, supports the traditional Scheme to bind a function
-* lambda - packages an anonymous function
-* if - control flow
-* cond - control flow
-* equal? - evaluates to true if both args have the same string representation
-* atom? - returns true if the argument is not a list
-* list? - returns true if the argument is a list
+### false
+same for #f
 
-* car - returns the head of a list
-* cdr - returns a new list (all the elts of the arg list except the head)
-* cons - ```(cons 1 '(2 3))``` yields ```(1 2 3)```
-* empty? - returns true if the arg is a list and is empty
-* any? - returns true if the arg is a list and has at least one element
+### quote
+quotes a list ```'(1 2 3)``` is equivalent to ```(quote 1 2 3)```
 
-* +
-* =
-* <
-* <=
-* >
-* >=
+### define
+binds a variable in the current context, supports the traditional Scheme to bind a function
 
-* call - calls a .NET method on the target atom:
+### lambda
+packages an anonymous function
+
+### if
+control flow
+
+### cond
+control flow
+
+### equal?
+evaluates to true if both args have the same string representation
+
+### atom?
+returns true if the argument is not a list
+
+### list?
+returns true if the argument is a list
+
+### car
+returns the head of a list
+
+### cdr
+returns a new list (all the elts of the arg list except the head)
+
+### cons
+```(cons 1 '(2 3))``` yields ```(1 2 3)```
+
+### empty?
+returns true if the arg is a list and is empty
+
+### any?
+returns true if the arg is a list and has at least one element
+
+### + = < <= > >=
+as expected
+
+### call - calls a .NET method on the target atom:
 
 for example:
 
 ```scheme
-Imports Intrigue
+(define a " fox ")
+(call a "Trim")
 
-Intrigue.Interpreter.DoEval(
-    Intrigue.Util.NewString(
-        <![CDATA[
-
-  (define a " fox ")
-  (call a "Trim")
-
-        ]]>)
-).ToString
-
-' yields '"fox"'
+; yields "fox"
 ```
 
 
