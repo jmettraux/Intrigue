@@ -10,7 +10,7 @@
     <owners>jmettraux</owners>
 
     <licenseUrl>https://github.com/jmettraux/Intrigue/blob/master/LICENSE.txt</licenseUrl>
-    <projectUrl>https://github.com/jmettraux/Intrigue</projectUrl>
+    <projectUrl>https://github.com/jmettraux/Intrigue#readme</projectUrl>
     <!--iconUrl>http://lambda.io/icon</iconUrl-->
 
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
