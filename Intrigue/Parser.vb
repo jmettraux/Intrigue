@@ -41,9 +41,14 @@ Namespace Parsing
         Protected Shared Function ParseVertical(ByRef tokens As List(Of Token)) As Node
 
             Dim l = New ListNode
+            Dim t As Token
+            Dim head = First(tokens)
 
             While True
+
                 If tokens.Count < 1 Then Exit While
+                If l.Nodes.Any AndAlso tokens(0).Pos.Column < head.Pos.Column Then Exit While
+
                 l.Push(ParseHorizontal(tokens))
             End While
 
@@ -53,28 +58,25 @@ Namespace Parsing
         Protected Shared Function ParseHorizontal(ByRef tokens As List(Of Token)) As Node
 
             Dim t0 = First(tokens)
-            Dim n0 = ParsePlain(tokens)
+            Dim l = New ListNode(ParsePlain(tokens))
 
             Dim t As Token
-
-            Dim l = New ListNode(n0)
 
             While True
 
                 t = First(tokens)
 
                 If t Is Nothing Then Exit While
-                If t.Pos.Column <= t0.Nex.Column Then Exit While
+                If t.Pos.Column <= t0.Pos.Column Then Exit While
 
-                l.Push(ParsePlain(tokens))
-                'If t.Pos.Line > t0.Nex.Line Then
-                '    l.Push(ParseVertical(tokens))
-                'Else
-                '    l.Push(ParsePlain(tokens))
-                'End If
+                If t.Pos.Line > t0.Nex.Line Then
+                    l.Merge(ParseVertical(tokens))
+                Else
+                    l.Push(ParsePlain(tokens))
+                End If
             End While
 
-            If l.Nodes.Count = 1 Then Return n0
+            If l.Nodes.Count = 1 Then Return l.Car
 
             Return l
         End Function
@@ -95,7 +97,6 @@ Namespace Parsing
         Protected Shared Function ParseList(ByRef tokens As List(Of Token)) As Node
 
             Dim t As Token
-            Dim n As Node
             Dim l As New ListNode
 
             Dim start = Shift(tokens)

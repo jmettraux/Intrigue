@@ -226,7 +226,7 @@ Imports Intrigue.Parsing
     <TestMethod()> Public Sub Parser_Parse_lax_1()
 
         Assert.AreEqual(
-            "(define plus (lambda (x y) (+ x y))" & vbCr & "(plus 1 2)",
+            "(define plus (lambda (x y) (+ x y)))" & vbCr & "(plus 1 2)",
             Parser.Parse(
                 Util.NewString(
                     <string>
@@ -245,5 +245,25 @@ Imports Intrigue.Parsing
                         define (double x) (+ x x)
                         double 7
                     </string>)).ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Parser_Parse_lax_3()
+
+        Assert.AreEqual(
+            "(a (b c) (d (e f) g))" & vbCr &
+            "(h i)" & vbCr &
+            "j",
+            Parser.Parse(
+                Util.NewString(
+                    <![CDATA[
+                        a
+                          b c
+                          d
+                            e f
+                            g
+                        h
+                          i
+                        j
+                    ]]>)).ToString)
     End Sub
 End Class

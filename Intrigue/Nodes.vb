@@ -137,6 +137,11 @@ Namespace Nodes
             Me.Nodes.Add(node)
         End Sub
 
+        Public Sub Merge(ByRef list As ListNode)
+
+            Me.Nodes.AddRange(list.Nodes)
+        End Sub
+
         ' Used in tests
         '
         Public Sub New(ParamArray args As Object())
@@ -204,29 +209,11 @@ Namespace Nodes
     Public Class ParseListNode
         Inherits ListNode
 
-        'Public Sub New()
-        '    MyBase.New()
-        '    Me.Nodes = New List(Of Node)
-        'End Sub
-
         Public Sub New(ByRef l As ListNode)
 
             MyBase.New()
             Me.Nodes = l.Nodes
         End Sub
-
-        'Public Sub New(ByRef list As ListNode)
-        '    MyBase.New()
-        '    Me.Nodes = list.Nodes
-        'End Sub
-
-        'Public Sub CompactAndPush(ByRef list As ListNode)
-        '    If list.Nodes.Count = 1 Then
-        '        Me.Nodes.Add(list.Nodes(0))
-        '    ElseIf list.Nodes.Count > 1 Then
-        '        Me.Nodes.Add(list)
-        '    End If
-        'End Sub
 
         Public Overrides Function ToString() As String
 
