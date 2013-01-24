@@ -81,4 +81,24 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
                         (map (lambda (x) (+ x 2)) '(10 20 30))
                     ]]>)).ToString)
     End Sub
+
+    <TestMethod()> Public Sub Function_meta_map_lax()
+
+        Assert.AreEqual(
+            "(12 22 32)",
+            Intrigue.Interpreter.DoEval(
+                Util.NewString(
+                    <![CDATA[
+                        define
+                          map f l
+                          if (empty? l)
+                            l     # then
+                            cons  # else
+                              f (car l)
+                              map f (cdr l)
+                        map
+                          lambda (x) (+ x 2)
+                          '(10 20 30)
+                    ]]>)).ToString)
+    End Sub
 End Class

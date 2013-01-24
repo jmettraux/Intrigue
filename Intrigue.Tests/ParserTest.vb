@@ -251,7 +251,7 @@ Imports Intrigue.Parsing
 
         Assert.AreEqual(
             "(a (b c) (d (e f) g))" & vbCr &
-            "(h i)" & vbCr &
+            "(h (i) ())" & vbCr &
             "j",
             Parser.Parse(
                 Util.NewString(
@@ -262,7 +262,8 @@ Imports Intrigue.Parsing
                             e f
                             g
                         h
-                          i
+                          (i)
+                          ()
                         j
                     ]]>)).ToString)
     End Sub
