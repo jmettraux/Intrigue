@@ -59,7 +59,38 @@ TODO
 
 ### binding one's own builtin functions
 
-TODO
+```vb
+Imports Intrigue
+Imports Intrigue.Nodes
+
+Public Class UpcaseFunction
+    Inherits Intrigue.Nodes.FunctionNode
+
+    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+
+        ' will raise if there isn't 1 and only 1 argument
+
+        CheckArgCount(funcName, args, 1)
+
+        ' eval argument and then extract value
+
+        Dim s0 = DirectCast(context.Eval(args.Car).ToAtomNode.Atom, String)
+
+        ' call ToUpper on argument string
+
+        Dim s1 = s0.ToUpper
+
+        Return New AtomNode(s1)
+    End Function
+End Class
+
+' and, when preparing the interpreter...
+
+Dim i = New Intrigue.Interpreter
+i.Bind("upcase", New UpcaseFunction)
+
+i.Eval("(upcase ""London"")").ToString ' will yield '"LONDON"'
+```
 
 
 ## builtin 'functions'
