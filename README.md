@@ -61,8 +61,8 @@ Dim i = New Intrigue.Interpreter
 
 i.BindAtom("a", 3)
 
-Assert.AreEqual("3", i.Lookup("a").ToString)
-Assert.AreEqual(3, i.LookupAtom("a"))
+i.Lookup("a").ToString  ' yields "3"
+i.LookupAtom("a")       ' yields 3
 ```
 
 TODO: what about ListNodes?
