@@ -98,4 +98,17 @@ Public Class Interpreter
 
         Return result
     End Function
+
+    Public Sub BindAtom(name As String, ByRef value As Object)
+
+        Me.Bind(name, New AtomNode(value))
+    End Sub
+
+    Public Function LookupAtom(name As String) As Object
+
+        Dim node As Node = Me.Lookup(name)
+
+        If node Is Nothing Then Return Nothing
+        Return node.ToAtomNode.Atom
+    End Function
 End Class

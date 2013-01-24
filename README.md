@@ -54,10 +54,23 @@ Intrigue is indentation-sensitive, which lets one drop a few parentheses, so the
 
 ### setting initial interpreter data
 
-TODO
+There are two shortcut methods available ```BindAtom``` and ```LookupAtom``` to wrap/fetch data in an Intrigue interpreter.
+
+```vb
+Dim i = New Intrigue.Interpreter
+
+i.BindAtom("a", 3)
+
+Assert.AreEqual("3", i.Lookup("a").ToString)
+Assert.AreEqual(3, i.LookupAtom("a"))
+```
+
+TODO: what about ListNodes?
 
 
 ### binding one's own builtin functions
+
+One can implement a function in VB or C# (or whatever .NET supports) and bind it in the interpreter.
 
 ```vb
 Imports Intrigue
@@ -69,17 +82,15 @@ Public Class UpcaseFunction
     Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
 
         ' will raise if there isn't 1 and only 1 argument
-
         CheckArgCount(funcName, args, 1)
 
         ' eval argument and then extract value
-
         Dim s0 = DirectCast(context.Eval(args.Car).ToAtomNode.Atom, String)
 
         ' call ToUpper on argument string
-
         Dim s1 = s0.ToUpper
 
+		' wrap result in an AtomNode
         Return New AtomNode(s1)
     End Function
 End Class
@@ -91,6 +102,10 @@ i.Bind("upcase", New UpcaseFunction)
 
 i.Eval("(upcase ""London"")").ToString ' will yield '"LONDON"'
 ```
+
+For more, look at the Func*.vb files to see how the builtin functions are implemented.
+
+Note that the functions have to explicitely evaluate their arguments, via the context.
 
 
 ## builtin 'functions'
