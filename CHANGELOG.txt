@@ -1,7 +1,13 @@
 
 = Intrigue
 
-== release 0.9.0    not yet released
+
+== release 1.0.0    released 2013/01/24
+
+- extended "less brackets" mode
+- switched to ; for comments (be a good Scheme)
+
+
+== release 0.9.0    released 2013/01/22
 
 - initial release
-

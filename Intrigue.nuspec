@@ -4,7 +4,7 @@
   <metadata>
 
     <id>Intrigue</id>
-    <version>0.9.0</version>
+    <version>1.0.0</version>
 
     <authors>jmettraux</authors>
     <owners>jmettraux</owners>
@@ -15,9 +15,14 @@
 
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
 
-    <description>a mini Lisp</description>
+    <description>a mini (and naive) Scheme interpreter</description>
 
-    <releaseNotes>https://github.com/jmettraux/Intrigue/blob/master/CHANGELOG.txt</releaseNotes>
+    <releaseNotes>
+== release 1.0.0    released 2013/01/24
+
+- extended "less brackets" mode
+- switched to ; for comments (be a good Scheme)
+    </releaseNotes>
 
     <copyright>Copyright 2013</copyright>
     <tags>scheme lisp interpreter</tags>
