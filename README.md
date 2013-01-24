@@ -38,13 +38,7 @@ Intrigue.Interpreter.DoEval(
 
 Intrigue is indentation-sensitive, which lets one drop a few parentheses, so the above example can be rewritten as:
 
-```vb
-Imports Intrigue
-
-Intrigue.Interpreter.DoEval(
-    Intrigue.Util.NewString(
-        <![CDATA[
-
+```scheme
   define
     map f l
     if (empty? l)
@@ -56,11 +50,6 @@ Intrigue.Interpreter.DoEval(
   map
     lambda (x) (+ x 2)
     '(10 20 30)
-
-        ]]>)
-).ToString
-
-' yields "(12 22 32)"
 ```
 
 ### setting initial interpreter data
