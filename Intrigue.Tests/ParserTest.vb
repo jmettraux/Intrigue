@@ -69,7 +69,7 @@ Imports Intrigue.Parsing
                 Util.NewString(
                     <string>
                         (alpha
-                          1 2 # the meat
+                          1 2 ; the meat
                           ("a"
                            "b")
                           3)
@@ -155,17 +155,13 @@ Imports Intrigue.Parsing
 
         Dim n As Node = Parser.Parse(vbCr & vbCrLf & vbCr)
 
-        'Console.WriteLine(n.Inspect)
-
         Assert.AreEqual("", n.ToString)
         Assert.AreEqual(0, n.toListNode.Nodes.Count)
     End Sub
 
     <TestMethod()> Public Sub Parser_Parse_comments()
 
-        Dim n As Node = Parser.Parse("# nada")
-
-        'Console.WriteLine(n.Inspect)
+        Dim n As Node = Parser.Parse("; nada")
 
         Assert.AreEqual("", n.ToString)
         Assert.AreEqual(0, n.toListNode.Nodes.Count)
@@ -179,7 +175,7 @@ Imports Intrigue.Parsing
                 Util.NewString(
                     <string>
                         (alpha 1 2 3)
-                        # nada
+                        ; nada
                         bravo 4 5 6
                     </string>)).ToString)
     End Sub
@@ -191,9 +187,9 @@ Imports Intrigue.Parsing
             Parser.Parse(
                 Util.NewString(
                     <string>
-                        (alpha 1 2 3) # nada
-                        # nada
-                        bravo 4 5 6 # nada
+                        (alpha 1 2 3) ;; nada
+                        ;;; nada
+                        bravo 4 5 6 ; nada;
                     </string>)).ToString)
     End Sub
 
@@ -216,7 +212,7 @@ Imports Intrigue.Parsing
             Parser.Parse(
                 Util.NewString(
                     <string>
-                        define # big change
+                        define ; let's get some depth
                           plus x y
                           + x y
                         plus 5 6

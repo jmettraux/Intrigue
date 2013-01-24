@@ -13,9 +13,9 @@ Imports Intrigue.Parsing
         Dim ts = Intrigue.Parsing.Tokenizer.Tokenize(
             Intrigue.Util.NewString(
                 <string>
-                   (alpha 1 2 3) # nada
-                   # nada
-                   bravo 4 5 6 # nada
+                   (alpha 1 2 3) ; nada
+                   ; nada
+                   bravo 4 5 6 ; nada
                    "hello"
                </string>))
 

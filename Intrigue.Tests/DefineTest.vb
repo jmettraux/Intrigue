@@ -92,8 +92,8 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
                         define
                           map f l
                           if (empty? l)
-                            l     # then
-                            cons  # else
+                            l     ; then
+                            cons  ; else
                               f (car l)
                               map f (cdr l)
                         map

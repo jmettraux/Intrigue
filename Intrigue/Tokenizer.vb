@@ -167,7 +167,7 @@ Namespace Parsing
 
     Public Class Tokenizer
 
-        Protected Shared T_COMMENT As Regex = New Regex("^[ \t]*#[^\r\n]*")
+        Protected Shared T_COMMENT As Regex = New Regex("^[ \t]*;[^\r\n]*")
         Protected Shared T_NEWLINE As Regex = New Regex("^[\r\n]+")
         Protected Shared T_SPACE As Regex = New Regex("^[ \t]+")
         Protected Shared T_QUOTE As Regex = New Regex("^'\(")
