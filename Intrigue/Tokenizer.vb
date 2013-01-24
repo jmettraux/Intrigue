@@ -86,6 +86,11 @@ Namespace Parsing
 
             Return "of" & Me.Offset & ".li" & Me.Line & ".co" & Me.Column
         End Function
+
+        Public Function ToLineAndColumn() As String
+
+            Return "line " & Me.Line & " column " & Me.Column
+        End Function
     End Class
 
     Public Class Token

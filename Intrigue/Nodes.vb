@@ -249,7 +249,7 @@ Namespace Nodes
 
             If args.Length = argCount Then Return
 
-            Dim m = "'" & funcName & "' expects " & argCount & "arguments, not " & args.Length
+            Dim m = "'" & funcName & "' expects " & argCount & " arguments, not " & args.Length
             If argCount = 1 Then m = "'" & funcName & "' expects 1 argument, not " & args.Length
 
             Throw New Ex.ArgException(m)

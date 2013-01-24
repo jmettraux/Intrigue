@@ -22,6 +22,9 @@
 ' Made in Japan
 '
 
+Imports Intrigue.Parsing
+
+
 Namespace Ex
 
     Public Class IntrigueException
@@ -63,9 +66,9 @@ Namespace Ex
     Public Class UnbalancedParentheseException
         Inherits IntrigueException
 
-        Public Sub New()
+        Public Sub New(t As Token)
 
-            MyBase.New("unbalanced parenthese")
+            MyBase.New("unbalanced parenthese at " & t.Pos.ToLineAndColumn)
         End Sub
     End Class
 End Namespace

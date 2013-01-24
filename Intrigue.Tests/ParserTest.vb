@@ -206,10 +206,10 @@ Imports Intrigue.Parsing
         Catch e
         End Try
 
-        Assert.AreEqual("unbalanced parenthese", e.Message)
+        Assert.AreEqual("unbalanced parenthese at line 1 column 12", e.Message)
     End Sub
 
-    <TestMethod()> Public Sub Parser_Parse_no_brackets()
+    <TestMethod()> Public Sub Parser_Parse_lax_0()
 
         Assert.AreEqual(
             "(define (plus x y) (+ x y))" & vbCr & "(plus 5 6)",
@@ -220,6 +220,30 @@ Imports Intrigue.Parsing
                           plus x y
                           + x y
                         plus 5 6
+                    </string>)).ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Parser_Parse_lax_1()
+
+        Assert.AreEqual(
+            "(define plus (lambda (x y) (+ x y))" & vbCr & "(plus 1 2)",
+            Parser.Parse(
+                Util.NewString(
+                    <string>
+                        (define plus (lambda (x y) (+ x y)))
+                        plus 1 2
+                    </string>)).ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Parser_Parse_lax_2()
+
+        Assert.AreEqual(
+            "(define (double x) (+ x x))" & vbCr & "(double 7)",
+            Parser.Parse(
+                Util.NewString(
+                    <string>
+                        define (double x) (+ x x)
+                        double 7
                     </string>)).ToString)
     End Sub
 End Class

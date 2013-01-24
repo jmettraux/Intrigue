@@ -12,10 +12,10 @@ Imports Intrigue
         Assert.AreEqual(
             "3",
             Intrigue.Interpreter.DoEval(
-                <string>
-                    (define plus (lambda (x y) (+ x y)))
-                    plus 1 2
-                </string>.Nodes.First.ToString.Trim
-            ).ToString)
+                Util.NewString(
+                    <string>
+                        (define plus (lambda (x y) (+ x y)))
+                        plus 1 2
+                    </string>)).ToString)
     End Sub
 End Class

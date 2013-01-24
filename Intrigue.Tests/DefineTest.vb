@@ -19,11 +19,11 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual(
             "12",
             Intrigue.Interpreter.DoEval(
-                <string>
-                    define a 12
-                    a
-                </string>.Nodes.First.ToString.Trim
-            ).ToString)
+                Util.NewString(
+                    <string>
+                        define a 12
+                        a
+                    </string>)).ToString)
 
         Assert.AreEqual(
             "12",
@@ -47,11 +47,11 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual(
             "14",
             Intrigue.Interpreter.DoEval(
-                <string>
-                    define (double x) (+ x x)
-                    double 7
-                </string>.Nodes.First.ToString.Trim
-            ).ToString)
+                Util.NewString(
+                    <string>
+                        define (double x) (+ x x)
+                        double 7
+                    </string>)).ToString)
     End Sub
 
     '<TestMethod()> Public Sub Define_function_with_computed_name()

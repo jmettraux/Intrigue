@@ -45,7 +45,7 @@ cde" "volley"
                     "beach"
                </string>).Trim)
 
-        Console.WriteLine(Tokenizer.TokensToString(ts))
+        'Console.WriteLine(Tokenizer.TokensToString(ts))
 
         Assert.AreEqual(4, ts.Count)
 
