@@ -68,12 +68,6 @@ Namespace Nodes
             Return DirectCast(Me, FunctionNode)
         End Function
 
-        Public Function Splat() As ListNode
-
-            If Me.IsList Then Return Me
-            Return New ListNode(Me)
-        End Function
-
         Public Overridable Function Car() As Node
 
             Throw New Ex.IntrigueException("'car' only works on lists")

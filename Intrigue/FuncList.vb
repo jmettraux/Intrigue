@@ -96,7 +96,7 @@ Namespace Nodes
             Dim result = New ListNode
 
             For Each node In list.Nodes
-                result.Push(func.Apply(Nothing, node.Splat, context))
+                result.Push(func.Apply(Nothing, New ListNode(node), context))
             Next
 
             Return result
