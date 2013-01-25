@@ -23,12 +23,12 @@ Intrigue.Interpreter.DoEval(
         <![CDATA[
 
   (define
-    (map f l)
+    (mymap f l)
     (if (empty? l)
       l
-      (cons (f (car l)) (map f (cdr l)))))
+      (cons (f (car l)) (mymap f (cdr l)))))
 
-  (map (lambda (x) (+ x 2)) '(10 20 30))
+  (mymap (lambda (x) (+ x 2)) '(10 20 30))
 
         ]]>)
 ).ToString
@@ -40,14 +40,14 @@ Intrigue is indentation-sensitive, which lets one drop a few parentheses, so the
 
 ```scheme
   define
-    map f l
+    mymap f l
     if (empty? l)
       l     ; then
       cons  ; else
         f (car l)
-        map f (cdr l)
+        mymap f (cdr l)
 
-  map
+  mymap
     lambda (x) (+ x 2)
     '(10 20 30)
 ```

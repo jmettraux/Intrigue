@@ -74,11 +74,11 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
                 Util.NewString(
                     <![CDATA[
                         (define
-                          (map f l)
+                          (mymap f l)
                           (if (empty? l)
                             l
-                            (cons (f (car l)) (map f (cdr l)))))
-                        (map (lambda (x) (+ x 2)) '(10 20 30))
+                            (cons (f (car l)) (mymap f (cdr l)))))
+                        (mymap (lambda (x) (+ x 2)) '(10 20 30))
                     ]]>)).ToString)
     End Sub
 
@@ -90,13 +90,13 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
                 Util.NewString(
                     <![CDATA[
                         define
-                          map f l
+                          mymap f l
                           if (empty? l)
                             l     ; then
                             cons  ; else
                               f (car l)
-                              map f (cdr l)
-                        map
+                              mymap f (cdr l)
+                        mymap
                           lambda (x) (+ x 2)
                           '(10 20 30)
                     ]]>)).ToString)
