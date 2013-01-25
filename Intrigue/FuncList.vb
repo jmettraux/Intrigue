@@ -82,4 +82,24 @@ Namespace Nodes
             Return New AtomNode(r)
         End Function
     End Class
+
+    Public Class MapFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+
+            CheckArgCount(funcName, args, 2)
+
+            Dim func = context.Eval(args.Car).ToFunctionNode
+            Dim list = context.Eval(args.Cdr.Car).ToListNode
+
+            Dim result = New ListNode
+
+            For Each node In list.Nodes
+                result.Push(func.Apply(Nothing, node.Splat, context))
+            Next
+
+            Return result
+        End Function
+    End Class
 End Namespace

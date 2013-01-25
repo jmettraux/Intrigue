@@ -68,6 +68,7 @@ Public Class Interpreter
         Bind("cons", New ConsFunctionNode)
         Bind("empty?", New EmptyFunctionNode)
         Bind("any?", New EmptyFunctionNode)
+        Bind("map", New MapFunctionNode)
 
         Bind("+", New PlusFunctionNode)
         Bind("=", New GreaterFunctionNode)

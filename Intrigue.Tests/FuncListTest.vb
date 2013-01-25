@@ -60,4 +60,11 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             "true",
             Interpreter.DoEval("any? '(1)").ToString)
     End Sub
+
+    <TestMethod()> Public Sub Function_map()
+
+        Assert.AreEqual(
+            "(14 15 16)",
+            Interpreter.DoEval("map (lambda (x) (+ x 10)) '(4 5 6)").ToString)
+    End Sub
 End Class
