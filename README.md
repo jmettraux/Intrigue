@@ -172,6 +172,11 @@ for example:
 ```
 
 
+## issues, support and discussions
+
+https://github.com/jmettraux/Intrigue/issues
+
+
 ## license
 
 MIT (see LICENSE.txt)
