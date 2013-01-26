@@ -30,10 +30,10 @@ Namespace Nodes
     Public Class CallFunctionNode
         Inherits FunctionNode
 
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
-            Dim target = context.Eval(args.Car).ToAtomNode.Atom
-            Dim methodName = context.Eval(args.Cdr.Car).ToAtomNode.Atom.ToString
+            Dim target = env.Eval(args.Car).ToAtomNode.Atom
+            Dim methodName = env.Eval(args.Cdr.Car).ToAtomNode.Atom.ToString
 
             Dim method = target.GetType.GetMethod(methodName, New Type() {})
             Dim result = method.Invoke(target, New Object() {})

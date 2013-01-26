@@ -28,34 +28,34 @@ Namespace Nodes
     Public Class CarFunctionNode
         Inherits FunctionNode
 
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
             CheckArgCount(funcName, args, 1)
 
-            Return context.Eval(args.Car).Car
+            Return env.Eval(args.Car).Car
         End Function
     End Class
 
     Public Class CdrFunctionNode
         Inherits FunctionNode
 
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
             CheckArgCount(funcName, args, 1)
 
-            Return context.Eval(args.Car).Cdr
+            Return env.Eval(args.Car).Cdr
         End Function
     End Class
 
     Public Class ConsFunctionNode
         Inherits FunctionNode
 
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
             CheckArgCount(funcName, args, 2)
 
-            Dim head = context.Eval(args.Car)
-            Dim tail = context.Eval(args.Cdr.Car)
+            Dim head = env.Eval(args.Car)
+            Dim tail = env.Eval(args.Cdr.Car)
 
             If Not tail.IsList Then
                 Throw New Ex.ArgException("'cons' expects a list as second argument, not " & tail.ToString)
@@ -70,11 +70,11 @@ Namespace Nodes
     Public Class EmptyFunctionNode
         Inherits FunctionNode
 
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
             CheckArgCount(funcName, args, 1)
 
-            Dim l = context.Eval(args.Car).toListNode
+            Dim l = env.Eval(args.Car).toListNode
 
             Dim r = l.Length < 1
             If funcName = "any?" Then r = Not r
@@ -86,17 +86,17 @@ Namespace Nodes
     Public Class MapFunctionNode
         Inherits FunctionNode
 
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
             CheckArgCount(funcName, args, 2)
 
-            Dim func = context.Eval(args.Car).ToFunctionNode
-            Dim list = context.Eval(args.Cdr.Car).ToListNode
+            Dim func = env.Eval(args.Car).ToFunctionNode
+            Dim list = env.Eval(args.Cdr.Car).ToListNode
 
             Dim result = New ListNode
 
             For Each node In list.Nodes
-                result.Push(func.Apply(Nothing, New ListNode(node), context))
+                result.Push(func.Apply(Nothing, New ListNode(node), env))
             Next
 
             Return result

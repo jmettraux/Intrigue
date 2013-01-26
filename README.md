@@ -79,13 +79,13 @@ Imports Intrigue.Nodes
 Public Class UpcaseFunction
     Inherits Intrigue.Nodes.FunctionNode
 
-    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Context) As Node
 
         ' will raise if there isn't 1 and only 1 argument
         CheckArgCount(funcName, args, 1)
 
         ' eval argument and then extract value
-        Dim s0 = DirectCast(context.Eval(args.Car).ToAtomNode.Atom, String)
+        Dim s0 = DirectCast(env.Eval(args.Car).ToAtomNode.Atom, String)
 
         ' call ToUpper on argument string
         Dim s1 = s0.ToUpper
@@ -105,7 +105,7 @@ i.Eval("(upcase ""London"")").ToString ' will yield '"LONDON"'
 
 For more, look at the Func*.vb files to see how the builtin functions are implemented.
 
-Note that the functions have to explicitely evaluate their arguments, via the context.
+Note that the functions have to explicitely evaluate their arguments, via the env.
 
 
 ## builtin 'functions'
@@ -122,7 +122,7 @@ same for #f
 quotes a list ```'(1 2 3)``` is equivalent to ```(quote 1 2 3)```
 
 ### define
-binds a variable in the current context, supports the traditional Scheme to bind a function
+binds a variable in the current env, supports the traditional Scheme to bind a function
 
 ### lambda
 packages an anonymous function

@@ -25,17 +25,17 @@
 Imports Intrigue.Nodes
 
 
-Public Class Context
+Public Class Environment
 
     Protected dic As Dictionary(Of String, Node)
-    Protected par As Context
+    Protected par As Environment
 
     Public Sub New()
 
         dic = New Dictionary(Of String, Node)
     End Sub
 
-    Public Sub New(ByRef parent As Context)
+    Public Sub New(ByRef parent As Environment)
 
         Me.New()
         par = parent

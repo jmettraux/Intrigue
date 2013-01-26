@@ -27,7 +27,7 @@ Namespace Nodes
     Public Class QuoteFunctionNode
         Inherits FunctionNode
 
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
             Return args
         End Function
@@ -36,7 +36,7 @@ Namespace Nodes
     Public Class DefineFunctionNode
         Inherits FunctionNode
 
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
             CheckArgCount(funcName, args, 2)
 
@@ -59,10 +59,10 @@ Namespace Nodes
             End If
 
             If value Is Nothing Then
-                value = context.Eval(args.Cdr.Car)
+                value = env.Eval(args.Cdr.Car)
             End If
 
-            context.Bind(name, value)
+            env.Bind(name, value)
 
             Return New AtomNode(name)
         End Function
@@ -78,9 +78,9 @@ Namespace Nodes
             Me.definition = definition
         End Sub
 
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
-            Dim c = New Context(context)
+            Dim c = New Environment(env)
 
             Dim argnames = Me.definition.Car.toListNode.Nodes
             Dim body = Me.definition.Cdr.Car
@@ -88,7 +88,7 @@ Namespace Nodes
             For i = 0 To argnames.Count - 1
 
                 Dim argname = argnames(i).ToString
-                Dim value = context.Eval(args.Nodes(i))
+                Dim value = env.Eval(args.Nodes(i))
 
                 c.Bind(argname, value)
             Next
@@ -100,7 +100,7 @@ Namespace Nodes
     Public Class LambdaFunctionNode
         Inherits FunctionNode
 
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
             Return New LambdaNode(args)
         End Function
@@ -109,13 +109,13 @@ Namespace Nodes
     Public Class IfFunctionNode
         Inherits FunctionNode
 
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
             If args.Length < 2 OrElse args.Length > 3 Then
                 Throw New Ex.ArgException("'if' expects 2 or 3 arguments, not " & args.Length)
             End If
 
-            Dim pred = context.Eval(args.Car)
+            Dim pred = env.Eval(args.Car)
             Dim consequence As Node = Nothing
 
             If pred.ToString = "true" Then
@@ -126,14 +126,14 @@ Namespace Nodes
                 consequence = New AtomNode(False)
             End If
 
-            Return context.Eval(consequence)
+            Return env.Eval(consequence)
         End Function
     End Class
 
     Public Class CondFunctionNode
         Inherits FunctionNode
 
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
             For Each n In args.Nodes
 
@@ -141,10 +141,10 @@ Namespace Nodes
                     Throw New Ex.ArgException("'cond' cannot deal with " & n.ToString)
                 End If
 
-                Dim pred = context.Eval(n.Car)
+                Dim pred = env.Eval(n.Car)
                 Dim cons = n.Cdr.Car
 
-                If pred.ToString = "true" Then Return context.Eval(cons)
+                If pred.ToString = "true" Then Return env.Eval(cons)
             Next
 
             Return New AtomNode(False)
@@ -154,12 +154,12 @@ Namespace Nodes
     Public Class EqualFunctionNode
         Inherits FunctionNode
 
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
             CheckArgCount(funcName, args, 2)
 
-            Dim sa = context.Eval(args.Car).ToString
-            Dim sb = context.Eval(args.Cdr.Car).ToString
+            Dim sa = env.Eval(args.Car).ToString
+            Dim sb = env.Eval(args.Cdr.Car).ToString
 
             Return New AtomNode(sa = sb)
         End Function
@@ -168,11 +168,11 @@ Namespace Nodes
     Public Class TypeFunctionNode
         Inherits FunctionNode
 
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
             CheckArgCount(funcName, args, 1)
 
-            Dim x = context.Eval(args.Car)
+            Dim x = env.Eval(args.Car)
 
             If funcName = "atom?" Then
                 Return New AtomNode(x.IsAtom)

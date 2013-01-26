@@ -11,7 +11,7 @@ Imports Intrigue.Nodes
     Class UpcaseFunction
         Inherits Intrigue.Nodes.FunctionNode
 
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
             ' will raise if there isn't 1 and only 1 argument
 
@@ -19,7 +19,7 @@ Imports Intrigue.Nodes
 
             ' eval argument and then extract value
 
-            Dim s0 = DirectCast(context.Eval(args.Car).ToAtomNode.Atom, String)
+            Dim s0 = DirectCast(env.Eval(args.Car).ToAtomNode.Atom, String)
 
             ' call ToUpper on argument string
 

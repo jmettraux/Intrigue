@@ -26,7 +26,7 @@ Imports Intrigue.Nodes
 
 
 Public Class Interpreter
-    Inherits Context
+    Inherits Environment
 
     Public Sub New()
 

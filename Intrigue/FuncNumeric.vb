@@ -27,14 +27,14 @@ Namespace Nodes
     Public Class PlusFunctionNode
         Inherits FunctionNode
 
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
             Dim i = 0
             Dim v As AtomNode
 
             For Each n In args.Nodes
 
-                v = TryCast(context.Eval(n), AtomNode)
+                v = TryCast(env.Eval(n), AtomNode)
 
                 If v Is Nothing Then
                     Throw New Ex.ArgException("'+' cannot add lists")
@@ -51,12 +51,12 @@ Namespace Nodes
     Public Class GreaterFunctionNode
         Inherits FunctionNode
 
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
             CheckArgCount(funcName, args, 2)
 
-            Dim na = context.Eval(args.Nodes(0)).ToAtomNode
-            Dim nb = context.Eval(args.Nodes(1)).ToAtomNode
+            Dim na = env.Eval(args.Nodes(0)).ToAtomNode
+            Dim nb = env.Eval(args.Nodes(1)).ToAtomNode
             Dim ia = Convert.ToInt64(na.Atom)
             Dim ib = Convert.ToInt64(nb.Atom)
 

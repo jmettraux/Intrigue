@@ -235,7 +235,7 @@ Namespace Nodes
     Public MustInherit Class FunctionNode
         Inherits Node
 
-        Public MustOverride Function Apply(funcName As String, ByRef args As ListNode, ByRef context As Context) As Node
+        Public MustOverride Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
         Protected Sub CheckArgCount(funcName As String, ByRef args As ListNode, argCount As Integer)
 

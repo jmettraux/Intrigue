@@ -62,7 +62,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context.vb" />
+    <Compile Include="Environment.vb" />
     <Compile Include="Tokenizer.vb" />
     <Compile Include="FuncCall.vb" />
     <Compile Include="FuncNumeric.vb" />
