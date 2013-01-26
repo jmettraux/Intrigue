@@ -106,4 +106,35 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Dim en = TryCast(n, Intrigue.Nodes.EnvironmentNode)
         Assert.AreEqual(i, en.env)
     End Sub
+
+    <TestMethod()> Public Sub Function_eval()
+
+        Assert.AreEqual(
+            "10",
+            Intrigue.Interpreter.DoEval("eval '(+ 1 2 3 4)").ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Function_eval_with_environment()
+
+        Assert.AreEqual(
+            "10",
+            Intrigue.Interpreter.DoEval("eval '(+ 1 2 3 4) (the-environment)").ToString)
+
+        Assert.AreEqual(
+            "10",
+            Intrigue.Interpreter.DoEval(
+                Util.NewString(
+                    <![CDATA[
+                        define e (the-environment)
+                        eval '(+ 1 2 3 4) e
+                    ]]>)).ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Function_eval_with_other_environment()
+
+        ' TODO: implement let
+        ' TODO: implement make-environment shorthand
+
+        Assert.IsTrue(False)
+    End Sub
 End Class

@@ -160,7 +160,8 @@ returns true if the arg is a list and has at least one element
 ### + = < <= > >=
 as expected
 
-### call - calls a .NET method on the target atom:
+### call
+calls a .NET method on the target atom:
 
 for example:
 
@@ -170,6 +171,20 @@ for example:
 
 ; yields "fox"
 ```
+
+### map
+
+```scheme
+define (plus10 x) (+ x 10)
+map plus10 '(12 14 16)
+  ; yields (22 24 26)
+```
+
+### eval
+the classical Scheme/Lisp eval
+
+### the-environment
+returns the current environment
 
 
 ## issues, support and discussions

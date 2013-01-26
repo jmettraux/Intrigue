@@ -80,6 +80,7 @@ Public Class Interpreter
         Bind("call", New CallFunctionNode)
 
         Bind("the-environment", New TheEnvironmentFunctionNode)
+        Bind("eval", New EvalFunctionNode)
         'Bind("make-environment", New EnvironmentFunctionNode)
     End Sub
 

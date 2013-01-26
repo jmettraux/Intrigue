@@ -192,4 +192,26 @@ Namespace Nodes
             Return New EnvironmentNode(env)
         End Function
     End Class
+
+    Public Class EvalFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            If args.Length < 1 OrElse args.Length > 2 Then
+                Throw New Ex.ArgException("'eval' expects 1 or 2 arguments, not " & args.Length)
+            End If
+
+            Dim targetEnv = env
+
+            If args.Length > 1 Then
+                Dim envNode = env.Eval(args.Cdr.Car)
+                targetEnv = DirectCast(envNode, EnvironmentNode).env
+            End If
+
+            Dim code = env.Eval(args.Car)
+
+            Return targetEnv.Eval(code)
+        End Function
+    End Class
 End Namespace
