@@ -241,10 +241,26 @@ Namespace Nodes
 
             If args.Length = argCount Then Return
 
-            Dim m = "'" & funcName & "' expects " & argCount & " arguments, not " & args.Length
-            If argCount = 1 Then m = "'" & funcName & "' expects 1 argument, not " & args.Length
+            Dim m As String
+            If argCount = 1 Then
+                m = "'" & funcName & "' expects 1 argument, not " & args.Length
+            Else
+                m = "'" & funcName & "' expects " & argCount & " arguments, not " & args.Length
+            End If
 
             Throw New Ex.ArgException(m)
+        End Sub
+    End Class
+
+    Public Class EnvironmentNode
+        Inherits Node
+
+        Property env As Environment
+
+        Public Sub New(env As Environment)
+
+            MyBase.New()
+            Me.env = env
         End Sub
     End Class
 End Namespace

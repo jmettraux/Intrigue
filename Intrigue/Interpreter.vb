@@ -78,6 +78,9 @@ Public Class Interpreter
         Bind(">=", New GreaterFunctionNode)
 
         Bind("call", New CallFunctionNode)
+
+        Bind("the-environment", New TheEnvironmentFunctionNode)
+        'Bind("make-environment", New EnvironmentFunctionNode)
     End Sub
 
     Public Overloads Function Eval(s As String) As Node

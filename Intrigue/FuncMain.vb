@@ -181,4 +181,15 @@ Namespace Nodes
             End If
         End Function
     End Class
+
+    Public Class TheEnvironmentFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            CheckArgCount(funcName, args, 0)
+
+            Return New EnvironmentNode(env)
+        End Function
+    End Class
 End Namespace

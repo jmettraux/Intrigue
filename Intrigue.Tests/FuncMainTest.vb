@@ -97,4 +97,13 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             "true",
             Intrigue.Interpreter.DoEval("atom? false").ToString)
     End Sub
+
+    <TestMethod()> Public Sub Function_the_environment()
+
+        Dim i = New Intrigue.Interpreter
+        Dim n = i.Eval("(the-environment)")
+
+        Dim en = TryCast(n, Intrigue.Nodes.EnvironmentNode)
+        Assert.AreEqual(i, en.env)
+    End Sub
 End Class
