@@ -1,0 +1,12 @@
+
+;
+; map
+;
+
+define
+  map fu li
+  if (empty? li)
+    li    ; then
+    cons  ; else
+      fu (car li)
+      map fu (cdr li)

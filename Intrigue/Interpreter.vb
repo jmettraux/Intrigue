@@ -68,7 +68,7 @@ Public Class Interpreter
         Bind("cons", New ConsFunctionNode)
         Bind("empty?", New EmptyFunctionNode)
         Bind("any?", New EmptyFunctionNode)
-        Bind("map", New MapFunctionNode)
+        'Bind("map", New MapFunctionNode)
 
         Bind("+", New PlusFunctionNode)
         Bind("=", New GreaterFunctionNode)
@@ -83,6 +83,8 @@ Public Class Interpreter
         Bind("eval", New EvalFunctionNode)
         'Bind("make-environment", New EnvironmentFunctionNode)
         Bind("let", New LetFunctionNode)
+
+        EvalLibrary("lists")
     End Sub
 
     Public Overloads Function Eval(s As String) As Node
@@ -117,4 +119,17 @@ Public Class Interpreter
         If node Is Nothing Then Return Nothing
         Return node.ToAtomNode.Atom
     End Function
+
+    Protected Sub EvalLibrary(libName As String)
+
+        Dim code As String
+
+        Using io = System.Reflection.Assembly.GetExecutingAssembly.GetManifestResourceStream("Intrigue.lists.txt")
+            Using sr = New System.IO.StreamReader(io)
+                code = sr.ReadToEnd
+            End Using
+        End Using
+
+        Me.Eval(code)
+    End Sub
 End Class

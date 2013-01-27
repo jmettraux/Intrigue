@@ -83,23 +83,19 @@ Namespace Nodes
         End Function
     End Class
 
-    Public Class MapFunctionNode
-        Inherits FunctionNode
-
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
-
-            CheckArgCount(funcName, args, 2)
-
-            Dim func = env.Eval(args.Car).ToFunctionNode
-            Dim list = env.Eval(args.Cdr.Car).ToListNode
-
-            Dim result = New ListNode
-
-            For Each node In list.Nodes
-                result.Push(func.Apply(args.Car.ToString, New ListNode(node), env))
-            Next
-
-            Return result
-        End Function
-    End Class
+    ' Commented out for now, trying to have a small core of functions plus core libs.
+    '
+    'Public Class MapFunctionNode
+    '    Inherits FunctionNode
+    '    Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+    '        CheckArgCount(funcName, args, 2)
+    '        Dim func = env.Eval(args.Car).ToFunctionNode
+    '        Dim list = env.Eval(args.Cdr.Car).ToListNode
+    '        Dim result = New ListNode
+    '        For Each node In list.Nodes
+    '            result.Push(func.Apply(args.Car.ToString, New ListNode(node), env))
+    '        Next
+    '        Return result
+    '    End Function
+    'End Class
 End Namespace
