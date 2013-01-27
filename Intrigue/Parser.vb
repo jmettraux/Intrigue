@@ -83,8 +83,6 @@ Namespace Parsing
 
         Protected Shared Function ParsePlain(ByRef tokens As List(Of Token)) As Node
 
-            Console.WriteLine(Tokenizer.TokensToString(tokens))
-
             Dim t = tokens(0)
 
             If t.IsClosingParenthesis Then Throw New Ex.UnbalancedParentheseException(t)

@@ -82,6 +82,7 @@ Public Class Interpreter
         Bind("the-environment", New TheEnvironmentFunctionNode)
         Bind("eval", New EvalFunctionNode)
         'Bind("make-environment", New EnvironmentFunctionNode)
+        Bind("let", New LetFunctionNode)
     End Sub
 
     Public Overloads Function Eval(s As String) As Node

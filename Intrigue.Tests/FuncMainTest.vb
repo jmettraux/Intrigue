@@ -137,4 +137,21 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
         Assert.IsTrue(False)
     End Sub
+
+    <TestMethod()> Public Sub Function_let()
+
+        Assert.AreEqual(
+            "21",
+            Intrigue.Interpreter.DoEval(
+                Util.NewString(
+                    <![CDATA[
+                        define x 3
+                        let
+                          _
+                            var0 10
+                            var1 11
+                          _
+                            (+ var0 var1)
+                    ]]>)).ToString)
+    End Sub
 End Class

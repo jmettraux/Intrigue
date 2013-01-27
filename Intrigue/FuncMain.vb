@@ -80,7 +80,7 @@ Namespace Nodes
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
-            Dim c = New Environment(env)
+            Dim e = New Environment(env)
 
             Dim argnames = Me.definition.Car.toListNode.Nodes
             Dim body = Me.definition.Cdr.Car
@@ -90,10 +90,10 @@ Namespace Nodes
                 Dim argname = argnames(i).ToString
                 Dim value = env.Eval(args.Nodes(i))
 
-                c.Bind(argname, value)
+                e.Bind(argname, value)
             Next
 
-            Return c.Eval(body)
+            Return e.Eval(body)
         End Function
     End Class
 
@@ -212,6 +212,35 @@ Namespace Nodes
             Dim code = env.Eval(args.Car)
 
             Return targetEnv.Eval(code)
+        End Function
+    End Class
+
+    Public Class LetFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            If args.Length < 1 Then
+                Throw New Ex.ArgException("'let' expects at least 1 argument")
+            End If
+
+            Dim e = New Environment(env)
+
+            Dim name As String
+            Dim value As Node
+            For Each node In args.Car.ToListNode.Nodes
+                Console.WriteLine(node.ToString)
+                name = env.Eval(node.Car, False).ToString
+                value = env.Eval(node.Cdr.Car)
+                e.Bind(name, value)
+            Next
+
+            Dim last As Node = New ListNode ' empty list as nil/null?
+            For Each node In args.Cdr.Nodes
+                last = e.Eval(node)
+            Next
+
+            Return last
         End Function
     End Class
 End Namespace
