@@ -263,4 +263,37 @@ Imports Intrigue.Parsing
                         j
                     ]]>)).ToString)
     End Sub
+
+    <TestMethod()> Public Sub Parser_Parse_lonely_paren()
+
+        Assert.AreEqual(
+            "(let ((var0 0) (var1 1)) ((do-this var0) (do-that var1)))",
+            Parser.Parse(
+                Util.NewString(
+                    <![CDATA[
+                      let
+                        (
+                          var0 0
+                          var1 1
+                        (
+                          do-this var0
+                          do-that var1
+                    ]]>)).ToString)
+
+        ' the following version should be easier on )( aware text editors
+        '
+        Assert.AreEqual(
+            "(let ((var0 0) (var1 1)) ((do-this var0) (do-that var1)))",
+            Parser.Parse(
+                Util.NewString(
+                    <![CDATA[
+                      let
+                        _
+                          var0 0
+                          var1 1
+                        _
+                          do-this var0
+                          do-that var1
+                    ]]>)).ToString)
+    End Sub
 End Class
