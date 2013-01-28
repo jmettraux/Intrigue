@@ -9,10 +9,13 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
         Assert.AreEqual(
             "(1 2 3)",
-            Interpreter.DoEval("(quote 1 2 3)").ToString)
+            Interpreter.DoEval("(quote (1 2 3))").ToString)
         Assert.AreEqual(
             "(1 2 3)",
             Interpreter.DoEval("'(1 2 3)").ToString)
+        Assert.AreEqual(
+            "1",
+            Interpreter.DoEval("(quote 1)").ToString)
     End Sub
 
     <TestMethod()> Public Sub Function_if()
@@ -107,6 +110,21 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual(i, en.env)
     End Sub
 
+    <TestMethod()> Public Sub Function_make_environment()
+
+        Assert.AreEqual(
+            "(1 2)",
+            Intrigue.Interpreter.DoEval(
+                Util.NewString(
+                    <![CDATA[
+                        define a 1
+                        define e
+                          make-environment
+                            define a 2
+                        (list a (eval 'a e))
+                    ]]>)).ToString)
+    End Sub
+
     <TestMethod()> Public Sub Function_eval()
 
         Assert.AreEqual(
@@ -128,14 +146,6 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
                         define e (the-environment)
                         eval '(+ 1 2 3 4) e
                     ]]>)).ToString)
-    End Sub
-
-    <TestMethod()> Public Sub Function_eval_with_other_environment()
-
-        ' TODO: implement let
-        ' TODO: implement make-environment shorthand
-
-        Assert.IsTrue(False)
     End Sub
 
     <TestMethod()> Public Sub Function_let()

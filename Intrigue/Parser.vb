@@ -99,7 +99,13 @@ Namespace Parsing
 
             If t.IsOpeningParenthesis Then Return ParseList(tokens)
 
+            Console.WriteLine(Tokenizer.TokensToString(tokens))
+
             Dim token = Shift(tokens)
+
+            If token.Tex.StartsWith("'") Then
+                Return New ListNode(New SymbolNode("quote"), New SymbolNode(token.Tex.Substring(1)))
+            End If
 
             If token.IsSymbol Then Return New SymbolNode(token.Val)
             Return New AtomNode(token.Val)
@@ -111,7 +117,6 @@ Namespace Parsing
             Dim l As New ListNode
 
             Dim start = Shift(tokens)
-            If start.Typ = "'(" Then l.Push(New SymbolNode("quote"))
 
             While True
                 t = First(tokens)
@@ -124,6 +129,8 @@ Namespace Parsing
                 End If
                 l.Push(ParsePlain(tokens))
             End While
+
+            If start.Typ = "'(" Then Return New ListNode(New SymbolNode("quote"), l)
 
             Return l
         End Function

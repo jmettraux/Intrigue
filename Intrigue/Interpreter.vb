@@ -68,7 +68,7 @@ Public Class Interpreter
         Bind("cons", New ConsFunctionNode)
         Bind("empty?", New EmptyFunctionNode)
         Bind("any?", New EmptyFunctionNode)
-        'Bind("map", New MapFunctionNode)
+        Bind("list", New ListFunctionNode)
 
         Bind("+", New PlusFunctionNode)
         Bind("=", New GreaterFunctionNode)
@@ -79,10 +79,10 @@ Public Class Interpreter
 
         Bind("call", New CallFunctionNode)
 
-        Bind("the-environment", New TheEnvironmentFunctionNode)
         Bind("eval", New EvalFunctionNode)
-        'Bind("make-environment", New EnvironmentFunctionNode)
         Bind("let", New LetFunctionNode)
+        Bind("the-environment", New TheEnvironmentFunctionNode)
+        Bind("make-environment", New MakeEnvironmentFunctionNode)
 
         EvalLibrary("lists")
     End Sub

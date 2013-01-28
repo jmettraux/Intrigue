@@ -12,7 +12,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("car '(1 2 3)").ToString)
         Assert.AreEqual(
             "1",
-            Interpreter.DoEval("(car (quote 1 2 3))").ToString)
+            Interpreter.DoEval("(car (quote (1 2 3)))").ToString)
     End Sub
 
     <TestMethod()> Public Sub Function_cdr()
@@ -22,7 +22,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("cdr '(1 2 3)").ToString)
         Assert.AreEqual(
             "(2 3)",
-            Interpreter.DoEval("(cdr (quote 1 2 3))").ToString)
+            Interpreter.DoEval("(cdr (quote (1 2 3)))").ToString)
     End Sub
 
     <TestMethod()> Public Sub Function_cons()
@@ -59,5 +59,15 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual(
             "true",
             Interpreter.DoEval("any? '(1)").ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Function_list()
+
+        Assert.AreEqual(
+            "(1 2 3)",
+            Interpreter.DoEval("list 1 2 3").ToString)
+        Assert.AreEqual(
+            "()",
+            Interpreter.DoEval("(list)").ToString)
     End Sub
 End Class

@@ -29,7 +29,7 @@ Namespace Nodes
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
-            Return args
+            Return args.Car
         End Function
     End Class
 
@@ -190,6 +190,21 @@ Namespace Nodes
             CheckArgCount(funcName, args, 0)
 
             Return New EnvironmentNode(env)
+        End Function
+    End Class
+
+    Public Class MakeEnvironmentFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            Dim e = New Environment(env)
+
+            For Each node In args.Nodes
+                e.Eval(node)
+            Next
+
+            Return New EnvironmentNode(e)
         End Function
     End Class
 

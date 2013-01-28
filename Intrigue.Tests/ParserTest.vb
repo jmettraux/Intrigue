@@ -136,11 +136,18 @@ Imports Intrigue.Parsing
             "(quote 1 2 3)",
             Parser.Parse("(quote 1 2 3)").ToString)
         Assert.AreEqual(
-            "(quote 1 2 3)",
+            "(quote (1 2 3))",
             Parser.Parse("'(1 2 3)").ToString)
         Assert.AreEqual(
             "(quote 1 2 3)",
             Parser.Parse("quote 1 2 3").ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Parser_Parse_quoted_symbol()
+
+        Assert.AreEqual(
+            "(quote a)",
+            Parser.Parse("'a").ToString)
     End Sub
 
     <TestMethod()> Public Sub Parser_Parse_empty_string()
@@ -148,7 +155,7 @@ Imports Intrigue.Parsing
         Dim n As Node = Parser.Parse("")
 
         Assert.AreEqual("", n.ToString)
-        Assert.AreEqual(0, n.toListNode.Nodes.Count)
+        Assert.AreEqual(0, n.ToListNode.Nodes.Count)
     End Sub
 
     <TestMethod()> Public Sub Parser_Parse_empty_string_2()
@@ -156,7 +163,7 @@ Imports Intrigue.Parsing
         Dim n As Node = Parser.Parse(vbCr & vbCrLf & vbCr)
 
         Assert.AreEqual("", n.ToString)
-        Assert.AreEqual(0, n.toListNode.Nodes.Count)
+        Assert.AreEqual(0, n.ToListNode.Nodes.Count)
     End Sub
 
     <TestMethod()> Public Sub Parser_Parse_comments()
@@ -164,7 +171,7 @@ Imports Intrigue.Parsing
         Dim n As Node = Parser.Parse("; nada")
 
         Assert.AreEqual("", n.ToString)
-        Assert.AreEqual(0, n.toListNode.Nodes.Count)
+        Assert.AreEqual(0, n.ToListNode.Nodes.Count)
     End Sub
 
     <TestMethod()> Public Sub Parser_Parse_comments_multi()
