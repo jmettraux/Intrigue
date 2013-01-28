@@ -99,8 +99,6 @@ Namespace Parsing
 
             If t.IsOpeningParenthesis Then Return ParseList(tokens)
 
-            Console.WriteLine(Tokenizer.TokensToString(tokens))
-
             Dim token = Shift(tokens)
 
             If token.Tex.StartsWith("'") Then

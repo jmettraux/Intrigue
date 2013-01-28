@@ -83,7 +83,6 @@ Namespace Nodes
             Dim e = New Environment(env)
 
             Dim argnames = Me.definition.Car.toListNode.Nodes
-            Dim body = Me.definition.Cdr.Car
 
             For i = 0 To argnames.Count - 1
 
@@ -93,7 +92,12 @@ Namespace Nodes
                 e.Bind(argname, value)
             Next
 
-            Return e.Eval(body)
+            Dim result As Node = Nothing
+            For Each node In Me.definition.Cdr.Nodes
+                result = e.Eval(node)
+            Next
+
+            Return result
         End Function
     End Class
 
@@ -244,7 +248,6 @@ Namespace Nodes
             Dim name As String
             Dim value As Node
             For Each node In args.Car.ToListNode.Nodes
-                Console.WriteLine(node.ToString)
                 name = env.Eval(node.Car, False).ToString
                 value = env.Eval(node.Cdr.Car)
                 e.Bind(name, value)
