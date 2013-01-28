@@ -2,7 +2,7 @@
 = Intrigue
 
 
-== release 1.0.1    not yet
+== release 1.0.1    released 2013/01/28
 
 - introduce libs/ core libraries
 
