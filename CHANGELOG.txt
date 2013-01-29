@@ -4,6 +4,7 @@
 
 == release 1.0.3    not yet
 
+- implement "and", "or" and "not"
 - implement "null?"
 
 

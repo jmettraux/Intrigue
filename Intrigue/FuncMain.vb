@@ -261,4 +261,48 @@ Namespace Nodes
             Return last
         End Function
     End Class
+
+    Public Class AndFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            For Each node In args.Nodes
+                Dim v = env.Eval(node)
+                If v.IsAtom AndAlso v.ToAtomNode.Atom = False Then Return New AtomNode(False)
+            Next
+
+            Return New AtomNode(True)
+        End Function
+    End Class
+
+    Public Class OrFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            Dim r As Boolean = False
+
+            For Each node In args.Nodes
+                Dim v = env.Eval(node)
+                If Not v.IsAtom Then Return New AtomNode(True)
+                If v.IsAtom And v.ToAtomNode.Atom <> False Then Return New AtomNode(True)
+            Next
+
+            Return New AtomNode(False)
+        End Function
+    End Class
+
+    Public Class NotFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            CheckArgCount(funcName, args, 1)
+
+            Dim arg = env.Eval(args.Nodes(0))
+
+            Return New AtomNode(arg.IsAtom AndAlso arg.ToAtomNode.Atom = False)
+        End Function
+    End Class
 End Namespace

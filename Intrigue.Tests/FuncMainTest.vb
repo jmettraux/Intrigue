@@ -164,4 +164,25 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
                             (+ var0 var1)
                     ]]>)).ToString)
     End Sub
+
+    <TestMethod()> Public Sub Function_and()
+
+        Assert.AreEqual("false", Intrigue.Interpreter.DoEval("(and true false)").ToString)
+        Assert.AreEqual("true", Intrigue.Interpreter.DoEval("(and true true)").ToString)
+        Assert.AreEqual("true", Intrigue.Interpreter.DoEval("(and)").tostring)
+    End Sub
+
+    <TestMethod()> Public Sub Function_or()
+
+        Assert.AreEqual("true", Intrigue.Interpreter.DoEval("(or true false)").ToString)
+        Assert.AreEqual("true", Intrigue.Interpreter.DoEval("(or true true)").ToString)
+        Assert.AreEqual("false", Intrigue.Interpreter.DoEval("(or false false)").ToString)
+        Assert.AreEqual("false", Intrigue.Interpreter.DoEval("(or)").ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Function_not()
+
+        Assert.AreEqual("false", Intrigue.Interpreter.DoEval("(not true)").ToString)
+        Assert.AreEqual("true", Intrigue.Interpreter.DoEval("(not false)").ToString)
+    End Sub
 End Class

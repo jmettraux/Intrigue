@@ -54,6 +54,10 @@ Public Class Interpreter
         Bind("true", New AtomNode(True))
         Bind("false", New AtomNode(False))
 
+        Bind("and", New AndFunctionNode)
+        Bind("or", New OrFunctionNode)
+        Bind("not", New NotFunctionNode)
+
         Bind("quote", New QuoteFunctionNode)
         Bind("define", New DefineFunctionNode)
         Bind("lambda", New LambdaFunctionNode)
