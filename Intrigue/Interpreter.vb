@@ -66,6 +66,7 @@ Public Class Interpreter
         Bind("equal?", New EqualFunctionNode)
         Bind("atom?", New TypeFunctionNode)
         Bind("list?", New TypeFunctionNode)
+        Bind("set!", New SetFunctionNode)
 
         Bind("car", New CarFunctionNode)
         Bind("cdr", New CdrFunctionNode)

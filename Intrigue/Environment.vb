@@ -46,6 +46,17 @@ Public Class Environment
         dic(key) = node
     End Sub
 
+    Public Sub DoSet(key As String, ByRef node As Node)
+
+        If dic.ContainsKey(key) Then
+            dic(key) = node
+        ElseIf Me.par Is Nothing Then
+            dic(key) = node
+        Else
+            Me.par.DoSet(key, node)
+        End If
+    End Sub
+
     Public Function Lookup(key As String)
 
         If dic.ContainsKey(key) Then Return dic(key)
@@ -73,5 +84,26 @@ Public Class Environment
         If func Is Nothing Then Throw New Ex.NotApplicableException(funcName)
 
         Return func.Apply(funcName, node.Cdr, Me)
+    End Function
+
+    Public Overrides Function ToString() As String
+
+        Dim s = "## environment" & vbCr
+
+        If Me.par Is Nothing Then
+            s += "parent: none" & vbCr
+        Else
+            s += "parent: yes" & vbcr
+        End If
+
+        If Me.dic.Keys.Count < 1 Then
+            s += "(no values bound)" & vbCr
+        End If
+        For Each key As String In Me.dic.Keys
+            Dim val = Me.dic(key)
+            s += "* " & key & ": " & val.ToString & vbCr
+        Next
+
+        Return s
     End Function
 End Class

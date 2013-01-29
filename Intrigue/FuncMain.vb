@@ -99,6 +99,11 @@ Namespace Nodes
 
             Return result
         End Function
+
+        Public Overrides Function ToString() As String
+
+            Return "lambda: " & Me.definition.ToString
+        End Function
     End Class
 
     Public Class LambdaFunctionNode
@@ -303,6 +308,22 @@ Namespace Nodes
             Dim arg = env.Eval(args.Nodes(0))
 
             Return New AtomNode(arg.IsAtom AndAlso arg.ToAtomNode.Atom = False)
+        End Function
+    End Class
+
+    Public Class SetFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            CheckArgCount(funcName, args, 2)
+
+            Dim varName = env.Eval(args.Car, False).ToString
+            Dim value = env.Eval(args.Cdr.Car)
+
+            env.DoSet(varName, value)
+
+            Return value
         End Function
     End Class
 End Namespace

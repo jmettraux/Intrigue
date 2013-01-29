@@ -185,4 +185,32 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual("false", Intrigue.Interpreter.DoEval("(not true)").ToString)
         Assert.AreEqual("true", Intrigue.Interpreter.DoEval("(not false)").ToString)
     End Sub
+
+    <TestMethod()> Public Sub Function_set_0()
+
+        Assert.AreEqual(
+            "1",
+            Intrigue.Interpreter.DoEval(
+                Util.NewString(
+                    <![CDATA[
+                        set! a 1
+                        a
+                    ]]>)).ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Function_set_1()
+
+        Assert.AreEqual(
+            "2",
+            Intrigue.Interpreter.DoEval(
+                Util.NewString(
+                    <![CDATA[
+                        define a 1
+                        define (func0) (set! a 2)
+                        define (func1) (define a 3)
+                        (func0)
+                        (func1)
+                        a
+                    ]]>)).ToString)
+    End Sub
 End Class
