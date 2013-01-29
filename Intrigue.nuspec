@@ -4,7 +4,7 @@
   <metadata>
 
     <id>Intrigue</id>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <authors>jmettraux</authors>
     <owners>jmettraux</owners>
@@ -18,9 +18,12 @@
     <description>a mini (and naive) Scheme interpreter</description>
 
     <releaseNotes>
-== release 1.0.1    released 2013/01/28
+== release 1.0.2    released 2013/01/29
 
-- introduce libs/ core libraries
+- allow for more than one expression in "lambda" body
+- fix "quote"
+- implement "list"
+- implement "make-environment"
     </releaseNotes>
 
     <copyright>2013-2013 John Mettraux jmettraux@gmail.com</copyright>
