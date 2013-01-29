@@ -2,6 +2,11 @@
 = Intrigue
 
 
+== release 1.0.3    not yet
+
+- implement "null?"
+
+
 == release 1.0.2    released 2013/01/29
 
 - allow for more than one expression in "lambda" body

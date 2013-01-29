@@ -47,8 +47,18 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             "true",
             Interpreter.DoEval("empty? '()").ToString)
         Assert.AreEqual(
+            "true",
+            Interpreter.DoEval("null? '()").ToString)
+        Assert.AreEqual(
             "false",
             Interpreter.DoEval("empty? '(1)").ToString)
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("null? '(1)").ToString)
+
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("null? ""abc""").ToString)
     End Sub
 
     <TestMethod()> Public Sub Function_any()

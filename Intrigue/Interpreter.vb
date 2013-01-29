@@ -66,6 +66,7 @@ Public Class Interpreter
         Bind("car", New CarFunctionNode)
         Bind("cdr", New CdrFunctionNode)
         Bind("cons", New ConsFunctionNode)
+        Bind("null?", New EmptyFunctionNode)
         Bind("empty?", New EmptyFunctionNode)
         Bind("any?", New EmptyFunctionNode)
         Bind("list", New ListFunctionNode)

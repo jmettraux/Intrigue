@@ -74,9 +74,11 @@ Namespace Nodes
 
             CheckArgCount(funcName, args, 1)
 
-            Dim l = env.Eval(args.Car).toListNode
+            Dim arg = env.Eval(args.Car)
 
-            Dim r = l.Length < 1
+            If Not arg.IsList Then Return New AtomNode(False)
+
+            Dim r = arg.ToListNode.Length < 1
             If funcName = "any?" Then r = Not r
 
             Return New AtomNode(r)
