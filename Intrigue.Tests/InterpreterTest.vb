@@ -41,4 +41,18 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual("3", i.Lookup("a").ToString)
         Assert.AreEqual(3, i.LookupAtom("a"))
     End Sub
+
+    <TestMethod()> Public Sub Interpreter_eval_negative_integers()
+
+        Assert.AreEqual(
+            "-13",
+            Interpreter.DoEval("-13").ToString)
+        Assert.AreEqual(
+            "-13",
+            Interpreter.DoEval("+ 10 -23").ToString)
+
+        Assert.AreEqual(
+            "-13",
+            Interpreter.DoEval("+ -10 -3").ToString)
+    End Sub
 End Class
