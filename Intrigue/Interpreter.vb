@@ -77,6 +77,7 @@ Public Class Interpreter
         Bind("list", New ListFunctionNode)
 
         Bind("+", New PlusFunctionNode)
+        Bind("-", New MinusFunctionNode)
         Bind("=", New GreaterFunctionNode)
         Bind("<", New GreaterFunctionNode)
         Bind("<=", New GreaterFunctionNode)

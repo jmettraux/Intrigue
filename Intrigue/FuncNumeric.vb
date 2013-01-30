@@ -29,21 +29,30 @@ Namespace Nodes
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
-            Dim i = 0
-            Dim v As AtomNode
+            Dim acc = 0
 
             For Each n In args.Nodes
-
-                v = TryCast(env.Eval(n), AtomNode)
-
-                If v Is Nothing Then
-                    Throw New Ex.ArgException("'+' cannot add lists")
-                End If
-
-                i = i + Convert.ToInt64(v.Atom)
+                acc += env.Eval(n).ToInteger
             Next
 
-            Return New AtomNode(i)
+            Return New AtomNode(acc)
+        End Function
+    End Class
+
+    Public Class MinusFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            CheckArgCount(funcName, args, 1, 2)
+
+            Dim acc = env.Eval(args.Car).ToInteger
+
+            For Each n As Node In args.Cdr.Nodes
+                acc -= env.Eval(n).ToInteger
+            Next
+
+            Return New AtomNode(acc)
         End Function
     End Class
 

@@ -50,22 +50,50 @@ Namespace Nodes
 
         Public Function ToAtomNode() As AtomNode
 
-            Return DirectCast(Me, AtomNode)
+            Try
+                Return DirectCast(Me, AtomNode)
+            Catch ex As Exception
+                Throw New Ex.ArgException("expected atom got " & Me.GetTypeName)
+            End Try
         End Function
 
         Public Function ToSymbolNode() As SymbolNode
 
-            Return DirectCast(Me, SymbolNode)
+            Try
+                Return DirectCast(Me, SymbolNode)
+            Catch ex As Exception
+                Throw New Ex.ArgException("expected symbol got " & Me.GetTypeName)
+            End Try
         End Function
 
         Public Function ToListNode() As ListNode
 
-            Return DirectCast(Me, ListNode)
+            Try
+                Return DirectCast(Me, ListNode)
+            Catch ex As Exception
+                Throw New Ex.ArgException("expected list got " & Me.GetTypeName)
+            End Try
         End Function
 
         Public Function ToFunctionNode() As FunctionNode
 
-            Return DirectCast(Me, FunctionNode)
+            Try
+                Return DirectCast(Me, FunctionNode)
+            Catch ex As Exception
+                Throw New Ex.ArgException("expected function got " & Me.GetTypeName)
+            End Try
+        End Function
+
+        Public Function GetTypeName() As String
+
+            Dim s = Me.GetType.ToString
+
+            Return s.Substring(0, s.Length - 4).ToLower
+        End Function
+
+        Public Function ToInteger() As Long
+
+            Return Convert.ToInt64(Me.ToAtomNode.Atom)
         End Function
 
         Public Overridable Function Car() As Node
@@ -249,6 +277,14 @@ Namespace Nodes
             End If
 
             Throw New Ex.ArgException(m)
+        End Sub
+
+        Protected Sub CheckArgCount(funcName As String, ByRef args As ListNode, minCount As Integer, maxCount As Integer)
+
+            If args.Length >= minCount AndAlso args.Length <= maxCount Then Return
+
+            Throw New Ex.ArgException(
+                "'" & funcName & "' expects " & minCount & " to " & maxCount & " arguments, not " & args.Length)
         End Sub
     End Class
 

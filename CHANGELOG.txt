@@ -4,6 +4,9 @@
 
 == release 1.0.3    not yet
 
+- make #To{Atom|List|Symbol|Function}Node more verbose in case of failure
+- implement Node#ToInteger
+- implement "-"
 - implement "set!"
 - implement "and", "or" and "not"
 - implement "null?"
