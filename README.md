@@ -160,7 +160,7 @@ returns true if the arg is a list and has at least one element
 ### and or not
 combines boolean results, exits as soon as the final answer can be determined (potentially doesn't evaluate all the arguments)
 
-### + - = < <= > >=
+### + - / * = < <= > >=
 as expected
 
 ### call

@@ -67,4 +67,23 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             "1",
             Interpreter.DoEval("(*)").ToString)
     End Sub
+
+    <TestMethod()> Public Sub Function_slash()
+
+        Assert.AreEqual(
+            "-2",
+            Interpreter.DoEval("/ 8 -4").ToString)
+        Assert.AreEqual(
+            "0",
+            Interpreter.DoEval("/ 2").ToString) ' until floats are in
+
+        Dim ex As Exception = Nothing
+        Try
+            Interpreter.DoEval("(/)")
+            Assert.IsTrue(False)
+        Catch ex
+        End Try
+        Assert.AreEqual("Intrigue.Ex.ArgException", ex.GetType.ToString)
+        Assert.AreEqual("'/' expects 1 to 2 arguments, not 0", ex.Message)
+    End Sub
 End Class

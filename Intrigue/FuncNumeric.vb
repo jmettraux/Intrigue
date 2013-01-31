@@ -71,6 +71,25 @@ Namespace Nodes
         End Function
     End Class
 
+    Public Class SlashFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            CheckArgCount(funcName, args, 1, 2)
+
+            Dim rat As Integer
+            Dim a = env.Eval(args.Car).ToInteger
+
+            If args.Length > 1 Then
+                rat = a / env.Eval(args.Cdr.Car).ToInteger
+            Else
+                rat = 1 / a
+            End If
+
+            Return New AtomNode(rat)
+        End Function
+    End Class
 
     Public Class GreaterFunctionNode
         Inherits FunctionNode
