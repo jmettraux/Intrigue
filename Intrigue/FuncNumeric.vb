@@ -56,6 +56,21 @@ Namespace Nodes
         End Function
     End Class
 
+    Public Class StarFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            Dim acc = 1
+
+            For Each n In args.Nodes
+                acc *= env.Eval(n).ToInteger
+            Next
+
+            Return New AtomNode(acc)
+        End Function
+    End Class
+
 
     Public Class GreaterFunctionNode
         Inherits FunctionNode

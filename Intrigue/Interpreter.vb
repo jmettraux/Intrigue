@@ -78,6 +78,7 @@ Public Class Interpreter
 
         Bind("+", New PlusFunctionNode)
         Bind("-", New MinusFunctionNode)
+        Bind("*", New StarFunctionNode)
         Bind("=", New GreaterFunctionNode)
         Bind("<", New GreaterFunctionNode)
         Bind("<=", New GreaterFunctionNode)

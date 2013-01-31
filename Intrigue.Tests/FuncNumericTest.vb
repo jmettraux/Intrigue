@@ -13,6 +13,9 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual(
             "5",
             Interpreter.DoEval("+ 2 3").ToString)
+        Assert.AreEqual(
+            "0",
+            Interpreter.DoEval("(+)").ToString)
     End Sub
 
     <TestMethod()> Public Sub Function_comparisons()
@@ -53,5 +56,15 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         End Try
         Assert.AreEqual("Intrigue.Ex.ArgException", ex.GetType.ToString)
         Assert.AreEqual("'-' expects 1 to 2 arguments, not 3", ex.Message)
+    End Sub
+
+    <TestMethod()> Public Sub Function_star()
+
+        Assert.AreEqual(
+            "-24",
+            Interpreter.DoEval("* 8 3 -1").ToString)
+        Assert.AreEqual(
+            "1",
+            Interpreter.DoEval("(*)").ToString)
     End Sub
 End Class

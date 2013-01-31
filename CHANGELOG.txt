@@ -2,6 +2,11 @@
 = Intrigue
 
 
+== release 1.0.4    not yet released
+
+- implement "*"
+
+
 == release 1.0.3    released 2013/01/31
 
 - make #To{Atom|List|Symbol|Function}Node more verbose in case of failure
