@@ -15,6 +15,22 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("(> 2 3)").ToString)
 
         Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("> 1.2 1.3").ToString)
+        Assert.AreEqual(
+            "true",
+            Interpreter.DoEval("<= 1.3 1.3").ToString)
+        Assert.AreEqual(
+            "true",
+            Interpreter.DoEval("<= 1.0 1").ToString)
+        Assert.AreEqual(
+            "true",
+            Interpreter.DoEval("< 1.2 1.3").ToString)
+        Assert.AreEqual(
+            "true",
+            Interpreter.DoEval("< 1.2 2").ToString)
+
+        Assert.AreEqual(
             "true",
             Interpreter.DoEval("(<= 3 3)").ToString)
         Assert.AreEqual(

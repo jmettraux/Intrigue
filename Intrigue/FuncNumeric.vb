@@ -124,16 +124,34 @@ Namespace Nodes
 
             Dim na = env.Eval(args.Nodes(0)).ToAtomNode
             Dim nb = env.Eval(args.Nodes(1)).ToAtomNode
-            Dim ia = Convert.ToInt64(na.Atom)
-            Dim ib = Convert.ToInt64(nb.Atom)
 
-            If funcName.EndsWith("=") AndAlso ia = ib Then Return New AtomNode(True)
-            If funcName = "=" Then Return New AtomNode(False)
+            If na.IsDouble OrElse nb.IsDouble Then
 
-            If funcName.StartsWith("<") Then
-                Return New AtomNode(ia < ib)
+                Dim da = na.ToDouble
+                Dim db = nb.ToDouble
+
+                If funcName.EndsWith("=") AndAlso da = db Then Return New AtomNode(True)
+                If funcName = "=" Then Return New AtomNode(False)
+
+                If funcName.StartsWith("<") Then
+                    Return New AtomNode(da < db)
+                Else
+                    Return New AtomNode(da > db)
+                End If
+
             Else
-                Return New AtomNode(ia > ib)
+
+                Dim ia = na.ToInteger
+                Dim ib = nb.ToInteger
+
+                If funcName.EndsWith("=") AndAlso ia = ib Then Return New AtomNode(True)
+                If funcName = "=" Then Return New AtomNode(False)
+
+                If funcName.StartsWith("<") Then
+                    Return New AtomNode(ia < ib)
+                Else
+                    Return New AtomNode(ia > ib)
+                End If
             End If
         End Function
     End Class
