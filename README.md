@@ -163,6 +163,10 @@ combines boolean results, exits as soon as the final answer can be determined (p
 ### + - / * = < <= > >=
 as expected
 
+### float integer
+convert to float and integer respectively;
+will probably need to introduce "exact->inexact" and vice versa.
+
 ### call
 calls a .NET method on the target atom:
 

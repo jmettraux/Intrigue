@@ -85,6 +85,9 @@ Public Class Interpreter
         Bind("<=", New GreaterFunctionNode)
         Bind(">", New GreaterFunctionNode)
         Bind(">=", New GreaterFunctionNode)
+        Bind("int", New IntFloatFunctionNode)
+        Bind("integer", New IntFloatFunctionNode)
+        Bind("float", New IntFloatFunctionNode)
 
         Bind("call", New CallFunctionNode)
 
