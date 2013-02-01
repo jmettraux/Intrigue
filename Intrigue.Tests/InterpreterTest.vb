@@ -55,4 +55,20 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             "-13",
             Interpreter.DoEval("+ -10 -3").ToString)
     End Sub
+
+    <TestMethod()> Public Sub Interpreter_eval_floats()
+
+        Assert.AreEqual(
+            "1.2",
+            Interpreter.DoEval("1.2").ToString)
+        Assert.AreEqual(
+            "-1.2",
+            Interpreter.DoEval("-1.2").ToString)
+        Assert.AreEqual(
+            "0.5",
+            Interpreter.DoEval(".5").ToString)
+        Assert.AreEqual(
+            "-0.5",
+            Interpreter.DoEval("-.5").ToString)
+    End Sub
 End Class

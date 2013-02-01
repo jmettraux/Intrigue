@@ -4,7 +4,8 @@
 
 == release 1.0.4    not yet released
 
-- implement "*" and "/" (no floats for now though)
+- support floats (well, doubles)
+- implement "*" and "/"
 
 
 == release 1.0.3    released 2013/01/31

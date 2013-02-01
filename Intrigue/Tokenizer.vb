@@ -172,7 +172,7 @@ Namespace Parsing
         Protected Shared T_SPACE As Regex = New Regex("^[ \t]+")
         Protected Shared T_QUOTE As Regex = New Regex("^'\(")
         Protected Shared T_PAREN As Regex = New Regex("^[\(\)]")
-        Protected Shared T_NUMBER As Regex = New Regex("^-?\d[^"" \t\r\n\(\)]*")
+        Protected Shared T_NUMBER As Regex = New Regex("^-?\.?\d[^"" \t\r\n\(\)]*")
         Protected Shared T_SYMBOL As Regex = New Regex("^[^"" \t\r\n\(\)]+")
 
         Protected Shared Function TokenizeString(s As String, ByRef pos As Position) As Token
@@ -229,7 +229,7 @@ Namespace Parsing
             If m.Success Then Return New Token(m.ToString, pos, m.ToString, Nothing)
 
             m = T_NUMBER.Match(ss)
-            If m.Success Then Return New Token("number", pos, m.ToString, Convert.ToInt64(m.ToString))
+            If m.Success Then Return New Token("number", pos, m.ToString, ToNumber(m.ToString))
 
             Dim t = TokenizeString(s, pos)
             If t IsNot Nothing Then Return t
@@ -265,6 +265,12 @@ Namespace Parsing
             Next
 
             Return s
+        End Function
+
+        Protected Shared Function ToNumber(s As String) As Object
+
+            If s.IndexOf(".") > -1 Then Return Convert.ToDouble(s)
+            Return Convert.ToInt64(s)
         End Function
     End Class
 End Namespace

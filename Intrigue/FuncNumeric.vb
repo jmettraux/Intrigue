@@ -29,13 +29,18 @@ Namespace Nodes
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
-            Dim acc = 0
+            Dim isum = 0
+            Dim dsum = 0.0
+            Dim d = False
 
             For Each n In args.Nodes
-                acc += env.Eval(n).ToInteger
+                Dim v = env.Eval(n)
+                If v.IsDouble Then d = True
+                isum += v.ToInteger
+                dsum += v.ToDouble
             Next
 
-            Return New AtomNode(acc)
+            Return New AtomNode(IIf(d, dsum, isum))
         End Function
     End Class
 
@@ -46,13 +51,19 @@ Namespace Nodes
 
             CheckArgCount(funcName, args, 1, 2)
 
-            Dim acc = env.Eval(args.Car).ToInteger
+            Dim a = env.Eval(args.Car)
+            Dim isum = a.ToInteger
+            Dim dsum = a.ToDouble
+            Dim d = a.IsDouble
 
             For Each n As Node In args.Cdr.Nodes
-                acc -= env.Eval(n).ToInteger
+                Dim v = env.Eval(n)
+                If v.IsDouble Then d = True
+                isum -= v.ToInteger
+                dsum -= v.ToDouble
             Next
 
-            Return New AtomNode(acc)
+            Return New AtomNode(IIf(d, dsum, isum))
         End Function
     End Class
 
@@ -61,13 +72,18 @@ Namespace Nodes
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
-            Dim acc = 1
+            Dim ipro = 1
+            Dim dpro = 1.0
+            Dim d = False
 
             For Each n In args.Nodes
-                acc *= env.Eval(n).ToInteger
+                Dim v = env.Eval(n)
+                If v.IsDouble Then d = True
+                ipro *= v.ToInteger
+                dpro *= v.ToDouble
             Next
 
-            Return New AtomNode(acc)
+            Return New AtomNode(IIf(d, dpro, ipro))
         End Function
     End Class
 
@@ -78,16 +94,24 @@ Namespace Nodes
 
             CheckArgCount(funcName, args, 1, 2)
 
-            Dim rat As Integer
-            Dim a = env.Eval(args.Car).ToInteger
+            Dim a = env.Eval(args.Car)
 
             If args.Length > 1 Then
-                rat = a / env.Eval(args.Cdr.Car).ToInteger
-            Else
-                rat = 1 / a
+
+                Dim b = env.Eval(args.Cdr.Car)
+
+                If a.IsDouble OrElse b.IsDouble Then
+                    Return New AtomNode(a.ToDouble / b.ToDouble)
+                Else
+                    Return New AtomNode(Convert.ToInt64(a.ToInteger / b.ToInteger))
+                End If
             End If
 
-            Return New AtomNode(rat)
+            If a.IsDouble Then
+                Return New AtomNode(1.0 / a.ToDouble)
+            Else
+                Return New AtomNode(Convert.ToInt64(1 / a.ToInteger))
+            End If
         End Function
     End Class
 

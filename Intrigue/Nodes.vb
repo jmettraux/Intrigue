@@ -91,9 +91,29 @@ Namespace Nodes
             Return s.Substring(0, s.Length - 4).ToLower
         End Function
 
+        Public Function ToNumber() As Object
+
+            If Me.ToAtomNode.Atom.ToString.IndexOf(".") > -1 Then
+                Return ToDouble()
+            Else
+                Return ToInteger()
+            End If
+        End Function
+
+        Public Function ToDouble() As Double
+
+            Return Convert.ToDouble(Me.ToAtomNode.Atom)
+        End Function
+
         Public Function ToInteger() As Long
 
             Return Convert.ToInt64(Me.ToAtomNode.Atom)
+        End Function
+
+        Public Function IsDouble() As Boolean
+
+            If Not IsAtom() Then Return False
+            Return (TypeOf Me.ToAtomNode.Atom Is Double)
         End Function
 
         Public Overridable Function Car() As Node
@@ -124,13 +144,19 @@ Namespace Nodes
 
         Public Overrides Function ToString() As String
 
-            If Me.Atom.GetType.ToString = "System.Boolean" Then
-                Return Me.Atom.ToString.ToLower
+            Dim str = Me.Atom.ToString
+
+            If TypeOf Me.Atom Is System.Boolean Then
+                Return str.ToLower
+            End If
+            If TypeOf Me.Atom Is System.Double Then
+                If str.IndexOf(".") > -1 Then Return str
+                Return str & ".0"
             End If
 
-            Dim str = TryCast(Me.Atom, String)
-
-            If str Is Nothing Then Return Me.Atom.ToString
+            If Not (TypeOf Me.Atom Is System.String) Then
+                Return str
+            End If
 
             Return """" & str.Replace("""", "\""") & """"
         End Function

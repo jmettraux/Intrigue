@@ -5,19 +5,6 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 <TestClass()> Public Class NumericFunctionsTest
 
-    <TestMethod()> Public Sub Function_plus()
-
-        Assert.AreEqual(
-            "5",
-            Interpreter.DoEval("(+ 2 3)").ToString)
-        Assert.AreEqual(
-            "5",
-            Interpreter.DoEval("+ 2 3").ToString)
-        Assert.AreEqual(
-            "0",
-            Interpreter.DoEval("(+)").ToString)
-    End Sub
-
     <TestMethod()> Public Sub Function_comparisons()
 
         Assert.AreEqual(
@@ -42,11 +29,30 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("(= 3 2)").ToString)
     End Sub
 
+    <TestMethod()> Public Sub Function_plus()
+
+        Assert.AreEqual(
+            "5",
+            Interpreter.DoEval("(+ 2 3)").ToString)
+        Assert.AreEqual(
+            "5",
+            Interpreter.DoEval("+ 2 3").ToString)
+        Assert.AreEqual(
+            "0",
+            Interpreter.DoEval("(+)").ToString)
+        Assert.AreEqual(
+            "2.5",
+            Interpreter.DoEval("+ 2 .5").ToString)
+    End Sub
+
     <TestMethod()> Public Sub Function_minus()
 
         Assert.AreEqual(
             "5",
             Interpreter.DoEval("- 8 3").ToString)
+        Assert.AreEqual(
+            "5.0",
+            Interpreter.DoEval("- 8 3.0").ToString)
 
         Dim ex As Exception = Nothing
         Try
@@ -66,6 +72,10 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual(
             "1",
             Interpreter.DoEval("(*)").ToString)
+
+        Assert.AreEqual(
+            "2.4",
+            Interpreter.DoEval("* 2 1.2").ToString)
     End Sub
 
     <TestMethod()> Public Sub Function_slash()
@@ -75,7 +85,10 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("/ 8 -4").ToString)
         Assert.AreEqual(
             "0",
-            Interpreter.DoEval("/ 2").ToString) ' until floats are in
+            Interpreter.DoEval("/ 2").ToString)
+        Assert.AreEqual(
+            "0.5",
+            Interpreter.DoEval("/ 2.0").ToString)
 
         Dim ex As Exception = Nothing
         Try
