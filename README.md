@@ -167,6 +167,9 @@ as expected
 convert to float and integer respectively;
 will probably need to introduce "exact->inexact" and vice versa.
 
+### symbol->string ->string
+as expected
+
 ### call
 calls a .NET method on the target atom:
 

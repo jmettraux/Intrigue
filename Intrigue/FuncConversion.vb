@@ -1,0 +1,66 @@
+﻿' 
+' Copyright (c) 2013-2013, John Mettraux, jmettraux@gmail.com
+'
+' Permission is hereby granted, free of charge, to any person obtaining a copy
+' of this software and associated documentation files (the "Software"), to deal
+' in the Software without restriction, including without limitation the rights
+' to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+' copies of the Software, and to permit persons to whom the Software is
+' furnished to do so, subject to the following conditions:
+'
+' The above copyright notice and this permission notice shall be included in
+' all copies or substantial portions of the Software.
+'
+' THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+' IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+' FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+' AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+' LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+' OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+' THE SOFTWARE.
+'
+' Made in Japan
+'
+
+Namespace Nodes
+
+    Public Class IntFloatFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            CheckArgCount(funcName, args, 1)
+
+            Dim a = env.Eval(args.Car).ToString
+
+            Try
+                If funcName.StartsWith("int") Then
+                    Return New AtomNode(Convert.ToInt64(a.Split(".")(0)))
+                Else
+                    Return New AtomNode(Convert.ToDouble(a))
+                End If
+            Catch ex As Exception
+                Throw New Ex.ArgException("cannot apply '" & funcName & "' on " & a)
+            End Try
+        End Function
+    End Class
+
+    Public Class ToStringFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            CheckArgCount(funcName, args, 1)
+
+            Dim val = env.Eval(args.Car)
+
+            If Not funcName.StartsWith("->") then
+                CheckType(funcName.Split("-")(0), val)
+            End If
+
+            Dim s = val.ToString
+
+            Return New AtomNode(s)
+        End Function
+    End Class
+End Namespace

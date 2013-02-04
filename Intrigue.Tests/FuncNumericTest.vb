@@ -115,25 +115,4 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual("Intrigue.Ex.ArgException", ex.GetType.ToString)
         Assert.AreEqual("'/' expects 1 to 2 arguments, not 0", ex.Message)
     End Sub
-
-    <TestMethod()> Public Sub Function_integer_and_float()
-
-        Assert.AreEqual(
-            "1",
-            Interpreter.DoEval("integer 1.2").ToString)
-        Assert.AreEqual(
-            "1",
-            Interpreter.DoEval("int 1.2").ToString)
-
-        Assert.AreEqual(
-            "1.0",
-            Interpreter.DoEval("float 1").ToString)
-
-        Dim ex As Exception = Nothing
-        Try
-            Interpreter.DoEval("float ""nada""")
-        Catch ex
-        End Try
-        Assert.AreEqual("cannot apply 'float' on ""nada""", ex.Message)
-    End Sub
 End Class

@@ -155,25 +155,4 @@ Namespace Nodes
             End If
         End Function
     End Class
-
-    Public Class IntFloatFunctionNode
-        Inherits FunctionNode
-
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
-
-            CheckArgCount(funcName, args, 1)
-
-            Dim a = env.Eval(args.Car).ToString
-
-            Try
-                If funcName.StartsWith("int") Then
-                    Return New AtomNode(Convert.ToInt64(a.Split(".")(0)))
-                Else
-                    Return New AtomNode(Convert.ToDouble(a))
-                End If
-            Catch ex As Exception
-                Throw New Ex.ArgException("cannot apply '" & funcName & "' on " & a)
-            End Try
-        End Function
-    End Class
 End Namespace

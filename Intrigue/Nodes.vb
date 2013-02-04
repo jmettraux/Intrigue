@@ -305,6 +305,13 @@ Namespace Nodes
             Throw New Ex.ArgException(m)
         End Sub
 
+        Protected Sub CheckType(type As String, n As Node)
+
+            If type = "symbol" AndAlso TypeOf n Is SymbolNode Then Return
+
+            Throw New Ex.ArgException("expected " & type & " got " & n.GetTypeName)
+        End Sub
+
         Protected Sub CheckArgCount(funcName As String, ByRef args As ListNode, minCount As Integer, maxCount As Integer)
 
             If args.Length >= minCount AndAlso args.Length <= maxCount Then Return

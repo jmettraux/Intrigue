@@ -62,6 +62,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FuncConversion.vb" />
     <Compile Include="Environment.vb" />
     <Compile Include="Tokenizer.vb" />
     <Compile Include="FuncCall.vb" />
