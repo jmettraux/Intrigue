@@ -53,6 +53,8 @@ Public Class Interpreter
 
         Bind("true", New AtomNode(True))
         Bind("false", New AtomNode(False))
+        Bind("#t", Lookup("true"))
+        Bind("#f", Lookup("false"))
 
         Bind("and", New AndFunctionNode)
         Bind("or", New OrFunctionNode)

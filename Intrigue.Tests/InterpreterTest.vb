@@ -30,6 +30,12 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual(
             "false",
             Interpreter.DoEval("false").ToString)
+        Assert.AreEqual(
+            "true",
+            Interpreter.DoEval("#t").ToString)
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("#f").ToString)
     End Sub
 
     <TestMethod()> Public Sub Interpreter_bind_lookup_atom()

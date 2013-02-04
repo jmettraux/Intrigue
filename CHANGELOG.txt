@@ -4,6 +4,7 @@
 
 == release 1.0.4    not yet released
 
+- alias #t and #f for true and false
 - implement "number?" and "boolean?"
 - implement "symbol->string" and "->string"
 - implement "int", "integer" and "float"
