@@ -64,9 +64,12 @@ Public Class Interpreter
         Bind("if", New IfFunctionNode)
         Bind("cond", New CondFunctionNode)
         Bind("equal?", New EqualFunctionNode)
+        Bind("set!", New SetFunctionNode)
+
         Bind("atom?", New TypeFunctionNode)
         Bind("list?", New TypeFunctionNode)
-        Bind("set!", New SetFunctionNode)
+        Bind("number?", New TypeFunctionNode)
+        Bind("boolean?", New TypeFunctionNode)
 
         Bind("car", New CarFunctionNode)
         Bind("cdr", New CdrFunctionNode)

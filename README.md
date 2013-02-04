@@ -142,6 +142,9 @@ returns true if the argument is not a list
 ### list?
 returns true if the argument is a list
 
+### number? boolean?
+as expected
+
 ### car
 returns the head of a list
 

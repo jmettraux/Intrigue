@@ -101,6 +101,38 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Intrigue.Interpreter.DoEval("atom? false").ToString)
     End Sub
 
+    <TestMethod()> Public Sub Function_number()
+
+        Assert.AreEqual(
+            "false",
+            Intrigue.Interpreter.DoEval("number? '(1 2)").ToString)
+        Assert.AreEqual(
+            "false",
+            Intrigue.Interpreter.DoEval("number? true").ToString)
+        Assert.AreEqual(
+            "false",
+            Intrigue.Interpreter.DoEval("number? ""nada""").ToString)
+        Assert.AreEqual(
+            "true",
+            Intrigue.Interpreter.DoEval("number? 1").ToString)
+        Assert.AreEqual(
+            "true",
+            Intrigue.Interpreter.DoEval("number? -1.45").ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Function_boolean()
+
+        Assert.AreEqual(
+            "true",
+            Intrigue.Interpreter.DoEval("boolean? true").ToString)
+        Assert.AreEqual(
+            "true",
+            Intrigue.Interpreter.DoEval("boolean? false").ToString)
+        Assert.AreEqual(
+            "false",
+            Intrigue.Interpreter.DoEval("boolean? 1").ToString)
+    End Sub
+
     <TestMethod()> Public Sub Function_the_environment()
 
         Dim i = New Intrigue.Interpreter
@@ -169,7 +201,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
         Assert.AreEqual("false", Intrigue.Interpreter.DoEval("(and true false)").ToString)
         Assert.AreEqual("true", Intrigue.Interpreter.DoEval("(and true true)").ToString)
-        Assert.AreEqual("true", Intrigue.Interpreter.DoEval("(and)").tostring)
+        Assert.AreEqual("true", Intrigue.Interpreter.DoEval("(and)").ToString)
     End Sub
 
     <TestMethod()> Public Sub Function_or()

@@ -181,13 +181,19 @@ Namespace Nodes
 
             CheckArgCount(funcName, args, 1)
 
-            Dim x = env.Eval(args.Car)
+            Dim val = env.Eval(args.Car)
 
             If funcName = "atom?" Then
-                Return New AtomNode(x.IsAtom)
-            Else ' list?
-                Return New AtomNode(x.IsList)
+                Return New AtomNode(val.IsAtom)
+            ElseIf funcName = "list?" Then
+                Return New AtomNode(val.IsList)
             End If
+
+            Dim type = funcName.Substring(0, funcName.Length - 1)
+
+            Console.WriteLine(val.GetTypeName & " vs " & type)
+
+            Return New AtomNode(val.GetTypeName = type)
         End Function
     End Class
 

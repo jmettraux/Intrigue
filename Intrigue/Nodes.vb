@@ -53,7 +53,7 @@ Namespace Nodes
             Try
                 Return DirectCast(Me, AtomNode)
             Catch ex As Exception
-                Throw New Ex.ArgException("expected atom got " & Me.GetTypeName)
+                Throw New Ex.ArgException("expected atom got " & Me.GetNodeTypeName)
             End Try
         End Function
 
@@ -62,7 +62,7 @@ Namespace Nodes
             Try
                 Return DirectCast(Me, SymbolNode)
             Catch ex As Exception
-                Throw New Ex.ArgException("expected symbol got " & Me.GetTypeName)
+                Throw New Ex.ArgException("expected symbol got " & Me.GetNodeTypeName)
             End Try
         End Function
 
@@ -71,7 +71,7 @@ Namespace Nodes
             Try
                 Return DirectCast(Me, ListNode)
             Catch ex As Exception
-                Throw New Ex.ArgException("expected list got " & Me.GetTypeName)
+                Throw New Ex.ArgException("expected list got " & Me.GetNodeTypeName)
             End Try
         End Function
 
@@ -80,15 +80,20 @@ Namespace Nodes
             Try
                 Return DirectCast(Me, FunctionNode)
             Catch ex As Exception
-                Throw New Ex.ArgException("expected function got " & Me.GetTypeName)
+                Throw New Ex.ArgException("expected function got " & Me.GetNodeTypeName)
             End Try
         End Function
 
-        Public Function GetTypeName() As String
+        Public Function GetNodeTypeName() As String
 
-            Dim s = Me.GetType.ToString
+            Dim s = Me.GetType.ToString.Split(".").Last
 
             Return s.Substring(0, s.Length - 4).ToLower
+        End Function
+
+        Public Overridable Function GetTypeName() As String
+
+            Return GetNodeTypeName()
         End Function
 
         Public Function ToNumber() As Object
@@ -142,6 +147,14 @@ Namespace Nodes
             Me.Atom = atom
         End Sub
 
+        Public Overrides Function GetTypeName() As String
+
+            If TypeOf Me.Atom Is Int64 Then Return "number"
+            If TypeOf Me.Atom Is Double Then Return "number"
+            If TypeOf Me.Atom Is Boolean Then Return "boolean"
+            Return "string"
+        End Function
+
         Public Overrides Function ToString() As String
 
             Dim str = Me.Atom.ToString
@@ -173,6 +186,11 @@ Namespace Nodes
         Public Overrides Function ToString() As String
 
             Return Me.Atom.ToString
+        End Function
+
+        Public Overrides Function GetTypeName() As String
+
+            Return "symbol"
         End Function
     End Class
 
@@ -307,7 +325,7 @@ Namespace Nodes
 
         Protected Sub CheckType(type As String, n As Node)
 
-            If type = "symbol" AndAlso TypeOf n Is SymbolNode Then Return
+            If type = n.GetTypeName Then Return
 
             Throw New Ex.ArgException("expected " & type & " got " & n.GetTypeName)
         End Sub
