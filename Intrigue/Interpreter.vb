@@ -94,9 +94,10 @@ Public Class Interpreter
 
         Bind("->string", New ToStringFunctionNode)
         Bind("symbol->string", New ToStringFunctionNode)
-        Bind("int", New IntFloatFunctionNode)
-        Bind("integer", New IntFloatFunctionNode)
-        Bind("float", New IntFloatFunctionNode)
+        Bind("->exact", New InexactFunctionNode)
+        Bind("->inexact", New InexactFunctionNode)
+        Bind("exact->inexact", New InexactFunctionNode)
+        Bind("inexact->exact", New InexactFunctionNode)
 
         Bind("call", New CallFunctionNode)
 

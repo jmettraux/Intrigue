@@ -24,7 +24,7 @@
 
 Namespace Nodes
 
-    Public Class IntFloatFunctionNode
+    Public Class InexactFunctionNode
         Inherits FunctionNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
@@ -32,10 +32,11 @@ Namespace Nodes
             CheckArgCount(funcName, args, 1)
 
             Dim a = env.Eval(args.Car).ToString
+            Dim direction = funcName.Split(">").Last
 
             Try
-                If funcName.StartsWith("int") Then
-                    Return New AtomNode(Convert.ToInt64(a.Split(".")(0)))
+                If direction = "exact" Then
+                    Return New AtomNode(Convert.ToInt64(a.Split(".").First))
                 Else
                     Return New AtomNode(Convert.ToDouble(a))
                 End If
