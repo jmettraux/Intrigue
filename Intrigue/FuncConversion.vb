@@ -24,7 +24,7 @@
 
 Namespace Nodes
 
-    Public Class InexactFunctionNode
+    Public Class ToInexactFunctionNode
         Inherits FunctionNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node

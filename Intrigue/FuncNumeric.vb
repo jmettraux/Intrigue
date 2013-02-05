@@ -155,4 +155,27 @@ Namespace Nodes
             End If
         End Function
     End Class
+
+    Public Class CheckExactFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            CheckArgCount(funcName, args, 1)
+
+            Dim val = env.Eval(args.Car)
+
+            If Not val.IsAtom Then Return New AtomNode(False)
+
+            Dim type = val.ToAtomNode.Atom.GetType.ToString.Split(".").Last.ToLower
+
+            If funcName = "exact?" Then
+                If type = "integer" Or type = "int32" Or type = "int64" Then Return New AtomNode(True)
+            Else ' inexact?
+                If type = "float" Or type = "double" Then Return New AtomNode(True)
+            End If
+
+            Return New AtomNode(False)
+        End Function
+    End Class
 End Namespace

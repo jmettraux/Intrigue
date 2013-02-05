@@ -73,6 +73,8 @@ Public Class Interpreter
         Bind("number?", New TypeFunctionNode)
         Bind("boolean?", New TypeFunctionNode)
         Bind("string?", New TypeFunctionNode)
+        Bind("exact?", New CheckExactFunctionNode)
+        Bind("inexact?", New CheckExactFunctionNode)
 
         Bind("car", New CarFunctionNode)
         Bind("cdr", New CdrFunctionNode)
@@ -94,10 +96,10 @@ Public Class Interpreter
 
         Bind("->string", New ToStringFunctionNode)
         Bind("symbol->string", New ToStringFunctionNode)
-        Bind("->exact", New InexactFunctionNode)
-        Bind("->inexact", New InexactFunctionNode)
-        Bind("exact->inexact", New InexactFunctionNode)
-        Bind("inexact->exact", New InexactFunctionNode)
+        Bind("->exact", New ToInexactFunctionNode)
+        Bind("->inexact", New ToInexactFunctionNode)
+        Bind("exact->inexact", New ToInexactFunctionNode)
+        Bind("inexact->exact", New ToInexactFunctionNode)
 
         Bind("call", New CallFunctionNode)
 

@@ -142,7 +142,7 @@ returns true if the argument is not a list
 ### list?
 returns true if the argument is a list
 
-### number? boolean? string?
+### number? boolean? string? exact? inexact?
 as expected
 
 ### car
@@ -171,6 +171,9 @@ convert to float and integer respectively;
 will probably need to introduce "exact->inexact" and vice versa.
 
 ### symbol->string ->string
+as expected
+
+### exact->inexact inexact->exact ->inexact ->exact
 as expected
 
 ### call

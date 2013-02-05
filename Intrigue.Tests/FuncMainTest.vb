@@ -146,6 +146,32 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Intrigue.Interpreter.DoEval("string? 1").ToString)
     End Sub
 
+    <TestMethod()> Public Sub Function_exact()
+
+        Assert.AreEqual(
+            "false",
+            Intrigue.Interpreter.DoEval("exact? ""toto""").ToString)
+        Assert.AreEqual(
+            "false",
+            Intrigue.Interpreter.DoEval("exact? 1.0").ToString)
+        Assert.AreEqual(
+            "true",
+            Intrigue.Interpreter.DoEval("exact? 1").ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Function_inexact()
+
+        Assert.AreEqual(
+            "false",
+            Intrigue.Interpreter.DoEval("inexact? ""toto""").ToString)
+        Assert.AreEqual(
+            "true",
+            Intrigue.Interpreter.DoEval("inexact? 1.0").ToString)
+        Assert.AreEqual(
+            "false",
+            Intrigue.Interpreter.DoEval("inexact? 1").ToString)
+    End Sub
+
     <TestMethod()> Public Sub Function_the_environment()
 
         Dim i = New Intrigue.Interpreter
