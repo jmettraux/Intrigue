@@ -4,6 +4,7 @@
 
 == release 1.0.4    not yet released
 
+- implement "exact?" and "inexact?"
 - implement "exact->inexact" and "inexact->exact"
 - implement "string?"
 - alias #t and #f for true and false
