@@ -133,6 +133,19 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Intrigue.Interpreter.DoEval("boolean? 1").ToString)
     End Sub
 
+    <TestMethod()> Public Sub Function_string()
+
+        Assert.AreEqual(
+            "true",
+            Intrigue.Interpreter.DoEval("string? ""toto""").ToString)
+        Assert.AreEqual(
+            "false",
+            Intrigue.Interpreter.DoEval("string? '(1 2)").ToString)
+        Assert.AreEqual(
+            "false",
+            Intrigue.Interpreter.DoEval("string? 1").ToString)
+    End Sub
+
     <TestMethod()> Public Sub Function_the_environment()
 
         Dim i = New Intrigue.Interpreter

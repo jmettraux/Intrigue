@@ -142,7 +142,7 @@ returns true if the argument is not a list
 ### list?
 returns true if the argument is a list
 
-### number? boolean?
+### number? boolean? string?
 as expected
 
 ### car

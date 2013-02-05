@@ -72,6 +72,7 @@ Public Class Interpreter
         Bind("list?", New TypeFunctionNode)
         Bind("number?", New TypeFunctionNode)
         Bind("boolean?", New TypeFunctionNode)
+        Bind("string?", New TypeFunctionNode)
 
         Bind("car", New CarFunctionNode)
         Bind("cdr", New CdrFunctionNode)
