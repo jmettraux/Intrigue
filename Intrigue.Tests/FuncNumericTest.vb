@@ -157,4 +157,26 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             "true",
             Interpreter.DoEval("negative? -1").ToString)
     End Sub
+
+    <TestMethod()> Public Sub Function_odd_even()
+
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("odd? '(1 2)").ToString)
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("odd? 1.0").ToString)
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("odd? 2").ToString)
+        Assert.AreEqual(
+            "true",
+            Interpreter.DoEval("odd? 1").ToString)
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("even? 1").ToString)
+        Assert.AreEqual(
+            "true",
+            Interpreter.DoEval("even? 2").ToString)
+    End Sub
 End Class

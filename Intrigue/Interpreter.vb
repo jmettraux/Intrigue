@@ -96,6 +96,8 @@ Public Class Interpreter
         Bind("zero?", New CheckSignFunctionNode)
         Bind("positive?", New CheckSignFunctionNode)
         Bind("negative?", New CheckSignFunctionNode)
+        Bind("odd?", New CheckOddnessFunctionNode)
+        Bind("even?", New CheckOddnessFunctionNode)
 
         Bind("->string", New ToStringFunctionNode)
         Bind("symbol->string", New ToStringFunctionNode)

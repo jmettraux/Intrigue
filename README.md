@@ -176,7 +176,7 @@ as expected
 ### exact->inexact inexact->exact ->inexact ->exact
 as expected
 
-### zero? positive? negative?
+### zero? positive? negative? odd? even?
 as expected
 
 ### call

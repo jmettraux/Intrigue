@@ -35,7 +35,7 @@ Namespace Nodes
 
             For Each n In args.Nodes
                 Dim v = env.Eval(n)
-                If v.IsDouble Then d = True
+                If v.IsInexact Then d = True
                 isum += v.ToInteger
                 dsum += v.ToDouble
             Next
@@ -54,11 +54,11 @@ Namespace Nodes
             Dim a = env.Eval(args.Car)
             Dim isum = a.ToInteger
             Dim dsum = a.ToDouble
-            Dim d = a.IsDouble
+            Dim d = a.IsInexact
 
             For Each n As Node In args.Cdr.Nodes
                 Dim v = env.Eval(n)
-                If v.IsDouble Then d = True
+                If v.IsInexact Then d = True
                 isum -= v.ToInteger
                 dsum -= v.ToDouble
             Next
@@ -78,7 +78,7 @@ Namespace Nodes
 
             For Each n In args.Nodes
                 Dim v = env.Eval(n)
-                If v.IsDouble Then d = True
+                If v.IsInexact Then d = True
                 ipro *= v.ToInteger
                 dpro *= v.ToDouble
             Next
@@ -100,14 +100,14 @@ Namespace Nodes
 
                 Dim b = env.Eval(args.Cdr.Car)
 
-                If a.IsDouble OrElse b.IsDouble Then
+                If a.IsInexact OrElse b.IsInexact Then
                     Return New AtomNode(a.ToDouble / b.ToDouble)
                 Else
                     Return New AtomNode(Convert.ToInt64(a.ToInteger / b.ToInteger))
                 End If
             End If
 
-            If a.IsDouble Then
+            If a.IsInexact Then
                 Return New AtomNode(1.0 / a.ToDouble)
             Else
                 Return New AtomNode(Convert.ToInt64(1 / a.ToInteger))
@@ -125,7 +125,7 @@ Namespace Nodes
             Dim na = env.Eval(args.Nodes(0)).ToAtomNode
             Dim nb = env.Eval(args.Nodes(1)).ToAtomNode
 
-            If na.IsDouble OrElse nb.IsDouble Then
+            If na.IsInexact OrElse nb.IsInexact Then
 
                 Dim da = na.ToDouble
                 Dim db = nb.ToDouble
@@ -165,17 +165,11 @@ Namespace Nodes
 
             Dim val = env.Eval(args.Car)
 
-            If Not val.IsAtom Then Return New AtomNode(False)
-
-            Dim type = val.ToAtomNode.Atom.GetType.ToString.Split(".").Last.ToLower
-
             If funcName = "exact?" Then
-                If type = "integer" Or type = "int32" Or type = "int64" Then Return New AtomNode(True)
+                Return New AtomNode(val.IsExact)
             Else ' inexact?
-                If type = "float" Or type = "double" Then Return New AtomNode(True)
+                Return New AtomNode(val.IsInexact)
             End If
-
-            Return New AtomNode(False)
         End Function
     End Class
 
@@ -198,6 +192,27 @@ Namespace Nodes
                 Return New AtomNode(ival > 0)
             Else ' negative?
                 Return New AtomNode(ival < 0)
+            End If
+        End Function
+    End Class
+
+    Public Class CheckOddnessFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            CheckArgCount(funcName, args, 1)
+
+            Dim val = env.Eval(args.Car)
+
+            If Not val.IsExact Then Return New AtomNode(False)
+
+            Dim m = val.ToInteger Mod 2
+
+            If funcName = "odd?" Then
+                Return New AtomNode(m <> 0)
+            Else ' even?
+                Return New AtomNode(m = 0)
             End If
         End Function
     End Class

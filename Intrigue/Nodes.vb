@@ -115,10 +115,24 @@ Namespace Nodes
             Return Convert.ToInt64(Me.ToAtomNode.Atom)
         End Function
 
-        Public Function IsDouble() As Boolean
+        Public Function IsExact() As Boolean
 
             If Not IsAtom() Then Return False
-            Return (TypeOf Me.ToAtomNode.Atom Is Double)
+
+            Dim type = ToAtomNode.Atom.GetType.ToString.Split(".").Last.ToLower
+            If type = "integer" OrElse type = "int32" OrElse type = "int64" Then Return True
+
+            Return False
+        End Function
+
+        Public Function IsInexact() As Boolean
+
+            If Not IsAtom() Then Return False
+
+            Dim type = ToAtomNode.Atom.GetType.ToString.Split(".").Last.ToLower
+            If type = "float" OrElse type = "double" Then Return True
+
+            Return False
         End Function
 
         Public Overridable Function Car() As Node
