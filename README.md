@@ -176,6 +176,9 @@ as expected
 ### exact->inexact inexact->exact ->inexact ->exact
 as expected
 
+### zero? positive? negative?
+as expected
+
 ### call
 calls a .NET method on the target atom:
 

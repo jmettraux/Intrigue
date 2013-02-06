@@ -178,4 +178,27 @@ Namespace Nodes
             Return New AtomNode(False)
         End Function
     End Class
+
+    Public Class CheckSignFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            CheckArgCount(funcName, args, 1)
+
+            Dim val = env.Eval(args.Car)
+
+            If Not val.IsAtom Then Return New AtomNode(False)
+
+            Dim ival = val.ToInteger
+
+            If funcName = "zero?" Then
+                Return New AtomNode(ival = 0)
+            ElseIf funcName = "positive?" Then
+                Return New AtomNode(ival > 0)
+            Else ' negative?
+                Return New AtomNode(ival < 0)
+            End If
+        End Function
+    End Class
 End Namespace

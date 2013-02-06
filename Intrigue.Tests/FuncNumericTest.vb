@@ -115,4 +115,46 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual("Intrigue.Ex.ArgException", ex.GetType.ToString)
         Assert.AreEqual("'/' expects 1 to 2 arguments, not 0", ex.Message)
     End Sub
+
+    <TestMethod()> Public Sub Function_zero()
+
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("zero? '(1 2)").ToString)
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("zero? 1").ToString)
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("zero? 1.2").ToString)
+        Assert.AreEqual(
+            "true",
+            Interpreter.DoEval("zero? 0").ToString)
+        Assert.AreEqual(
+            "true",
+            Interpreter.DoEval("zero? 0.0").ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Function_positive_negative()
+
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("positive? '(1 2)").ToString)
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("positive? -1").ToString)
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("positive? -1.2").ToString)
+        Assert.AreEqual(
+            "true",
+            Interpreter.DoEval("positive? 12").ToString)
+        Assert.AreEqual(
+            "true",
+            Interpreter.DoEval("positive? 15.6").ToString)
+
+        Assert.AreEqual(
+            "true",
+            Interpreter.DoEval("negative? -1").ToString)
+    End Sub
 End Class

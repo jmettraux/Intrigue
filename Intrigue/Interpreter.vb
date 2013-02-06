@@ -93,6 +93,9 @@ Public Class Interpreter
         Bind("<=", New GreaterFunctionNode)
         Bind(">", New GreaterFunctionNode)
         Bind(">=", New GreaterFunctionNode)
+        Bind("zero?", New CheckSignFunctionNode)
+        Bind("positive?", New CheckSignFunctionNode)
+        Bind("negative?", New CheckSignFunctionNode)
 
         Bind("->string", New ToStringFunctionNode)
         Bind("symbol->string", New ToStringFunctionNode)
