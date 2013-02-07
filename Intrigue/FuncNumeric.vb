@@ -156,6 +156,37 @@ Namespace Nodes
         End Function
     End Class
 
+    Public Class MaxMinFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            Dim max As Double = 0.0
+            Dim min As Double = 0.0
+            Dim inexact = False
+
+            For Each n In args.Nodes
+
+                Dim v = env.Eval(n)
+                Dim dv = v.ToDouble()
+
+                If v.IsInexact Then inexact = True
+
+                If dv > max Then
+                    max = dv
+                ElseIf dv < min Then
+                    min = dv
+                End If
+            Next
+
+            Dim r As Object = max
+            If funcName = "min" Then r = min
+            If inexact = False Then r = Convert.ToInt64(r)
+
+            Return New AtomNode(r)
+        End Function
+    End Class
+
     Public Class CheckExactFunctionNode
         Inherits FunctionNode
 

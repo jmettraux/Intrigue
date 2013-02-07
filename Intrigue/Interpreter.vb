@@ -93,6 +93,8 @@ Public Class Interpreter
         Bind("<=", New GreaterFunctionNode)
         Bind(">", New GreaterFunctionNode)
         Bind(">=", New GreaterFunctionNode)
+        Bind("max", New MaxMinFunctionNode)
+        Bind("min", New MaxMinFunctionNode)
         Bind("zero?", New CheckSignFunctionNode)
         Bind("positive?", New CheckSignFunctionNode)
         Bind("negative?", New CheckSignFunctionNode)

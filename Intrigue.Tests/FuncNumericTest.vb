@@ -179,4 +179,21 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             "true",
             Interpreter.DoEval("even? 2").ToString)
     End Sub
+
+    <TestMethod()> Public Sub Function_max_min()
+
+        Assert.AreEqual(
+            "12",
+            Interpreter.DoEval("max -2 5 7 12 1").ToString)
+        Assert.AreEqual(
+            "-2",
+            Interpreter.DoEval("min -2 5 7 12 1").ToString)
+
+        Assert.AreEqual(
+            "12.0",
+            Interpreter.DoEval("max -2 5 7 12 1.0").ToString)
+        Assert.AreEqual(
+            "-2.0",
+            Interpreter.DoEval("min -2 5 7 12 1.0").ToString)
+    End Sub
 End Class

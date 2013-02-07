@@ -179,6 +179,9 @@ as expected
 ### zero? positive? negative? odd? even?
 as expected
 
+### min max
+given a list return the minimum number or the max one respectively. If a least one number is inexact, the result will be inexact (Double).
+
 ### call
 calls a .NET method on the target atom:
 

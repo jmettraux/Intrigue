@@ -4,6 +4,7 @@
 
 == release 1.0.4    not yet released
 
+- implement "min" and "max"
 - implement "odd?" and "even?"
 - implement "zero?", "positive?" and "negative?"
 - implement "exact?" and "inexact?"
