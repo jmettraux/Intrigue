@@ -187,6 +187,17 @@ Namespace Nodes
         End Function
     End Class
 
+    Public Class AbsFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            CheckArgCount(funcName, args, 1)
+
+            Return New AtomNode(Math.Abs(env.Eval(args.Car).ToAtomNode.Atom))
+        End Function
+    End Class
+
     Public Class CheckExactFunctionNode
         Inherits FunctionNode
 

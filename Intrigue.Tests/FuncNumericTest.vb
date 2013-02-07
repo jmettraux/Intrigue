@@ -196,4 +196,20 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             "-2.0",
             Interpreter.DoEval("min -2 5 7 12 1.0").ToString)
     End Sub
+
+    <TestMethod()> Public Sub Function_abs()
+
+        Assert.AreEqual(
+            "2",
+            Interpreter.DoEval("abs 2").ToString)
+        Assert.AreEqual(
+            "2.0",
+            Interpreter.DoEval("abs 2.0").ToString)
+        Assert.AreEqual(
+            "2",
+            Interpreter.DoEval("abs -2").ToString)
+        Assert.AreEqual(
+            "2.0",
+            Interpreter.DoEval("abs -2.0").ToString)
+    End Sub
 End Class
