@@ -35,4 +35,16 @@ Imports Intrigue
                         plus 3 7
                     ]]>)).ToString)
     End Sub
+
+    <TestMethod()> Public Sub Lambda_list_argument()
+
+        Assert.AreEqual(
+            "0",
+            Intrigue.Interpreter.DoEval(
+                Util.NewString(
+                    <![CDATA[
+                        define kar (lambda l (car l))
+                        kar 0 1 2 3
+                    ]]>)).ToString)
+    End Sub
 End Class

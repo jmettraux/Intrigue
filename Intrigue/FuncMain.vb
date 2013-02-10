@@ -82,15 +82,30 @@ Namespace Nodes
 
             Dim e = New Environment(env)
 
-            Dim argnames = Me.definition.Car.toListNode.Nodes
+            Dim car = Me.definition.Car
+            If car.IsList Then
 
-            For i = 0 To argnames.Count - 1
+                Dim argnames = car.ToListNode.Nodes
 
-                Dim argname = argnames(i).ToString
-                Dim value = env.Eval(args.Nodes(i))
+                For i = 0 To argnames.Count - 1
 
-                e.Bind(argname, value)
-            Next
+                    Dim argname = argnames(i).ToString
+                    Dim value = env.Eval(args.Nodes(i))
+
+                    e.Bind(argname, value)
+                Next
+
+            ElseIf car.IsSymbol Then
+
+                Dim argname = car.ToString
+
+                e.Bind(argname, args)
+
+            Else
+
+                Throw New Ex.ArgException(
+                    "'lambda' expects a list of argument names or a single argument name, not a '" & car.GetTypeName & "'")
+            End If
 
             Dim result As Node = Nothing
             For Each node In Me.definition.Cdr.Nodes
