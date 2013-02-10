@@ -4,6 +4,7 @@
 
 == release 1.0.4    not yet released
 
+- implement "gcd"
 - implement "quotient", "remainder" and "modulo"
 - implement "abs"
 - implement "min" and "max"

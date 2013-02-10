@@ -1,0 +1,10 @@
+
+;
+; gcd (Euler)
+;
+
+define
+  gcd m n
+  if (zero? n)
+    m                      ; then
+    gcd n (remainder m n)  ; else

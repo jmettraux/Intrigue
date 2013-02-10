@@ -121,6 +121,7 @@ Public Class Interpreter
         Bind("make-environment", New MakeEnvironmentFunctionNode)
 
         EvalLibrary("lists")
+        EvalLibrary("math")
     End Sub
 
     Public Overloads Function Eval(s As String) As Node
@@ -160,11 +161,13 @@ Public Class Interpreter
 
         Dim code As String
 
-        Using io = System.Reflection.Assembly.GetExecutingAssembly.GetManifestResourceStream("Intrigue.lists.txt")
+        Using io = System.Reflection.Assembly.GetExecutingAssembly.GetManifestResourceStream("Intrigue." & libName & ".txt")
             Using sr = New System.IO.StreamReader(io)
                 code = sr.ReadToEnd
             End Using
         End Using
+
+        Console.WriteLine(code)
 
         Me.Eval(code)
     End Sub

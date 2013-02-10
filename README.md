@@ -169,9 +169,8 @@ as expected
 ### quotient remainder modulo
 accepts two integers, returns the quotient, remainder or modulo result as an integer
 
-### float integer
-convert to float and integer respectively;
-will probably need to introduce "exact->inexact" and vice versa
+### gcd
+(work in progress)
 
 ### symbol->string ->string
 as expected
