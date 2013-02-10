@@ -4,7 +4,11 @@
 ;
 
 define
-  gcd m n
+  gcd2 m n
   if (zero? n)
     m                      ; then
-    gcd n (remainder m n)  ; else
+    gcd2 n (remainder m n)  ; else
+
+define
+  gcd
+  gcd2

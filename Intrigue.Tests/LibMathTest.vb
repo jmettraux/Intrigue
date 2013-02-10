@@ -14,4 +14,11 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             "13828",
             Interpreter.DoEval("gcd (* 3457 12) (* 3457 8)").ToString)
     End Sub
+
+    '<TestMethod()> Public Sub LibFunc_gcd_multiple()
+
+    '    Assert.AreEqual(
+    '        "5",
+    '        Interpreter.DoEval("gcd 30 40 35").ToString)
+    'End Sub
 End Class
