@@ -167,8 +167,6 @@ Public Class Interpreter
             End Using
         End Using
 
-        Console.WriteLine(code)
-
         Me.Eval(code)
     End Sub
 End Class
