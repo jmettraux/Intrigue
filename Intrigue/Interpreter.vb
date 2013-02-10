@@ -96,6 +96,10 @@ Public Class Interpreter
         Bind("max", New MaxMinFunctionNode)
         Bind("min", New MaxMinFunctionNode)
         Bind("abs", New AbsFunctionNode)
+        Bind("quotient", New QrmFunctionNode)
+        Bind("remainder", New QrmFunctionNode)
+        Bind("modulo", New QrmFunctionNode)
+
         Bind("zero?", New CheckSignFunctionNode)
         Bind("positive?", New CheckSignFunctionNode)
         Bind("negative?", New CheckSignFunctionNode)

@@ -198,6 +198,35 @@ Namespace Nodes
         End Function
     End Class
 
+    Public Class QrmFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            CheckArgCount(funcName, args, 2)
+
+            Dim a = env.Eval(args.Car)
+            Dim b = env.Eval(args.Cdr.Car)
+
+            If Not a.IsExact OrElse Not b.IsExact Then
+                Throw New Ex.ArgException("'" & funcName & "' expects integers")
+            End If
+
+            Dim ia = a.ToAtomNode.Atom
+            Dim ib = b.ToAtomNode.Atom
+
+            If funcName = "quotient" Then
+                Return New AtomNode(Convert.ToInt64(ia / ib))
+            ElseIf funcName = "remainder" Then
+                Dim l As Long = 0
+                Math.DivRem(ia, ib, l)
+                Return New AtomNode(l)
+            Else ' modulo
+                Return New AtomNode(ia Mod ib)
+            End If
+        End Function
+    End Class
+
     Public Class CheckExactFunctionNode
         Inherits FunctionNode
 

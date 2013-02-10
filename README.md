@@ -166,9 +166,12 @@ combines boolean results, exits as soon as the final answer can be determined (p
 ### + - / * = < <= > >= abs
 as expected
 
+### quotient remainder modulo
+accepts two integers, returns the quotient, remainder or modulo result as an integer
+
 ### float integer
 convert to float and integer respectively;
-will probably need to introduce "exact->inexact" and vice versa.
+will probably need to introduce "exact->inexact" and vice versa
 
 ### symbol->string ->string
 as expected
@@ -183,7 +186,7 @@ as expected
 given a list return the minimum number or the max one respectively. If a least one number is inexact, the result will be inexact (Double).
 
 ### call
-calls a .NET method on the target atom:
+calls a .NET method on the target atom.
 
 for example:
 

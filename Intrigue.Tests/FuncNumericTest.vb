@@ -212,4 +212,28 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             "2.0",
             Interpreter.DoEval("abs -2.0").ToString)
     End Sub
+
+    <TestMethod()> Public Sub Function_qrm()
+
+        Assert.AreEqual(
+            "1",
+            Interpreter.DoEval("quotient 2 2").ToString)
+        Assert.AreEqual(
+            "3",
+            Interpreter.DoEval("quotient 8 3").ToString)
+
+        Assert.AreEqual(
+            "0",
+            Interpreter.DoEval("remainder 2 2").ToString)
+        Assert.AreEqual(
+            "1",
+            Interpreter.DoEval("remainder 3 2").ToString)
+
+        Assert.AreEqual(
+            "0",
+            Interpreter.DoEval("modulo 2 2").ToString)
+        Assert.AreEqual(
+            "1",
+            Interpreter.DoEval("modulo 3 2").ToString)
+    End Sub
 End Class
