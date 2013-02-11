@@ -70,4 +70,15 @@ Imports Intrigue
                         (lambda (x . z) (+ x (car (cdr z)))) 1 1 7 8 9
                     ]]>)).ToString)
     End Sub
+
+    <TestMethod()> Public Sub Lambda_dot_rest()
+
+        Assert.AreEqual(
+            "(1 7 8 9)",
+            Intrigue.Interpreter.DoEval(
+                Util.NewString(
+                    <![CDATA[
+                        (lambda (. z) z) 1 7 8 9
+                    ]]>)).ToString)
+    End Sub
 End Class
