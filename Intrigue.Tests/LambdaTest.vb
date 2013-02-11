@@ -46,5 +46,9 @@ Imports Intrigue
                         define kar (lambda l (car l))
                         kar 0 1 2 3
                     ]]>)).ToString)
+
+        Assert.AreEqual(
+            "(3 4 5 6)",
+            Intrigue.Interpreter.DoEval("(lambda x x) 3 4 5 6").ToString)
     End Sub
 End Class

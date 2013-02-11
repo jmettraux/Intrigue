@@ -75,15 +75,16 @@ Public Class Environment
             If symbolLookup Then Return Lookup(node.ToString)
             Return node
         End If
+        If node.IsAtom Then
+            Return node
+        End If
 
-        If node.IsAtom Then Return node
+        ' node is list
 
-        Dim funcName = node.Car.ToString
-        Dim func = TryCast(Lookup(funcName), Nodes.FunctionNode)
+        Dim car = node.Car
+        Dim func = Eval(car).ToFunctionNode
 
-        If func Is Nothing Then Throw New Ex.NotApplicableException(funcName)
-
-        Return func.Apply(funcName, node.Cdr, Me)
+        Return func.Apply(car.ToString, node.Cdr, Me)
     End Function
 
     Public Overrides Function ToString() As String

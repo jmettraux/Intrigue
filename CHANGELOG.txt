@@ -4,6 +4,7 @@
 
 == release 1.0.4    not yet released
 
+- unlock direct use of lambdas
 - unlock single symbol argument for lambdas (list)
 - implement "gcd"
 - implement "quotient", "remainder" and "modulo"

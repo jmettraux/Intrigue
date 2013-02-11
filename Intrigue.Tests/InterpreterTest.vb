@@ -77,4 +77,11 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             "-0.5",
             Interpreter.DoEval("-.5").ToString)
     End Sub
+
+    <TestMethod()> Public Sub Interpreter_eval_lambdas()
+
+        Assert.AreEqual(
+            "4",
+            Intrigue.Interpreter.DoEval("(lambda (x) (+ x 1)) 3").ToString)
+    End Sub
 End Class
