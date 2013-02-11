@@ -101,4 +101,16 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
                           '(10 20 30)
                     ]]>)).ToString)
     End Sub
+
+    <TestMethod()> Public Sub Define_arg_dot_arg()
+
+        Assert.AreEqual(
+            "16",
+            Intrigue.Interpreter.DoEval(
+                Util.NewString(
+                    <![CDATA[
+                        define (f x . z) (+ x (car (cdr z)))
+                        f 7 8 9
+                    ]]>)).ToString)
+    End Sub
 End Class
