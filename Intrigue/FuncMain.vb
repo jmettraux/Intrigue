@@ -46,12 +46,24 @@ Namespace Nodes
             Dim value As Node = Nothing
 
             If car.IsList Then
+
                 name = TryCast(car.Car.ToAtomNode.Atom, String)
+                Try
+                    ' kind of experimental...
+                    name = env.Eval(car.Car).ToAtomNode.Atom.ToString
+                Catch ex As Exception
+                End Try
+
                 value = New LambdaNode(New ListNode(car.Cdr, args.Cdr.Car))
+
             ElseIf car.IsSymbol Then
+
                 name = car.ToString
+
             ElseIf car.IsAtom Then
+
                 name = TryCast(car.ToAtomNode.Atom, String)
+
             End If
 
             If name Is Nothing Then

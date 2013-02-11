@@ -54,17 +54,20 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
                     </string>)).ToString)
     End Sub
 
-    '<TestMethod()> Public Sub Define_function_with_computed_name()
-    '
-    '    Assert.AreEqual(
-    '        "14",
-    '        Intrigue.Interpreter.DoEval(
-    '            <string>
-    '                define (name x) (+ x x)
-    '                double 7
-    '            </string>.Nodes.First.ToString.Trim
-    '        ).ToString)
-    'End Sub
+    <TestMethod()> Public Sub Define_function_with_computed_name()
+
+        ' kind of experimental...
+
+        Assert.AreEqual(
+            "14",
+            Intrigue.Interpreter.DoEval(
+                Util.NewString(
+                <string>
+                    define name "double"
+                    define (name x) (+ x x)
+                    double 7
+                </string>)).ToString)
+    End Sub
 
     <TestMethod()> Public Sub Function_meta_map()
 
