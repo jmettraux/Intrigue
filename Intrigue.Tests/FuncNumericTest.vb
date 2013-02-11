@@ -228,6 +228,9 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual(
             "1",
             Interpreter.DoEval("remainder 3 2").ToString)
+        Assert.AreEqual(
+            "1.0",
+            Interpreter.DoEval("remainder 3 2.0").ToString)
 
         Assert.AreEqual(
             "0",

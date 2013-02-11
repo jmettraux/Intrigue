@@ -13,6 +13,13 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual(
             "13828",
             Interpreter.DoEval("gcd (* 3457 12) (* 3457 8)").ToString)
+
+        Assert.AreEqual(
+            "4",
+            Interpreter.DoEval("gcd 32 -36").ToString)
+        Assert.AreEqual(
+            "4.0",
+            Interpreter.DoEval("gcd 32.0 -36").ToString)
     End Sub
 
     <TestMethod()> Public Sub LibFunc_gcd_zero()

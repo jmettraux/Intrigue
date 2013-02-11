@@ -135,6 +135,11 @@ Namespace Nodes
             Return False
         End Function
 
+        Public Function IsNumber() As Boolean
+
+            Return IsExact() OrElse IsInexact()
+        End Function
+
         Public Overridable Function Car() As Node
 
             Throw New Ex.IntrigueException("'car' only works on lists")

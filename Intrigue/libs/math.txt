@@ -2,12 +2,15 @@
 ;
 ; gcd (Euler)
 ;
+; eventually implement that in hard (and iterative)
+;
 
 define
   gcd2 m n
-  if (zero? n)
-    m                       ; then
-    gcd2 n (remainder m n)  ; else
+  abs
+    if (zero? n)
+      m                       ; then
+      gcd2 n (remainder m n)  ; else
 
 define
   gcd . ns

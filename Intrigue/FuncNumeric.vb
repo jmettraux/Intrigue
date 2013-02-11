@@ -208,21 +208,27 @@ Namespace Nodes
             Dim a = env.Eval(args.Car)
             Dim b = env.Eval(args.Cdr.Car)
 
-            If Not a.IsExact OrElse Not b.IsExact Then
-                Throw New Ex.ArgException("'" & funcName & "' expects integers")
+            If Not a.IsNumber OrElse Not b.IsNumber Then
+                Throw New Ex.ArgException("'" & funcName & "' expects numbers")
             End If
 
             Dim ia = a.ToAtomNode.Atom
             Dim ib = b.ToAtomNode.Atom
 
+            Dim ir As Long = 0
+
             If funcName = "quotient" Then
-                Return New AtomNode(Convert.ToInt64(ia / ib))
+                ir = Convert.ToInt64(ia / ib)
             ElseIf funcName = "remainder" Then
-                Dim l As Long = 0
-                Math.DivRem(ia, ib, l)
-                Return New AtomNode(l)
+                Math.DivRem(ia, ib, ir)
             Else ' modulo
-                Return New AtomNode(ia Mod ib)
+                ir = ia Mod ib
+            End If
+
+            If a.IsInexact OrElse b.IsInexact Then
+                Return New AtomNode(Convert.ToDouble(ir))
+            Else
+                Return New AtomNode(ir)
             End If
         End Function
     End Class
