@@ -90,9 +90,28 @@ Namespace Nodes
                 For i = 0 To argnames.Count - 1
 
                     Dim argname = argnames(i).ToString
-                    Dim value = env.Eval(args.Nodes(i))
 
-                    e.Bind(argname, value)
+                    If argname = "." Then
+
+                        ' collect remaining args...
+
+                        argname = argnames(i + 1).ToString
+
+                        Dim list = New List(Of Node)
+                        For j = i To args.Nodes.Count - 1
+                            list.Add(env.Eval(args.Nodes(j)))
+                        Next
+
+                        e.Bind(argname, New ListNode(list))
+
+                        Exit For
+
+                    Else
+
+                        ' regular case
+
+                        e.Bind(argname, env.Eval(args.Nodes(i)))
+                    End If
                 Next
 
             ElseIf car.IsSymbol Then

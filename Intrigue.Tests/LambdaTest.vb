@@ -51,4 +51,23 @@ Imports Intrigue
             "(3 4 5 6)",
             Intrigue.Interpreter.DoEval("(lambda x x) 3 4 5 6").ToString)
     End Sub
+
+    <TestMethod()> Public Sub Lambda_rest_argument()
+
+        Assert.AreEqual(
+            "(1 7 8 9)",
+            Intrigue.Interpreter.DoEval(
+                Util.NewString(
+                    <![CDATA[
+                        (lambda (x . z) z) 1 1 7 8 9
+                    ]]>)).ToString)
+
+        Assert.AreEqual(
+            "8",
+            Intrigue.Interpreter.DoEval(
+                Util.NewString(
+                    <![CDATA[
+                        (lambda (x . z) (+ x (car (cdr z)))) 1 1 7 8 9
+                    ]]>)).ToString)
+    End Sub
 End Class
