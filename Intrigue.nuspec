@@ -4,7 +4,7 @@
   <metadata>
 
     <id>Intrigue</id>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 
     <authors>jmettraux</authors>
     <owners>jmettraux</owners>
@@ -18,14 +18,7 @@
     <description>a mini (and naive) Scheme interpreter</description>
 
     <releaseNotes>
-== release 1.0.3    released 2013/01/31
-
-- make #To{Atom|List|Symbol|Function}Node more verbose in case of failure
-- implement Node#ToInteger
-- implement "-"
-- implement "set!"
-- implement "and", "or" and "not"
-- implement "null?"
+      Please see https://github.com/jmettraux/Intrigue/blob/master/CHANGELOG.txt http://bit.ly/11CcnG6
     </releaseNotes>
 
     <copyright>2013-2013 John Mettraux jmettraux@gmail.com</copyright>
