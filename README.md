@@ -167,7 +167,7 @@ as expected
 accepts two integers, returns the quotient, remainder or modulo result as an integer
 
 ### gcd
-(work in progress)
+given a list of arguments returns the greatest common denominator
 
 ### symbol->string ->string
 as expected
