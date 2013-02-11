@@ -219,6 +219,13 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
                     ]]>)).ToString)
     End Sub
 
+    <TestMethod()> Public Sub Function_apply()
+
+        Assert.AreEqual(
+            "6",
+            Intrigue.Interpreter.DoEval("apply + '(1 2 3)").ToString)
+    End Sub
+
     <TestMethod()> Public Sub Function_let()
 
         Assert.AreEqual(

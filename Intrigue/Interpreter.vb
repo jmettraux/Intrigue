@@ -116,6 +116,7 @@ Public Class Interpreter
         Bind("call", New CallFunctionNode)
 
         Bind("eval", New EvalFunctionNode)
+        Bind("apply", New ApplyFunctionNode)
         Bind("let", New LetFunctionNode)
         Bind("the-environment", New TheEnvironmentFunctionNode)
         Bind("make-environment", New MakeEnvironmentFunctionNode)

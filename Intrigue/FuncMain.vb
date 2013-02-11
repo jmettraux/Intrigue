@@ -274,9 +274,7 @@ Namespace Nodes
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
-            If args.Length < 1 OrElse args.Length > 2 Then
-                Throw New Ex.ArgException("'eval' expects 1 or 2 arguments, not " & args.Length)
-            End If
+            CheckArgCount(funcName, args, 1, 2)
 
             Dim targetEnv = env
 
@@ -288,6 +286,28 @@ Namespace Nodes
             Dim code = env.Eval(args.Car)
 
             Return targetEnv.Eval(code)
+        End Function
+    End Class
+
+    Public Class ApplyFunctionNode
+        Inherits FunctionNode
+
+        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+
+            CheckArgCount(funcName, args, 2)
+
+            Dim l = New ListNode(args.Car)
+
+            Dim aas = env.Eval(args.Cdr.Car)
+
+            If Not aas.IsList Then
+                Throw New Ex.ArgException(
+                    "'apply' expects a list as second argument, not a '" & aas.GetTypeName & "'")
+            End If
+
+            l.Nodes.AddRange(aas.ToListNode.Nodes)
+
+            Return env.Eval(l)
         End Function
     End Class
 

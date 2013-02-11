@@ -4,6 +4,7 @@
 
 == release 1.0.4    not yet released
 
+- implement "apply"
 - let "define" accept dynamic function names
 - unlock (lambda (head . tail) ...)
 - unlock direct use of lambdas

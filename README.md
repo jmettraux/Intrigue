@@ -145,11 +145,8 @@ returns true if the argument is a list
 ### number? boolean? string? exact? inexact?
 as expected
 
-### car
-returns the head of a list
-
-### cdr
-returns a new list (all the elts of the arg list except the head)
+### car cdr
+as expected
 
 ### cons
 ```(cons 1 '(2 3))``` yields ```(1 2 3)```
@@ -204,8 +201,8 @@ map plus10 '(12 14 16)
   ; yields (22 24 26)
 ```
 
-### eval
-the classical Scheme/Lisp eval
+### eval apply
+as expected
 
 ### the-environment
 returns the current environment
