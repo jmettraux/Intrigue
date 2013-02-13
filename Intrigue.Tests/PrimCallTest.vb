@@ -5,7 +5,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 <TestClass()> Public Class FuncCallTest
 
-    <TestMethod()> Public Sub Function_call()
+    <TestMethod()> Public Sub Primitive_call()
 
         Assert.AreEqual(
             """fox""",

@@ -5,7 +5,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 <TestClass()> Public Class FuncMainTest
 
-    <TestMethod()> Public Sub Function_quote()
+    <TestMethod()> Public Sub Primitive_quote()
 
         Assert.AreEqual(
             "(1 2 3)",
@@ -18,7 +18,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("(quote 1)").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_if()
+    <TestMethod()> Public Sub Primitive_if()
 
         Assert.AreEqual(
             "1",
@@ -28,7 +28,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("if (= 7 6) 1 0").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_if_when_missing_else()
+    <TestMethod()> Public Sub Primitive_if_when_missing_else()
 
         Assert.AreEqual(
             "1",
@@ -38,7 +38,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("if (= 7 6) 1").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_cond()
+    <TestMethod()> Public Sub Primitive_cond()
 
         Assert.AreEqual(
             """plus""",
@@ -65,7 +65,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
                     ]]>)).ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_equal()
+    <TestMethod()> Public Sub Primitive_equal()
 
         Assert.AreEqual(
             "true",
@@ -75,7 +75,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Intrigue.Interpreter.DoEval("equal? '(1 2) '(3 4)").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_list()
+    <TestMethod()> Public Sub Primitive_list()
 
         Assert.AreEqual(
             "true",
@@ -88,7 +88,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Intrigue.Interpreter.DoEval("list? false").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_atom()
+    <TestMethod()> Public Sub Primitive_atom()
 
         Assert.AreEqual(
             "false",
@@ -101,7 +101,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Intrigue.Interpreter.DoEval("atom? false").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_number()
+    <TestMethod()> Public Sub Primitive_number()
 
         Assert.AreEqual(
             "false",
@@ -120,7 +120,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Intrigue.Interpreter.DoEval("number? -1.45").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_boolean()
+    <TestMethod()> Public Sub Primitive_boolean()
 
         Assert.AreEqual(
             "true",
@@ -133,7 +133,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Intrigue.Interpreter.DoEval("boolean? 1").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_string()
+    <TestMethod()> Public Sub Primitive_string()
 
         Assert.AreEqual(
             "true",
@@ -146,7 +146,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Intrigue.Interpreter.DoEval("string? 1").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_exact()
+    <TestMethod()> Public Sub Primitive_exact()
 
         Assert.AreEqual(
             "false",
@@ -159,7 +159,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Intrigue.Interpreter.DoEval("exact? 1").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_inexact()
+    <TestMethod()> Public Sub Primitive_inexact()
 
         Assert.AreEqual(
             "false",
@@ -172,7 +172,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Intrigue.Interpreter.DoEval("inexact? 1").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_the_environment()
+    <TestMethod()> Public Sub Primitive_the_environment()
 
         Dim i = New Intrigue.Interpreter
         Dim n = i.Eval("(the-environment)")
@@ -181,7 +181,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual(i, en.env)
     End Sub
 
-    <TestMethod()> Public Sub Function_make_environment()
+    <TestMethod()> Public Sub Primitive_make_environment()
 
         Assert.AreEqual(
             "(1 2)",
@@ -196,14 +196,14 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
                     ]]>)).ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_eval()
+    <TestMethod()> Public Sub Primitive_eval()
 
         Assert.AreEqual(
             "10",
             Intrigue.Interpreter.DoEval("eval '(+ 1 2 3 4)").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_eval_with_environment()
+    <TestMethod()> Public Sub Primitive_eval_with_environment()
 
         Assert.AreEqual(
             "10",
@@ -219,14 +219,14 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
                     ]]>)).ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_apply()
+    <TestMethod()> Public Sub Primitive_apply()
 
         Assert.AreEqual(
             "6",
             Intrigue.Interpreter.DoEval("apply + '(1 2 3)").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_let()
+    <TestMethod()> Public Sub Primitive_let()
 
         Assert.AreEqual(
             "21",
@@ -243,14 +243,14 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
                     ]]>)).ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_and()
+    <TestMethod()> Public Sub Primitive_and()
 
         Assert.AreEqual("false", Intrigue.Interpreter.DoEval("(and true false)").ToString)
         Assert.AreEqual("true", Intrigue.Interpreter.DoEval("(and true true)").ToString)
         Assert.AreEqual("true", Intrigue.Interpreter.DoEval("(and)").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_or()
+    <TestMethod()> Public Sub Primitive_or()
 
         Assert.AreEqual("true", Intrigue.Interpreter.DoEval("(or true false)").ToString)
         Assert.AreEqual("true", Intrigue.Interpreter.DoEval("(or true true)").ToString)
@@ -258,13 +258,13 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual("false", Intrigue.Interpreter.DoEval("(or)").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_not()
+    <TestMethod()> Public Sub Primitive_not()
 
         Assert.AreEqual("false", Intrigue.Interpreter.DoEval("(not true)").ToString)
         Assert.AreEqual("true", Intrigue.Interpreter.DoEval("(not false)").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_set_0()
+    <TestMethod()> Public Sub Primitive_set_0()
 
         Assert.AreEqual(
             "1",
@@ -276,7 +276,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
                     ]]>)).ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_set_1()
+    <TestMethod()> Public Sub Primitive_set_1()
 
         Assert.AreEqual(
             "2",

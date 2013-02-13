@@ -68,16 +68,16 @@ i.LookupAtom("a")       ' yields 3
 TODO: what about ListNodes?
 
 
-### binding one's own builtin functions
+### binding one's own builtin primitive
 
-One can implement a function in VB or C# (or whatever .NET supports) and bind it in the interpreter.
+One can implement a primitive in VB or C# (or whatever .NET supports) and bind it in the interpreter.
 
 ```vb
 Imports Intrigue
 Imports Intrigue.Nodes
 
-Public Class UpcaseFunction
-    Inherits Intrigue.Nodes.FunctionNode
+Public Class UpcasePrimitive
+    Inherits Intrigue.Nodes.PrimitiveNode
 
     Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Context) As Node
 
@@ -98,7 +98,7 @@ End Class
 ' and, when preparing the interpreter...
 
 Dim i = New Intrigue.Interpreter
-i.Bind("upcase", New UpcaseFunction)
+i.Bind("upcase", New UpcasePrimitive)
 
 i.Eval("(upcase ""London"")").ToString ' will yield '"LONDON"'
 ```

@@ -24,8 +24,8 @@
 
 Namespace Nodes
 
-    Public Class PlusFunctionNode
-        Inherits FunctionNode
+    Public Class PlusPrimitive
+        Inherits PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
@@ -44,8 +44,8 @@ Namespace Nodes
         End Function
     End Class
 
-    Public Class MinusFunctionNode
-        Inherits FunctionNode
+    Public Class MinusPrimitive
+        Inherits PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
@@ -67,8 +67,8 @@ Namespace Nodes
         End Function
     End Class
 
-    Public Class StarFunctionNode
-        Inherits FunctionNode
+    Public Class StarPrimitive
+        Inherits PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
@@ -87,8 +87,8 @@ Namespace Nodes
         End Function
     End Class
 
-    Public Class SlashFunctionNode
-        Inherits FunctionNode
+    Public Class SlashPrimitive
+        Inherits PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
@@ -115,8 +115,8 @@ Namespace Nodes
         End Function
     End Class
 
-    Public Class GreaterFunctionNode
-        Inherits FunctionNode
+    Public Class GreaterPrimitive
+        Inherits PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
@@ -156,8 +156,8 @@ Namespace Nodes
         End Function
     End Class
 
-    Public Class MaxMinFunctionNode
-        Inherits FunctionNode
+    Public Class MaxMinPrimitive
+        Inherits PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
@@ -187,8 +187,8 @@ Namespace Nodes
         End Function
     End Class
 
-    Public Class AbsFunctionNode
-        Inherits FunctionNode
+    Public Class AbsPrimitive
+        Inherits PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
@@ -198,8 +198,8 @@ Namespace Nodes
         End Function
     End Class
 
-    Public Class QrmFunctionNode
-        Inherits FunctionNode
+    Public Class QrmPrimitive
+        Inherits PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
@@ -233,8 +233,8 @@ Namespace Nodes
         End Function
     End Class
 
-    Public Class CheckExactFunctionNode
-        Inherits FunctionNode
+    Public Class CheckExactPrimitive
+        Inherits PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
@@ -250,8 +250,8 @@ Namespace Nodes
         End Function
     End Class
 
-    Public Class CheckSignFunctionNode
-        Inherits FunctionNode
+    Public Class CheckSignPrimitive
+        Inherits PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
@@ -273,8 +273,8 @@ Namespace Nodes
         End Function
     End Class
 
-    Public Class CheckOddnessFunctionNode
-        Inherits FunctionNode
+    Public Class CheckOddnessPrimitive
+        Inherits PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 

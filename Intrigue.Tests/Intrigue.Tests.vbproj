@@ -81,14 +81,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LibMathTest.vb" />
-    <Compile Include="FuncConversionTest.vb" />
     <Compile Include="LibListsTest.vb" />
     <Compile Include="CustomFunctionTest.vb" />
+    <Compile Include="PrimCallTest.vb" />
+    <Compile Include="PrimConversionTest.vb" />
+    <Compile Include="PrimListTest.vb" />
+    <Compile Include="PrimMainTest.vb" />
+    <Compile Include="PrimNumericTest.vb" />
     <Compile Include="TokenizerTest.vb" />
-    <Compile Include="FuncCallTest.vb" />
-    <Compile Include="FuncListTest.vb" />
-    <Compile Include="FuncMainTest.vb" />
-    <Compile Include="FuncNumericTest.vb" />
     <Compile Include="LambdaTest.vb" />
     <Compile Include="DefineTest.vb" />
     <Compile Include="ParserTest.vb" />

@@ -27,8 +27,8 @@ Imports System.Reflection
 
 Namespace Nodes
 
-    Public Class CallFunctionNode
-        Inherits FunctionNode
+    Public Class CallPrimitive
+        Inherits PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 

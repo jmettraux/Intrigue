@@ -8,8 +8,8 @@ Imports Intrigue.Nodes
 
 <TestClass()> Public Class CustomFunctionTest
 
-    Class UpcaseFunction
-        Inherits Intrigue.Nodes.FunctionNode
+    Class UpcasePrimitive
+        Inherits Intrigue.Nodes.PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
@@ -32,7 +32,7 @@ Imports Intrigue.Nodes
     <TestMethod()> Public Sub Custom_function()
 
         Dim i = New Intrigue.Interpreter
-        i.Bind("upcase", New UpcaseFunction)
+        i.Bind("upcase", New UpcasePrimitive)
 
         Assert.AreEqual("""LONDON""", i.Eval("(upcase ""lonDon""").ToString)
     End Sub

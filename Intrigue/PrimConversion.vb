@@ -24,8 +24,8 @@
 
 Namespace Nodes
 
-    Public Class ToInexactFunctionNode
-        Inherits FunctionNode
+    Public Class ToInexactPrimitive
+        Inherits PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
@@ -46,8 +46,8 @@ Namespace Nodes
         End Function
     End Class
 
-    Public Class ToStringFunctionNode
-        Inherits FunctionNode
+    Public Class ToStringPrimitive
+        Inherits PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
@@ -55,7 +55,7 @@ Namespace Nodes
 
             Dim val = env.Eval(args.Car)
 
-            If Not funcName.StartsWith("->") then
+            If Not funcName.StartsWith("->") Then
                 CheckType(funcName.Split("-")(0), val)
             End If
 

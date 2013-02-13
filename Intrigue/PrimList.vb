@@ -25,8 +25,8 @@
 
 Namespace Nodes
 
-    Public Class CarFunctionNode
-        Inherits FunctionNode
+    Public Class CarPrimitive
+        Inherits PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
@@ -36,8 +36,8 @@ Namespace Nodes
         End Function
     End Class
 
-    Public Class CdrFunctionNode
-        Inherits FunctionNode
+    Public Class CdrPrimitive
+        Inherits PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
@@ -47,8 +47,8 @@ Namespace Nodes
         End Function
     End Class
 
-    Public Class ConsFunctionNode
-        Inherits FunctionNode
+    Public Class ConsPrimitive
+        Inherits PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
@@ -65,8 +65,8 @@ Namespace Nodes
         End Function
     End Class
 
-    Public Class EmptyFunctionNode
-        Inherits FunctionNode
+    Public Class EmptyPrimitive
+        Inherits PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 

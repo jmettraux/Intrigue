@@ -5,7 +5,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 <TestClass()> Public Class NumericFunctionsTest
 
-    <TestMethod()> Public Sub Function_comparisons()
+    <TestMethod()> Public Sub Primitive_comparisons()
 
         Assert.AreEqual(
             "true",
@@ -45,7 +45,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("(= 3 2)").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_plus()
+    <TestMethod()> Public Sub Primitive_plus()
 
         Assert.AreEqual(
             "5",
@@ -61,7 +61,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("+ 2 .5").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_minus()
+    <TestMethod()> Public Sub Primitive_minus()
 
         Assert.AreEqual(
             "5",
@@ -80,7 +80,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual("'-' expects 1 to 2 arguments, not 3", ex.Message)
     End Sub
 
-    <TestMethod()> Public Sub Function_star()
+    <TestMethod()> Public Sub Primitive_star()
 
         Assert.AreEqual(
             "-24",
@@ -94,7 +94,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("* 2 1.2").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_slash()
+    <TestMethod()> Public Sub Primitive_slash()
 
         Assert.AreEqual(
             "-2",
@@ -116,7 +116,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual("'/' expects 1 to 2 arguments, not 0", ex.Message)
     End Sub
 
-    <TestMethod()> Public Sub Function_zero()
+    <TestMethod()> Public Sub Primitive_zero()
 
         Assert.AreEqual(
             "false",
@@ -135,7 +135,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("zero? 0.0").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_positive_negative()
+    <TestMethod()> Public Sub Primitive_positive_negative()
 
         Assert.AreEqual(
             "false",
@@ -158,7 +158,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("negative? -1").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_odd_even()
+    <TestMethod()> Public Sub Primitive_odd_even()
 
         Assert.AreEqual(
             "false",
@@ -180,7 +180,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("even? 2").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_max_min()
+    <TestMethod()> Public Sub Primitive_max_min()
 
         Assert.AreEqual(
             "12",
@@ -197,7 +197,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("min -2 5 7 12 1.0").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_abs()
+    <TestMethod()> Public Sub Primitive_abs()
 
         Assert.AreEqual(
             "2",
@@ -213,7 +213,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("abs -2.0").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_qrm()
+    <TestMethod()> Public Sub Primitive_qrm()
 
         Assert.AreEqual(
             "1",

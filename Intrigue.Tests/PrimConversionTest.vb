@@ -5,14 +5,14 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 <TestClass()> Public Class FuncConversionTest
 
-    <TestMethod()> Public Sub Function_symbol_to_string()
+    <TestMethod()> Public Sub Primitive_symbol_to_string()
 
         Assert.AreEqual(
             """a""",
             Interpreter.DoEval("(symbol->string 'a)").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_to_string()
+    <TestMethod()> Public Sub Primitive_to_string()
 
         Assert.AreEqual(
             """13""",
@@ -22,7 +22,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("(->string 'a)").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_inexact()
+    <TestMethod()> Public Sub Primitive_inexact()
 
         Assert.AreEqual(
             "1",

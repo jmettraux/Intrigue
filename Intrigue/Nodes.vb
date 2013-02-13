@@ -75,10 +75,10 @@ Namespace Nodes
             End Try
         End Function
 
-        Public Function ToFunctionNode() As FunctionNode
+        Public Function ToFunctionNode() As PrimitiveNode
 
             Try
-                Return DirectCast(Me, FunctionNode)
+                Return DirectCast(Me, PrimitiveNode)
             Catch ex As Exception
                 Throw New Ex.ArgException("expected function got " & Me.GetNodeTypeName)
             End Try
@@ -357,7 +357,7 @@ Namespace Nodes
         End Function
     End Class
 
-    Public MustInherit Class FunctionNode
+    Public MustInherit Class PrimitiveNode
         Inherits Node
 
         Public MustOverride Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node

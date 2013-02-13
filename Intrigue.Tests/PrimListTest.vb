@@ -5,7 +5,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 <TestClass()> Public Class ListFunctionsTest
 
-    <TestMethod()> Public Sub Function_car()
+    <TestMethod()> Public Sub Primitive_car()
 
         Assert.AreEqual(
             "1",
@@ -15,7 +15,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("(car (quote (1 2 3)))").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_cdr()
+    <TestMethod()> Public Sub Primitive_cdr()
 
         Assert.AreEqual(
             "(2 3)",
@@ -25,7 +25,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("(cdr (quote (1 2 3)))").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_cons()
+    <TestMethod()> Public Sub Primitive_cons()
 
         Assert.AreEqual(
             "(1)",
@@ -47,7 +47,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual("Intrigue.Ex.ArgException", e.GetType.ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_empty()
+    <TestMethod()> Public Sub Primitive_empty()
 
         Assert.AreEqual(
             "true",
@@ -67,7 +67,7 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("null? ""abc""").ToString)
     End Sub
 
-    <TestMethod()> Public Sub Function_any()
+    <TestMethod()> Public Sub Primitive_any()
 
         Assert.AreEqual(
             "false",

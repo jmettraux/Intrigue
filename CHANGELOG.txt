@@ -4,6 +4,7 @@
 
 == release 1.0.5    not yet released
 
+- rename FunctionNode to PrimitiveNode
 - prevent "cons" from mutating lists (instead of creating new lists)
 - make some functions as library functions
 
