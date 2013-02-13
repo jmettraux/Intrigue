@@ -70,14 +70,4 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             "true",
             Interpreter.DoEval("any? '(1)").ToString)
     End Sub
-
-    <TestMethod()> Public Sub Function_list()
-
-        Assert.AreEqual(
-            "(1 2 3)",
-            Interpreter.DoEval("list 1 2 3").ToString)
-        Assert.AreEqual(
-            "()",
-            Interpreter.DoEval("(list)").ToString)
-    End Sub
 End Class

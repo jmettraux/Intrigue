@@ -2,6 +2,11 @@
 = Intrigue
 
 
+== release 1.0.5    not yet released
+
+- make some functions as library functions
+
+
 == release 1.0.4    released 2013/02/12
 
 - implement "apply"

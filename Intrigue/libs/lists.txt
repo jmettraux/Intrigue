@@ -1,5 +1,11 @@
 
 ;
+; list related functions
+;
+
+define (list . l) l
+
+;
 ; map
 ;
 

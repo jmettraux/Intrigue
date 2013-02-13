@@ -5,6 +5,16 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 <TestClass()> Public Class LibListsTest
 
+    <TestMethod()> Public Sub LibFunc_list()
+
+        Assert.AreEqual(
+            "(1 2 3)",
+            Interpreter.DoEval("list 1 2 3").ToString)
+        Assert.AreEqual(
+            "()",
+            Interpreter.DoEval("(list)").ToString)
+    End Sub
+
     <TestMethod()> Public Sub LibFunc_map()
 
         Assert.AreEqual(

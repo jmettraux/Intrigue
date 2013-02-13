@@ -100,19 +100,4 @@ Namespace Nodes
     '        Return result
     '    End Function
     'End Class
-
-    Public Class ListFunctionNode
-        Inherits FunctionNode
-
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
-
-            Dim l = New ListNode
-
-            For Each node In args.Nodes
-                l.Push(env.Eval(node))
-            Next
-
-            Return l
-        End Function
-    End Class
 End Namespace

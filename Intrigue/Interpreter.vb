@@ -82,7 +82,6 @@ Public Class Interpreter
         Bind("null?", New EmptyFunctionNode)
         Bind("empty?", New EmptyFunctionNode)
         Bind("any?", New EmptyFunctionNode)
-        Bind("list", New ListFunctionNode)
 
         Bind("+", New PlusFunctionNode)
         Bind("-", New MinusFunctionNode)
