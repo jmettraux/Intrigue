@@ -11,6 +11,8 @@ define (list . l) l
 ;
 ; foldr
 
+  ; TODO: move that to a[n iterating] primitive
+
 define
   foldr fu la li
   if (empty? li)
@@ -19,6 +21,8 @@ define
 
 ;
 ; foldl
+
+  ; TODO: move that to a[n iterating] primitive
 
 define
   foldl fu ac li
@@ -38,5 +42,5 @@ define
 ;      map fu (cdr li)
 
 define
-  map func li
-  foldr (lambda (x y) (cons (func x) y)) '() li
+  map fu li
+  foldr (lambda (x y) (cons (fu x) y)) '() li

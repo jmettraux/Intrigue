@@ -54,7 +54,7 @@ Namespace Nodes
                 Catch ex As Exception
                 End Try
 
-                value = New LambdaNode(New ListNode(car.Cdr, args.Cdr.Car))
+                value = New LambdaNode(New ListNode(car.Cdr, args.Cdr.Car), env)
 
             ElseIf car.IsSymbol Then
 
@@ -84,15 +84,17 @@ Namespace Nodes
         Inherits PrimitiveNode
 
         Protected definition As ListNode
+        Protected environment As Environment
 
-        Public Sub New(ByRef definition As ListNode)
+        Public Sub New(ByRef definition As ListNode, ByRef env As Environment)
 
             Me.definition = definition
+            Me.environment = env
         End Sub
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
-            Dim e = New Environment(env)
+            Dim e = New Environment(Me.environment)
 
             Dim car = Me.definition.Car
             If car.IsList Then
@@ -165,7 +167,7 @@ Namespace Nodes
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
-            Return New LambdaNode(args)
+            Return New LambdaNode(args, env)
         End Function
     End Class
 
