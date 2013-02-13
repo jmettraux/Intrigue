@@ -15,6 +15,20 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("(list)").ToString)
     End Sub
 
+    <TestMethod()> Public Sub LibFunc_foldr()
+
+        Assert.AreEqual(
+            "(1 2 3 4)",
+            Interpreter.DoEval("foldr cons '() '(1 2 3 4)").ToString)
+    End Sub
+
+    <TestMethod()> Public Sub LibFunc_foldl()
+
+        Assert.AreEqual(
+            "(4 3 2 1)",
+            Interpreter.DoEval("foldl cons '() '(1 2 3 4)").ToString)
+    End Sub
+
     <TestMethod()> Public Sub LibFunc_map()
 
         Assert.AreEqual(

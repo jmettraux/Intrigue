@@ -54,16 +54,14 @@ Namespace Nodes
 
             CheckArgCount(funcName, args, 2)
 
-            Dim head = env.Eval(args.Car)
-            Dim tail = env.Eval(args.Cdr.Car)
+            Dim a = env.Eval(args.Car)
+            Dim b = env.Eval(args.Cdr.Car)
 
-            If Not tail.IsList Then
-                Throw New Ex.ArgException("'cons' expects a list as second argument, not " & tail.ToString)
+            If Not b.IsList Then
+                Throw New Ex.ArgException("'cons' expects a list as second argument, not " & b.ToString)
             End If
 
-            tail.toListNode.Nodes.Insert(0, head)
-
-            Return tail
+            Return b.ToListNode.Cons(a)
         End Function
     End Class
 

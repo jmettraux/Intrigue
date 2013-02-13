@@ -122,6 +122,14 @@ Namespace Nodes
 
                         ' regular case
 
+                        If i > args.Nodes.Count - 1 Then
+
+                            Throw New Ex.ArgException(
+                                "not enough arguments, argument '" &
+                                argname & "' of " & Me.ToString &
+                                " cannot be given a value")
+                        End If
+
                         e.Bind(argname, env.Eval(args.Nodes(i)))
                     End If
                 Next
@@ -236,8 +244,6 @@ Namespace Nodes
             End If
 
             Dim type = funcName.Substring(0, funcName.Length - 1)
-
-            Console.WriteLine(val.GetTypeName & " vs " & type)
 
             Return New AtomNode(val.GetTypeName = type)
         End Function

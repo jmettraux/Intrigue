@@ -28,6 +28,12 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
     <TestMethod()> Public Sub Function_cons()
 
         Assert.AreEqual(
+            "(1)",
+            Interpreter.DoEval("cons 1 '()").ToString)
+        Assert.AreEqual(
+            "(1 2)",
+            Interpreter.DoEval("cons 1 '(2)").ToString)
+        Assert.AreEqual(
             "(1 2 3)",
             Interpreter.DoEval("cons 1 '(2 3)").ToString)
 

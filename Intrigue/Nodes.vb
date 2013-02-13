@@ -228,6 +228,17 @@ Namespace Nodes
             Me.Nodes = nodes
         End Sub
 
+        Public Function Cons(ByRef head As Node)
+
+            Dim r = New ListNode
+            r.Push(head)
+            For Each n In Me.Nodes
+                r.Push(n)
+            Next
+
+            Return r
+        End Function
+
         Public Sub Push(ByRef node As Node)
 
             Me.Nodes.Add(node)

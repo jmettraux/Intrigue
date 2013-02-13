@@ -3,16 +3,40 @@
 ; list related functions
 ;
 
+;
+; list
+
 define (list . l) l
 
 ;
-; map
-;
+; foldr
 
 define
-  map fu li
+  foldr fu la li
   if (empty? li)
-    li    ; then
-    cons  ; else
-      fu (car li)
-      map fu (cdr li)
+    la
+    fu (car li) (foldr fu la (cdr li))
+
+;
+; foldl
+
+define
+  foldl fu ac li
+  if (empty? li)
+    ac
+    foldl fu (fu (car li) ac) (cdr li)
+
+;
+; map
+
+;define
+;  map fu li
+;  if (empty? li)
+;    li    ; then
+;    cons  ; else
+;      fu (car li)
+;      map fu (cdr li)
+
+define
+  map func li
+  foldr (lambda (x y) (cons (func x) y)) '() li
