@@ -154,6 +154,11 @@ Namespace Nodes
 
             Return Me.GetType.ToString & ":" & Me.ToString
         End Function
+
+        Public Overridable Function Eval(ByRef env As Environment) As Node
+
+            Return Me
+        End Function
     End Class
 
     Public Class AtomNode
@@ -227,6 +232,14 @@ Namespace Nodes
 
             Me.Nodes = nodes
         End Sub
+
+        Public Overrides Function Eval(ByRef env As Environment) As Node
+
+            Dim car = Me.Car
+            Dim func = env.Eval(car).ToFunctionNode
+
+            Return func.Apply(car.ToString, Me.Cdr, env)
+        End Function
 
         Public Function Cons(ByRef head As Node)
 
@@ -321,6 +334,16 @@ Namespace Nodes
             MyBase.New()
             Me.Nodes = l.Nodes
         End Sub
+
+        Public Overrides Function Eval(ByRef env As Environment) As Node
+
+            Dim r As Node = Nothing
+            For Each n In Me.Nodes
+                r = env.Eval(n)
+            Next
+
+            Return r
+        End Function
 
         Public Overrides Function ToString() As String
 

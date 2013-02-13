@@ -71,20 +71,8 @@ Public Class Environment
 
     Public Overridable Function Eval(ByRef node As Node, symbolLookup As Boolean) As Node
 
-        If node.IsSymbol Then
-            If symbolLookup Then Return Lookup(node.ToString)
-            Return node
-        End If
-        If node.IsAtom Then
-            Return node
-        End If
-
-        ' node is list
-
-        Dim car = node.Car
-        Dim func = Eval(car).ToFunctionNode
-
-        Return func.Apply(car.ToString, node.Cdr, Me)
+        If symbolLookup AndAlso node.IsSymbol Then Return Me.Lookup(node.ToString)
+        Return node.Eval(Me)
     End Function
 
     Public Overrides Function ToString() As String

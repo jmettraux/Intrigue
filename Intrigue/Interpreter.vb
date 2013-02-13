@@ -129,21 +129,6 @@ Public Class Interpreter
         Return Eval(Parsing.Parser.Parse(s))
     End Function
 
-    Public Overrides Function Eval(ByRef node As Node) As Node
-
-        Dim parseList = TryCast(node, ParseListNode)
-
-        If parseList Is Nothing Then Return MyBase.Eval(node)
-
-        Dim result As Node = Nothing
-
-        For Each n In parseList.Nodes
-            result = Eval(n)
-        Next
-
-        Return result
-    End Function
-
     Public Sub BindAtom(name As String, ByRef value As Object)
 
         Me.Bind(name, New AtomNode(value))
