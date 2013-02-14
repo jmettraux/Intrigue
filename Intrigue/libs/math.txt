@@ -2,18 +2,15 @@
 ;
 ; gcd (Euler)
 ;
-; eventually implement that in hard (and iterative)
-;
 
 define
   gcd2 m n
-  abs
-    if (zero? n)
-      m                       ; then
-      gcd2 n (remainder m n)  ; else
+  if (zero? n)
+    abs m                   ; then
+    gcd2 n (remainder m n)  ; else
 
 define
   gcd . ns
   if (empty? ns)
-    0                                   ; then
-    gcd2 (car ns) (apply gcd (cdr ns))  ; else
+    0                             ; then
+    foldl gcd2 (car ns) (cdr ns)  ; else
