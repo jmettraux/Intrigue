@@ -30,6 +30,9 @@ Imports Intrigue.Parsing
         Assert.AreEqual(
             """ab cd""",
             Parser.Parse("""ab cd""").ToString)
+        Assert.AreEqual(
+            """\""a\""b\""c\""""",
+            Parser.Parse(Util.NewString(<![CDATA[ "\"a\"b\"c\"" ]]>)).ToString)
     End Sub
 
     <TestMethod()> Public Sub Parser_Parse_integers()
