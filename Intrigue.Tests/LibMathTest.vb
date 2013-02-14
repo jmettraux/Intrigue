@@ -35,4 +35,17 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             "5",
             Interpreter.DoEval("gcd 30 40 35").ToString)
     End Sub
+
+    <TestMethod()> Public Sub LibFunc_lcm()
+
+        Assert.AreEqual(
+            "288",
+            Interpreter.DoEval("lcm 32 -36").ToString)
+        Assert.AreEqual(
+            "288.0",
+            Interpreter.DoEval("lcm 32.0 -36").ToString)
+        Assert.AreEqual(
+            "1",
+            Interpreter.DoEval("(lcm)").ToString)
+    End Sub
 End Class

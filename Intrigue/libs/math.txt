@@ -14,3 +14,17 @@ define
   if (empty? ns)
     0                             ; then
     foldl gcd2 (car ns) (cdr ns)  ; else
+
+;
+; lcm
+;
+
+define
+  lcm2 m n
+  abs (/ (* m n) (gcd2 m n))
+
+define
+  lcm . ns
+  if (empty? ns)
+    1                             ; then
+    foldl lcm2 (car ns) (cdr ns)  ; else
