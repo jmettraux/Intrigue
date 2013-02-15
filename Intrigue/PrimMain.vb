@@ -304,7 +304,10 @@ Namespace Nodes
 
             CheckArgCount(funcName, args, 2)
 
-            Dim l = New ListNode(args.Car)
+            Dim func = args.Car
+            If func.IsAtom Then func = New SymbolNode(func.ToAtomNode.Atom.ToString)
+
+            Dim l = New ListNode(func)
 
             Dim aas = env.Eval(args.Cdr.Car)
 

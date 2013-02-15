@@ -202,7 +202,7 @@ map plus10 '(12 14 16)
 ```
 
 ### eval apply
-as expected
+as expected. Note that "apply" accepts a string as first argument.
 
 ### the-environment
 returns the current environment

@@ -4,6 +4,7 @@
 
 == release 1.1.0    not yet released
 
+- let "apply" accept strings as first argument
 - fix semi-colons eaten by symbols
 - rename FunctionNode to PrimitiveNode
 - prevent "cons" from mutating lists (instead of creating new lists)

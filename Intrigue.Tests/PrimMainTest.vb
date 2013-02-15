@@ -224,6 +224,9 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual(
             "6",
             Intrigue.Interpreter.DoEval("apply + '(1 2 3)").ToString)
+        Assert.AreEqual(
+            "6",
+            Intrigue.Interpreter.DoEval("apply ""+"" '(1 2 3)").ToString)
     End Sub
 
     <TestMethod()> Public Sub Primitive_let()
