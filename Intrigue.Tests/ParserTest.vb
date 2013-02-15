@@ -203,6 +203,13 @@ Imports Intrigue.Parsing
                     </string>)).ToString)
     End Sub
 
+    <TestMethod()> Public Sub Parser_Parse_comments_eow()
+
+        Assert.AreEqual(
+            "alpha",
+            Parser.Parse("alpha; bravo").ToString)
+    End Sub
+
     <TestMethod()> Public Sub Parser_Parse_raise_on_missing_parenthese()
 
         Dim e As Exception = Nothing
