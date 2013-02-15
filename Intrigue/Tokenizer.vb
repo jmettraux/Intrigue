@@ -136,14 +136,52 @@ Namespace Parsing
             Return IsSpace() OrElse IsNewline() OrElse IsComment()
         End Function
 
-        Public Function IsOpeningParenthesis() As Boolean
+        Public Function IsListStart() As Boolean
 
             Return Me.Typ.EndsWith("(")
         End Function
 
-        Public Function IsClosingParenthesis() As Boolean
+        Public Function IsObjectStart() As Boolean
 
-            Return Me.Typ = ")"
+            Return Me.Typ = "{"
+        End Function
+
+        Public Function IsArrayStart() As Boolean
+
+            Return Me.Typ = "["
+        End Function
+
+        Public Function IsOpeningBracket() As Boolean
+
+            Return IsListStart() OrElse IsObjectStart() OrElse IsArrayStart()
+        End Function
+
+        Public Function IsClosingBracket() As Boolean
+
+            Return Me.Typ = ")" OrElse Me.Typ = "}" OrElse Me.Typ = "]"
+        End Function
+
+        Public Function IsClosingBracket(ByRef start As Token) As Boolean
+
+            If start.Typ.EndsWith("(") Then Return Me.Typ = ")"
+            If start.Typ = "{" Then Return Me.Typ = "}"
+            If start.Typ = "[" Then Return Me.Typ = "]"
+            Return False
+        End Function
+
+        Public Function IsComma() As Boolean
+
+            Return Me.Typ = ","
+        End Function
+
+        Public Function IsColon() As Boolean
+
+            Return Me.Typ = ":"
+        End Function
+
+        Public Function IsPunctuation() As Boolean
+
+            Return IsComma() OrElse IsColon()
         End Function
 
         Public Function IsString() As Boolean
@@ -171,9 +209,10 @@ Namespace Parsing
         Protected Shared T_NEWLINE As Regex = New Regex("^[\r\n]+")
         Protected Shared T_SPACE As Regex = New Regex("^[ \t]+")
         Protected Shared T_QUOTE As Regex = New Regex("^'\(")
-        Protected Shared T_PAREN As Regex = New Regex("^[\(\)]")
-        Protected Shared T_NUMBER As Regex = New Regex("^-?\.?\d[^"" \t\r\n\(\)]*")
-        Protected Shared T_SYMBOL As Regex = New Regex("^[^"" \t\r\n\(\)]+")
+        Protected Shared T_BRACKET As Regex = New Regex("^[\(\)\[\]{}]")
+        Protected Shared T_NUMBER As Regex = New Regex("^-?\.?\d[^"" \t\r\n\(\),:]*")
+        Protected Shared T_SYMBOL As Regex = New Regex("^[^"" \t\r\n\(\),:]+")
+        Protected Shared T_COMMA As Regex = New Regex("^[,:]")
 
         Protected Shared Function TokenizeString(s As String, ByRef pos As Position) As Token
 
@@ -225,7 +264,9 @@ Namespace Parsing
             m = T_QUOTE.Match(ss)
             If m.Success Then Return New Token("'(", pos, m.ToString, Nothing)
 
-            m = T_PAREN.Match(ss)
+            m = T_BRACKET.Match(ss)
+            If m.Success Then Return New Token(m.ToString, pos, m.ToString, Nothing)
+            m = T_COMMA.Match(ss)
             If m.Success Then Return New Token(m.ToString, pos, m.ToString, Nothing)
 
             m = T_NUMBER.Match(ss)

@@ -85,10 +85,10 @@ Namespace Parsing
 
             Dim t = tokens(0)
 
-            If t.IsClosingParenthesis Then Throw New Ex.UnbalancedParentheseException(t)
+            If t.IsClosingBracket Then Throw New Ex.UnbalancedParentheseException(t)
 
             If _
-                (t.IsOpeningParenthesis OrElse t.Tex = "_") AndAlso _
+                (t.IsOpeningBracket OrElse t.Tex = "_") AndAlso _
                 tokens.Count > 1 AndAlso _
                 tokens(1).Pos.Line > t.Pos.Line AndAlso _
                 tokens(1).Pos.Column > t.Pos.Column _
@@ -97,7 +97,7 @@ Namespace Parsing
                 Return ParseHorizontal(tokens)
             End If
 
-            If t.IsOpeningParenthesis Then Return ParseList(tokens)
+            If t.IsOpeningBracket Then Return ParseCollection(tokens)
 
             Dim token = Shift(tokens)
 
@@ -109,24 +109,41 @@ Namespace Parsing
             Return New AtomNode(token.Val)
         End Function
 
-        Protected Shared Function ParseList(ByRef tokens As List(Of Token)) As Node
+        Protected Shared Function ParseCollection(ByRef tokens As List(Of Token)) As Node
 
             Dim t As Token
             Dim l As New ListNode
 
             Dim start = Shift(tokens)
+            'Dim previousPunctuation = New Token(",", Nothing, Nothing, Nothing)
 
             While True
+
                 t = First(tokens)
+
                 If t Is Nothing Then
                     Exit While
                 End If
-                If t.IsClosingParenthesis Then
+                If t.IsClosingBracket(start) Then
                     Shift(tokens)
                     Exit While
                 End If
+
+                If t.IsPunctuation AndAlso start.IsListStart Then
+                    Throw New Ex.ArgException("Commas and colons are not allowed in plain lists")
+                End If
+                If t.IsColon AndAlso Not start.IsObjectStart Then
+                    Throw New Ex.ArgException("Colons are not allowed in arrays")
+                End If
+                If t.IsPunctuation Then
+                    Shift(tokens)
+                End If
+
                 l.Push(ParsePlain(tokens))
             End While
+
+            If start.Typ = "[" Then Return l.Cons(New SymbolNode("jarray"))
+            If start.Typ = "{" Then Return l.Cons(New SymbolNode("jobject"))
 
             If start.Typ = "'(" Then Return New ListNode(New SymbolNode("quote"), l)
 

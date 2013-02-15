@@ -80,6 +80,7 @@
     <Import Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ParserAndJsonTest.vb" />
     <Compile Include="LibMathTest.vb" />
     <Compile Include="LibListsTest.vb" />
     <Compile Include="CustomFunctionTest.vb" />

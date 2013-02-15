@@ -62,4 +62,38 @@ cde" "volley"
             "string of69.li4.co21 >beach< of76.li4.co28",
             ts(3).ToString)
     End Sub
+
+    <TestMethod()> Public Sub Tokenizer_Tokenize_and_json_arrays()
+
+        Dim ts = Intrigue.Parsing.Tokenizer.Tokenize(
+            Intrigue.Util.NewString(
+                <![CDATA[
+                    [ "nada", 3, 2 ]
+                ]]>).Trim)
+
+        Console.WriteLine(Tokenizer.TokensToString(ts))
+
+        Assert.AreEqual(7, ts.Count)
+
+        Assert.AreEqual(
+            "[ of0.li1.co1 >< of1.li1.co2",
+            ts(0).ToString)
+    End Sub
+
+    <TestMethod()> Public Sub Tokenizer_Tokenize_and_json_objects()
+
+        Dim ts = Intrigue.Parsing.Tokenizer.Tokenize(
+            Intrigue.Util.NewString(
+                <![CDATA[
+                    { "alpha": "bravo", charly: 4 }
+                ]]>).Trim)
+
+        Console.WriteLine(Tokenizer.TokensToString(ts))
+
+        Assert.AreEqual(9, ts.Count)
+
+        Assert.AreEqual(
+            "{ of0.li1.co1 >< of1.li1.co2",
+            ts(0).ToString)
+    End Sub
 End Class

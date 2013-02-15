@@ -233,6 +233,22 @@ Namespace Nodes
             Me.Nodes = nodes
         End Sub
 
+        Public Sub New(ParamArray args As Object())
+
+            Me.Nodes = New List(Of Node)
+
+            For Each a In args
+
+                Dim n = TryCast(a, Node)
+
+                If n Is Nothing Then
+                    Me.Nodes.Add(New AtomNode(a))
+                Else
+                    Me.Nodes.Add(n)
+                End If
+            Next
+        End Sub
+
         Public Overrides Function Eval(ByRef env As Environment) As Node
 
             Dim car = Me.Car
@@ -260,24 +276,6 @@ Namespace Nodes
         Public Sub Merge(ByRef list As ListNode)
 
             Me.Nodes.AddRange(list.Nodes)
-        End Sub
-
-        ' Used in tests
-        '
-        Public Sub New(ParamArray args As Object())
-
-            Me.Nodes = New List(Of Node)
-
-            For Each a In args
-
-                Dim n = TryCast(a, Node)
-
-                If n Is Nothing Then
-                    Me.Nodes.Add(New AtomNode(a))
-                Else
-                    Me.Nodes.Add(n)
-                End If
-            Next
         End Sub
 
         Public Overrides Function Car() As Node
