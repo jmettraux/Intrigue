@@ -35,12 +35,17 @@ Namespace Nodes
 
         Public Function IsAtom() As Boolean
 
-            Return Me.GetType.ToString = "Intrigue.Nodes.AtomNode"
+            Return (TypeOf Me Is AtomNode)
+        End Function
+
+        Public Function IsString() As Boolean
+
+            Return IsAtom() AndAlso Not IsSymbol() AndAlso (TypeOf ToAtomNode.Atom Is String)
         End Function
 
         Public Function IsSymbol() As Boolean
 
-            Return Me.GetType.ToString = "Intrigue.Nodes.SymbolNode"
+            Return (TypeOf Me Is SymbolNode)
         End Function
 
         Public Function IsProcedure() As Boolean
@@ -55,6 +60,12 @@ Namespace Nodes
             Catch ex As Exception
                 Throw New Ex.ArgException("expected atom got " & Me.GetNodeTypeName)
             End Try
+        End Function
+
+        Public Function AsSymbolNode() As SymbolNode
+
+            If IsSymbol() Then Return Me
+            Return New SymbolNode(Me.ToAtomNode.Atom.ToString)
         End Function
 
         Public Function ToSymbolNode() As SymbolNode
@@ -77,11 +88,10 @@ Namespace Nodes
 
         Public Function ToFunctionNode() As FunctionNode
 
-            Try
-                Return DirectCast(Me, FunctionNode)
-            Catch ex As Exception
-                Throw New Ex.ArgException("expected function got " & Me.GetNodeTypeName)
-            End Try
+            If Me.IsProcedure Then Return DirectCast(Me, FunctionNode)
+
+            Throw New Ex.ArgException(
+                "expected procedure got " & Me.ToString & " (" & Me.GetType.ToString & ")")
         End Function
 
         Public Function GetNodeTypeName() As String
@@ -253,10 +263,10 @@ Namespace Nodes
 
         Public Overrides Function Eval(ByRef env As Environment) As Node
 
-            Dim ca = Me.Car
-            Dim func = env.Eval(ca).ToFunctionNode
+            Dim car = Me.Car
+            Dim func = env.Eval(car).ToFunctionNode()
 
-            Return func.Apply(ca.ToString, Me.Cdr, env)
+            Return func.Apply(car.ToString, Me.Cdr, env)
         End Function
 
         Public Function Cons(ByRef head As Node)

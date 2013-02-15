@@ -15,12 +15,11 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
     <TestMethod()> Public Sub Json_object()
 
         Assert.AreEqual(
-            "xxx",
+            "(33 ""Kiyomori"")",
             Interpreter.DoEval(Util.NewString(
                 <![CDATA[
-                    ;define user { "name": "Kiyomori", "age": 33 }
-                    ;user
-                    make-jobject
+                    define user { "name": "Kiyomori", "age": 33 }
+                    (list (user 'get "age") (user 'get "name"))
                 ]]>
             )).ToString)
     End Sub

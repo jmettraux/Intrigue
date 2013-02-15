@@ -11,4 +11,18 @@ define (make-jarray . l) l
 
 define
   make-jobject . l
-  l
+  let
+    _
+      dictionary l
+    define
+      get dic key
+      if (empty? dic)
+        '()
+        if (equal? (car dic) key)
+          car (cdr dic)
+          get (cdr (cdr dic)) key
+    define
+      dispatch meth . args
+      ;(apply (environment-lookup meth) (cons dictionary args))
+      (apply meth (cons (quote dictionary) args))
+    dispatch

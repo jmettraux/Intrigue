@@ -71,6 +71,8 @@ Public Class Environment
 
     Public Overridable Function Eval(ByRef node As Node, symbolLookup As Boolean) As Node
 
+        'Console.WriteLine("eval: " & node.ToString)
+
         If symbolLookup AndAlso node.IsSymbol Then Return Me.Lookup(node.ToString)
         Return node.Eval(Me)
     End Function
