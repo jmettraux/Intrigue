@@ -277,7 +277,7 @@ Imports Intrigue.Parsing
     <TestMethod()> Public Sub Parser_Parse_lonely_paren()
 
         Assert.AreEqual(
-            "(let ((var0 0) (var1 1)) ((do-this var0) (do-that var1)))",
+            "(let ((var0 0) (var1 1)) (do-this var0) (do-that var1))",
             Parser.Parse(
                 Util.NewString(
                     <![CDATA[
@@ -285,15 +285,41 @@ Imports Intrigue.Parsing
                         (
                           var0 0
                           var1 1
-                        (
+                        do-this var0
+                        do-that var1
+                    ]]>)).ToString)
+
+        Assert.AreEqual(
+            "(define nada (let ((var0 0)) (do-this var0)))",
+            Parser.Parse(
+                Util.NewString(
+                    <![CDATA[
+                      define
+                        nada
+                        let
+                          (
+                            var0 0
                           do-this var0
-                          do-that var1
+                    ]]>)).ToString)
+
+        Assert.AreEqual(
+            "(let ((var0 10) (var1 11)) (+ var0 var1))",
+            Parser.Parse(
+                Util.NewString(
+                    <![CDATA[
+                        ;define x 3
+                        let
+                          _
+                            var0 10
+                            var1 11
+                          ;(+ var0 var1)
+                          + var0 var1
                     ]]>)).ToString)
 
         ' the following version should be easier on )( aware text editors
         '
         Assert.AreEqual(
-            "(let ((var0 0) (var1 1)) ((do-this var0) (do-that var1)))",
+            "(let ((var0 0) (var1 1)) (do-this var0) (do-that var1))",
             Parser.Parse(
                 Util.NewString(
                     <![CDATA[
@@ -301,9 +327,32 @@ Imports Intrigue.Parsing
                         _
                           var0 0
                           var1 1
-                        _
+                        do-this var0
+                        do-that var1
+                    ]]>)).ToString)
+
+        Assert.AreEqual(
+            "(define nada (let ((var0 0)) (do-this var0)))",
+            Parser.Parse(
+                Util.NewString(
+                    <![CDATA[
+                      define
+                        nada
+                        let
+                          _
+                            var0 0
                           do-this var0
-                          do-that var1
+                    ]]>)).ToString)
+
+        Assert.AreEqual(
+            "(let ((var0 0)) (do-this var0))",
+            Parser.Parse(
+                Util.NewString(
+                    <![CDATA[
+                      let
+                        _
+                          var0 0
+                        do-this var0
                     ]]>)).ToString)
     End Sub
 End Class

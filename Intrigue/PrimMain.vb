@@ -81,7 +81,7 @@ Namespace Nodes
     End Class
 
     Public Class LambdaNode
-        Inherits PrimitiveNode
+        Inherits FunctionNode
 
         Protected definition As ListNode
         Protected environment As Environment
@@ -158,7 +158,7 @@ Namespace Nodes
 
         Public Overrides Function ToString() As String
 
-            Return "lambda: " & Me.definition.ToString
+            Return Me.definition.Cons(New SymbolNode("lambda")).ToString
         End Function
     End Class
 
@@ -339,7 +339,7 @@ Namespace Nodes
             Next
 
             Dim last As Node = New ListNode ' empty list as nil/null?
-            For Each node In args.Cdr.Nodes
+            For Each node In args.Cdr.ToListNode.Nodes
                 last = e.Eval(node)
             Next
 

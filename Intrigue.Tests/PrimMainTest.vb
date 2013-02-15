@@ -233,13 +233,12 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Intrigue.Interpreter.DoEval(
                 Util.NewString(
                     <![CDATA[
-                        define x 3
                         let
                           _
                             var0 10
                             var1 11
-                          _
-                            (+ var0 var1)
+                          ;(+ var0 var1)
+                          + var0 var1
                     ]]>)).ToString)
     End Sub
 

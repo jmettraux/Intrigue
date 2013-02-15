@@ -122,8 +122,7 @@ Public Class Interpreter
 
         EvalLibrary("lists")
         EvalLibrary("math")
-
-        Bind("jarray", Lookup("list")) ' JSON array
+        EvalLibrary("json") 'depends on "lists"
     End Sub
 
     Public Overloads Function Eval(s As String) As Node

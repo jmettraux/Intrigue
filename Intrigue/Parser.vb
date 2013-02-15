@@ -94,7 +94,8 @@ Namespace Parsing
                 tokens(1).Pos.Column > t.Pos.Column _
             Then
                 Shift(tokens)
-                Return ParseHorizontal(tokens)
+                'Return ParseHorizontal(tokens)
+                Return ParseVertical(tokens)
             End If
 
             If t.IsOpeningBracket Then Return ParseCollection(tokens)
@@ -142,8 +143,8 @@ Namespace Parsing
                 l.Push(ParsePlain(tokens))
             End While
 
-            If start.Typ = "[" Then Return l.Cons(New SymbolNode("jarray"))
-            If start.Typ = "{" Then Return l.Cons(New SymbolNode("jobject"))
+            If start.Typ = "[" Then Return l.Cons(New SymbolNode("make-jarray"))
+            If start.Typ = "{" Then Return l.Cons(New SymbolNode("make-jobject"))
 
             If start.Typ = "'(" Then Return New ListNode(New SymbolNode("quote"), l)
 

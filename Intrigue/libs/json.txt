@@ -1,0 +1,14 @@
+
+;
+; make-jarray
+;
+
+define (make-jarray . l) l
+
+;
+; make-jobject
+;
+
+define
+  make-jobject . l
+  l

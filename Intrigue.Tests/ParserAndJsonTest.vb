@@ -12,7 +12,7 @@ Imports Intrigue.Parsing
     <TestMethod()> Public Sub Parser_json_arrays()
 
         Assert.AreEqual(
-            "(jarray 1 2 3)",
+            "(make-jarray 1 2 3)",
             Parser.Parse("[ 1, 2, 3 ]").ToString)
 
         'Assert.AreEqual(
@@ -33,14 +33,14 @@ Imports Intrigue.Parsing
     <TestMethod()> Public Sub Parser_json_objects()
 
         Assert.AreEqual(
-            "(jobject ""a"" 1 ""b"" 2)",
+            "(make-jobject ""a"" 1 ""b"" 2)",
             Parser.Parse("{ ""a"": 1, ""b"": 2 }").ToString)
     End Sub
 
     <TestMethod()> Public Sub Parser_json_composites()
 
         Assert.AreEqual(
-            "(jobject ""a"" 1 ""b"" (jarray 1 2 (jobject ""c"" ""nada"")))",
+            "(make-jobject ""a"" 1 ""b"" (make-jarray 1 2 (make-jobject ""c"" ""nada"")))",
             Parser.Parse("{ ""a"": 1, ""b"": [ 1, 2, { ""c"": ""nada"" } ] }").ToString)
     End Sub
 

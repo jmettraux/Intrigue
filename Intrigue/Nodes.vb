@@ -43,9 +43,9 @@ Namespace Nodes
             Return Me.GetType.ToString = "Intrigue.Nodes.SymbolNode"
         End Function
 
-        Public Function IsFunction() As Boolean
+        Public Function IsProcedure() As Boolean
 
-            Return Me.GetType.ToString.EndsWith("FunctionNode")
+            Return (TypeOf Me Is FunctionNode)
         End Function
 
         Public Function ToAtomNode() As AtomNode
@@ -75,10 +75,10 @@ Namespace Nodes
             End Try
         End Function
 
-        Public Function ToFunctionNode() As PrimitiveNode
+        Public Function ToFunctionNode() As FunctionNode
 
             Try
-                Return DirectCast(Me, PrimitiveNode)
+                Return DirectCast(Me, FunctionNode)
             Catch ex As Exception
                 Throw New Ex.ArgException("expected function got " & Me.GetNodeTypeName)
             End Try
@@ -141,6 +141,8 @@ Namespace Nodes
         End Function
 
         Public Overridable Function Car() As Node
+
+            Console.WriteLine(Me.ToString)
 
             Throw New Ex.IntrigueException("'car' only works on lists")
         End Function
@@ -251,10 +253,10 @@ Namespace Nodes
 
         Public Overrides Function Eval(ByRef env As Environment) As Node
 
-            Dim car = Me.Car
-            Dim func = env.Eval(car).ToFunctionNode
+            Dim ca = Me.Car
+            Dim func = env.Eval(ca).ToFunctionNode
 
-            Return func.Apply(car.ToString, Me.Cdr, env)
+            Return func.Apply(ca.ToString, Me.Cdr, env)
         End Function
 
         Public Function Cons(ByRef head As Node)
@@ -355,10 +357,14 @@ Namespace Nodes
         End Function
     End Class
 
-    Public MustInherit Class PrimitiveNode
+    Public MustInherit Class FunctionNode
         Inherits Node
 
         Public MustOverride Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
+    End Class
+
+    Public MustInherit Class PrimitiveNode
+        Inherits FunctionNode
 
         Protected Sub CheckArgCount(funcName As String, ByRef args As ListNode, argCount As Integer)
 
