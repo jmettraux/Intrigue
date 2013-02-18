@@ -181,6 +181,9 @@ as expected
 ### min max
 given a list return the minimum number or the max one respectively. If a least one number is inexact, the result will be inexact (Double).
 
+### alist?
+alist? returns true if its argument is an association list
+
 ### call
 calls a .NET method on the target atom.
 

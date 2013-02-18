@@ -121,6 +121,7 @@ Public Class Interpreter
         Bind("make-environment", New MakeEnvironmentPrimitive)
 
         EvalLibrary("lists")
+        EvalLibrary("alists")
         EvalLibrary("math")
         EvalLibrary("json") 'depends on "lists"
     End Sub
