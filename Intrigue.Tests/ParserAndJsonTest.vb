@@ -35,6 +35,9 @@ Imports Intrigue.Parsing
         Assert.AreEqual(
             "(make-jobject ""a"" 1 ""b"" 2)",
             Parser.Parse("{ ""a"": 1, ""b"": 2 }").ToString)
+        Assert.AreEqual(
+            "(make-jobject ""a"" 1 ""b"" 2)",
+            Parser.Parse("{ ""a"": 1, ""b"": 2}").ToString)
     End Sub
 
     <TestMethod()> Public Sub Parser_json_composites()

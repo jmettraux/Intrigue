@@ -2,6 +2,11 @@
 = Intrigue
 
 
+== release 1.1.1    not yet released
+
+- fix issue with numbers when parsing JSON objects and arrays
+
+
 == release 1.1.0    released 2013/02/19
 
 - implement Node#ToJson

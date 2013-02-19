@@ -210,8 +210,8 @@ Namespace Parsing
         Protected Shared T_SPACE As Regex = New Regex("^[ \t]+")
         Protected Shared T_QUOTE As Regex = New Regex("^'\(")
         Protected Shared T_BRACKET As Regex = New Regex("^[\(\)\[\]{}]")
-        Protected Shared T_NUMBER As Regex = New Regex("^-?\.?\d[^"" \t\r\n\(\),:;]*")
-        Protected Shared T_SYMBOL As Regex = New Regex("^[^"" \t\r\n\(\),:;]+")
+        Protected Shared T_NUMBER As Regex = New Regex("^-?\.?\d[^"" \t\r\n\(\),:;{}\[\]]*")
+        Protected Shared T_SYMBOL As Regex = New Regex("^[^"" \t\r\n\(\),:;{}\[\]]+")
         Protected Shared T_COMMA As Regex = New Regex("^[,:]")
 
         Protected Shared Function TokenizeString(s As String, ByRef pos As Position) As Token
