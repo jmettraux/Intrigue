@@ -41,7 +41,6 @@ Namespace Parsing
         Protected Shared Function ParseVertical(ByRef tokens As List(Of Token)) As Node
 
             Dim l = New ListNode
-            Dim t As Token
             Dim head = First(tokens)
 
             While True
