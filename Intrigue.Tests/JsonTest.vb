@@ -35,4 +35,27 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
                 ]]>
             )).ToString)
     End Sub
+
+    <TestMethod()> Public Sub Json_object_set()
+
+        Assert.AreEqual(
+            "((""age"" 55) (""name"" ""Kiyomori"") (""age"" 33))",
+            Interpreter.DoEval(Util.NewString(
+                <![CDATA[
+                    define user { "name": "Kiyomori", "age": 33 }
+                    user 'set "age" 55
+                    user 'alist
+                ]]>
+            )).ToString)
+
+        Assert.AreEqual(
+            "55",
+            Interpreter.DoEval(Util.NewString(
+                <![CDATA[
+                    define user { "name": "Kiyomori", "age": 33 }
+                    user 'set "age" 55
+                    user 'get "age"
+                ]]>
+            )).ToString)
+    End Sub
 End Class

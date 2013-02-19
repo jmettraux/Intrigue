@@ -13,11 +13,13 @@ define (make-jarray . l)
 define (make-jobject . l)
   let
     _
-      dictionary (make-alist l)
+      object (make-alist l)
     define (get ke)
-      assocv ke dictionary
+      assocv ke object
+    define (set ke va)
+      set! object (cons (list ke va) object)
     define (alist)
-      dictionary
+      object
     define (dispatch meth . args)
       apply meth args
     dispatch
