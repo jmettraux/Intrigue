@@ -5,7 +5,7 @@
 == release 1.1.0    not yet released
 
 - implement "make-alist"
-- implement "alist?" and "assoc"
+- implement "alist?", "assoc" and "assocv"
 - implement "all?" and "length"
 - parse JSON as well (and run make-jobject)
 - let "apply" accept strings as first argument

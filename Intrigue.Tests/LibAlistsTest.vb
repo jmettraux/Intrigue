@@ -38,6 +38,20 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("assoc 'c '((a 0) (b 1) (c 2))").ToString)
     End Sub
 
+    <TestMethod()> Public Sub LibFunc_assocv()
+
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("assocv 'd '((a 0) (b 1) (c 2))").ToString)
+
+        Assert.AreEqual(
+            "0",
+            Interpreter.DoEval("assocv 'a '((a 0) (b 1) (c 2))").ToString)
+        Assert.AreEqual(
+            "2",
+            Interpreter.DoEval("assocv 'c '((a 0) (b 1) (c 2))").ToString)
+    End Sub
+
     <TestMethod()> Public Sub LibFunc_make_alist()
 
         Assert.AreEqual(

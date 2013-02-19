@@ -201,12 +201,15 @@ turns a flat list into a associative list
 make-alist '(a 0 b 1 c 2) ; yields ((a 0) (b 1) (c 2))
 ```
 
-### assoc
+### assoc assocv
 works with association lists, works from the left until it finds a matching association
 
 ```scheme
 assoc 'b '((a 0) (b 1) (c 2)) ; yields (b 1)
 assoc 'd '((a 0) (b 1) (c 2)) ; yields false
+
+assocv 'b '((a 0) (b 1) (c 2)) ; yields 1
+assocv 'd '((a 0) (b 1) (c 2)) ; yields false
 ```
 
 ### call

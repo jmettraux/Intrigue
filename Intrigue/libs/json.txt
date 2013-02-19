@@ -13,16 +13,11 @@ define
   make-jobject . l
   let
     _
-      dictionary l
+      dictionary (make-alist l)
     define
-      get dic key
-      if (empty? dic)
-        '()
-        if (equal? (car dic) key)
-          car (cdr dic)
-          get (cdr (cdr dic)) key
+      get ke
+      assocv ke dictionary
     define
       dispatch meth . args
-      ;(apply (environment-lookup meth) (cons dictionary args))
-      (apply meth (cons (quote dictionary) args))
+      apply meth args
     dispatch

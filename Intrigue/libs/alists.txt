@@ -33,3 +33,15 @@ define
     (empty? li) false
     (equal? (caar li) ke) (car li)
     true (assoc ke (cdr li))
+
+;
+; vassoc
+
+define
+  assocv ke li
+  let
+    _
+      r (assoc ke li)
+    if (list? r)
+      cadr r
+      false
