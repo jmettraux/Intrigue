@@ -2,7 +2,7 @@
 = Intrigue
 
 
-== release 1.1.0    not yet released
+== release 1.1.0    released 2013/02/19
 
 - implement Node#ToJson
 - implement "make-alist"
