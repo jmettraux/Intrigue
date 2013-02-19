@@ -194,6 +194,13 @@ given a list return the minimum number or the max one respectively. If a least o
 ### alist?
 alist? returns true if its argument is an association list
 
+### make-alist
+turns a flat list into a associative list
+
+```scheme
+make-alist '(a 0 b 1 c 2) ; yields ((a 0) (b 1) (c 2))
+```
+
 ### assoc
 works with association lists, works from the left until it finds a matching association
 

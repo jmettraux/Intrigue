@@ -80,6 +80,7 @@ Public Class Interpreter
         Bind("cdr", New CadrPrimitive)
         Bind("caar", New CadrPrimitive)
         Bind("cadr", New CadrPrimitive)
+        Bind("cddr", New CadrPrimitive)
 
         Bind("cons", New ConsPrimitive)
         Bind("null?", New EmptyPrimitive)

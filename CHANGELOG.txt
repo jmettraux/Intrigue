@@ -4,6 +4,7 @@
 
 == release 1.1.0    not yet released
 
+- implement "make-alist"
 - implement "alist?" and "assoc"
 - implement "all?" and "length"
 - parse JSON as well (and run make-jobject)

@@ -4,6 +4,16 @@
 ;
 
 ;
+; make-alist
+
+define
+  make-alist li
+  if (empty? li)
+    '()
+    cons (list (car li) (cadr li)) (make-alist (cddr li))
+
+
+;
 ; alist?
 
 define

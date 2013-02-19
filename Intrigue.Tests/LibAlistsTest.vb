@@ -37,4 +37,17 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             "(c 2)",
             Interpreter.DoEval("assoc 'c '((a 0) (b 1) (c 2))").ToString)
     End Sub
+
+    <TestMethod()> Public Sub LibFunc_make_alist()
+
+        Assert.AreEqual(
+            "()",
+            Interpreter.DoEval("make-alist '()").ToString)
+        Assert.AreEqual(
+            "((1 2) (3 4))",
+            Interpreter.DoEval("make-alist '(1 2 3 4)").ToString)
+        Assert.AreEqual(
+            "((""alpha"" 2) (3 ""charly""))",
+            Interpreter.DoEval("make-alist '(""alpha"" 2 3 ""charly"")").ToString)
+    End Sub
 End Class
