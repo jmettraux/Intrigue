@@ -19,5 +19,8 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
         Assert.AreEqual(
             "true",
             Interpreter.DoEval("alist? '((1 2) (3 4))").ToString)
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("alist? '((1 2) ())").ToString)
     End Sub
 End Class

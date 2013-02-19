@@ -31,6 +31,23 @@ define
     foldl fu (fu (car li) ac) (cdr li)
 
 ;
+; length
+
+define
+  length li
+  foldl (lambda (elt acc) (+ acc 1)) 0 li
+
+;
+; all?
+
+define
+  all? fu? li
+  cond
+    (empty? li) true
+    (fu? (car li)) (all? fu? (cdr li))
+    (true false)
+
+;
 ; map
 
 ;define

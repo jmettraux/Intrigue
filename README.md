@@ -157,6 +157,16 @@ returns true if the arg is a list and is empty
 ### any?
 returns true if the arg is a list and has at least one element
 
+### all?
+accepts a function and a list, returns true if all the elements return true when called with the function
+
+```scheme
+all? (lambda (x) (> x 10)) '(4 5 6) ; yields true
+```
+
+### length
+returns the length of the list passed as argument
+
 ### and or not
 combines boolean results, exits as soon as the final answer can be determined (potentially doesn't evaluate all the arguments)
 

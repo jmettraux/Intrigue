@@ -3,20 +3,13 @@
 ; alist related functions
 ;
 
-; move me to lists.txt?
-;
-define
-  all? fu? li
-  cond
-    (empty? li) true
-    (fu? (car li)) (all? fu? (cdr li))
-    (true false)
-
 ;
 ; alist?
 
 define
   alist? o
   if (list? o)
-    all? (lambda (li) (list? li)) o
+    all?
+      lambda (li) (and (list? li) (= 2 (length li)))
+      o
     false

@@ -29,6 +29,33 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("foldl cons '() '(1 2 3 4)").ToString)
     End Sub
 
+    <TestMethod()> Public Sub LibFunc_length()
+
+        Assert.AreEqual(
+            "0",
+            Interpreter.DoEval("length '()").ToString)
+        Assert.AreEqual(
+            "1",
+            Interpreter.DoEval("length '(1)").ToString)
+        Assert.AreEqual(
+            "2",
+            Interpreter.DoEval("length '(1 ""deux"")").ToString)
+    End Sub
+
+    <TestMethod()> Public Sub LibFunc_all()
+
+        Assert.AreEqual(
+            "true",
+            Interpreter.DoEval("all? (lambda (x) (> x 10)) '()").ToString)
+
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("all? (lambda (x) (> x 10)) '(4 5 6)").ToString)
+        Assert.AreEqual(
+            "true",
+            Interpreter.DoEval("all? (lambda (x) (< x 10)) '(4 5 6)").ToString)
+    End Sub
+
     <TestMethod()> Public Sub LibFunc_map()
 
         Assert.AreEqual(
