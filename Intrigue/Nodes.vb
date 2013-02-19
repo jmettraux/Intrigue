@@ -22,7 +22,9 @@
 ' Made in Japan
 '
 
+Imports System.Text
 Imports System.Text.RegularExpressions
+
 
 Namespace Nodes
 
@@ -152,8 +154,6 @@ Namespace Nodes
 
         Public Overridable Function Car() As Node
 
-            Console.WriteLine(Me.ToString)
-
             Throw New Ex.IntrigueException("'car' only works on lists")
         End Function
 
@@ -171,6 +171,8 @@ Namespace Nodes
 
             Return Me
         End Function
+
+        Public MustOverride Function ToJson() As String
     End Class
 
     Public Class AtomNode
@@ -208,6 +210,11 @@ Namespace Nodes
             End If
 
             Return """" & str.Replace("""", "\""") & """"
+        End Function
+
+        Public Overrides Function ToJson() As String
+
+            Return ToString()
         End Function
     End Class
 
@@ -312,27 +319,19 @@ Namespace Nodes
 
         Public Overrides Function ToString() As String
 
-            Dim s = "("
+            If Me.Nodes.Count < 1 Then Return "()"
+            Return "(" & String.Join(" ", Me.Nodes.Select(Function(n) n.ToString)) & ")"
+        End Function
 
-            For i As Integer = 0 To Me.Nodes.Count - 1
-                s = s + Me.Nodes(i).ToString
-                If i < Me.Nodes.Count - 1 Then s = s + " "
-            Next
+        Public Overrides Function ToJson() As String
 
-            Return s + ")"
+            If Me.Nodes.Count < 1 Then Return "[]"
+            Return "[ " & String.Join(", ", Me.Nodes.Select(Function(n) n.ToJson)) & " ]"
         End Function
 
         Public Overrides Function Inspect() As String
 
-            Dim s = Me.GetType.ToString & ":["
-
-            For i = 0 To Me.Nodes.Count - 1
-                Dim n = Me.Nodes(i)
-                s = s & n.Inspect
-                If i < Me.Nodes.Count - 1 Then s = s & ", "
-            Next
-
-            Return s & "]"
+            Return Me.GetType.ToString & ":[" & String.Join(", ", Me.Nodes.Select(Function(n) n.Inspect)) & "]"
         End Function
     End Class
 
@@ -357,13 +356,14 @@ Namespace Nodes
 
         Public Overrides Function ToString() As String
 
-            Dim s = ""
+            Dim sb = New StringBuilder
 
             For Each n In Me.Nodes
-                s = s & n.ToString & vbCr
+                sb.Append(n.ToString)
+                sb.Append(vbCr)
             Next
 
-            Return s.Trim
+            Return sb.ToString.Trim
         End Function
     End Class
 
@@ -404,6 +404,11 @@ Namespace Nodes
             Throw New Ex.ArgException(
                 "'" & funcName & "' expects " & minCount & " to " & maxCount & " arguments, not " & args.Length)
         End Sub
+
+        Public Overrides Function ToJson() As String
+
+            Return """primitive:" & Me.GetType.ToString & """"
+        End Function
     End Class
 
     Public Class EnvironmentNode
@@ -416,5 +421,10 @@ Namespace Nodes
             MyBase.New()
             Me.env = env
         End Sub
+
+        Public Overrides Function ToJson() As String
+
+            Return """environment"""
+        End Function
     End Class
 End Namespace

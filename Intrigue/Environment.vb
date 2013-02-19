@@ -57,11 +57,22 @@ Public Class Environment
         End If
     End Sub
 
-    Public Function Lookup(key As String)
+    Public Function Lookup(key As String) As Node
 
         If dic.ContainsKey(key) Then Return dic(key)
         If par Is Nothing Then Throw New Ex.NotFoundException(key)
         Return par.Lookup(key)
+    End Function
+
+    ''' <summary>
+    '''   Whereas "Lookup" throws an excpetion when not found, this "Fetch" simply
+    '''   returns nothing.
+    ''' </summary>
+    '''
+    Public Function Fetch(key As String) As Node
+
+        If dic.ContainsKey(key) Then Return dic(key)
+        Return Nothing
     End Function
 
     Public Overridable Function Eval(ByRef node As Node) As Node

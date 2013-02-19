@@ -22,6 +22,9 @@
 ' Made in Japan
 '
 
+Imports System.Text
+
+
 Namespace Nodes
 
     Public Class QuotePrimitive
@@ -159,6 +162,43 @@ Namespace Nodes
         Public Overrides Function ToString() As String
 
             Return Me.definition.Cons(New SymbolNode("lambda")).ToString
+        End Function
+
+        Public Overrides Function ToJson() As String
+
+            Dim ob = Me.environment.Fetch("object")
+            Dim al = Me.environment.Fetch("alist")
+
+            If _
+              ob IsNot Nothing AndAlso
+              ob.IsList AndAlso
+              al IsNot Nothing AndAlso
+              al.IsProcedure _
+            Then
+                Return ObjectToJson(ob)
+            Else
+                Return """lambda"""
+            End If
+        End Function
+
+        Protected Function ObjectToJson(ob As ListNode) As String
+
+            If ob.Nodes.Count < 1 Then Return "{}"
+
+            Dim seenKeys = New List(Of String)
+            Dim entries = New List(Of String)
+
+            For i As Integer = 0 To ob.Nodes.Count - 1
+
+                Dim key = ob.Nodes(i).Car.ToString
+
+                If seenKeys.Contains(key) Then Continue For
+
+                seenKeys.Add(key)
+                entries.Add(key & ": " & ob.Nodes(i).Cdr.Car.ToJson)
+            Next
+
+            Return "{ " & String.Join(", ", entries) & " }"
         End Function
     End Class
 

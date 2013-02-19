@@ -4,6 +4,7 @@
 
 == release 1.1.0    not yet released
 
+- implement Node#ToJson
 - implement "make-alist"
 - implement "alist?", "assoc" and "assocv"
 - implement "all?" and "length"
