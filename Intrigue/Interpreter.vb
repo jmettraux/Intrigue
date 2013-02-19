@@ -76,8 +76,11 @@ Public Class Interpreter
         Bind("exact?", New CheckExactPrimitive)
         Bind("inexact?", New CheckExactPrimitive)
 
-        Bind("car", New CarPrimitive)
-        Bind("cdr", New CdrPrimitive)
+        Bind("car", New CadrPrimitive)
+        Bind("cdr", New CadrPrimitive)
+        Bind("caar", New CadrPrimitive)
+        Bind("cadr", New CadrPrimitive)
+
         Bind("cons", New ConsPrimitive)
         Bind("null?", New EmptyPrimitive)
         Bind("empty?", New EmptyPrimitive)

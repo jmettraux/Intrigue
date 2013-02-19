@@ -4,11 +4,6 @@
 ;
 
 ;
-; caar and co
-
-define (caar li) (car (car li))
-
-;
 ; list
 
 define (list . l) l

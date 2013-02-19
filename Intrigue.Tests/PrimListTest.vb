@@ -25,6 +25,16 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             Interpreter.DoEval("(cdr (quote (1 2 3)))").ToString)
     End Sub
 
+    <TestMethod()> Public Sub Primitive_misc_cadr()
+
+        Assert.AreEqual(
+            "1",
+            Interpreter.DoEval("caar '((1 2) (3 4))").ToString)
+        Assert.AreEqual(
+            "(3 4)",
+            Interpreter.DoEval("cadr '((1 2) (3 4))").ToString)
+    End Sub
+
     <TestMethod()> Public Sub Primitive_cons()
 
         Assert.AreEqual(

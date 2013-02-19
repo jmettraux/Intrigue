@@ -25,25 +25,21 @@
 
 Namespace Nodes
 
-    Public Class CarPrimitive
+    Public Class CadrPrimitive
         Inherits PrimitiveNode
 
         Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
 
             CheckArgCount(funcName, args, 1)
 
-            Return env.Eval(args.Car).Car
-        End Function
-    End Class
+            Dim current = env.Eval(args.Car)
 
-    Public Class CdrPrimitive
-        Inherits PrimitiveNode
+            For Each c In funcName.Substring(1, funcName.Length - 2).ToCharArray.Reverse
+                If c = "a"c Then current = current.Car
+                If c = "d"c Then current = current.Cdr
+            Next
 
-        Public Overrides Function Apply(funcName As String, ByRef args As ListNode, ByRef env As Environment) As Node
-
-            CheckArgCount(funcName, args, 1)
-
-            Return env.Eval(args.Car).Cdr
+            Return current
         End Function
     End Class
 
