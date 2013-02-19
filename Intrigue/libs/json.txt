@@ -3,21 +3,21 @@
 ; make-jarray
 ;
 
-define (make-jarray . l) l
+define (make-jarray . l)
+  l
 
 ;
 ; make-jobject
 ;
 
-define
-  make-jobject . l
+define (make-jobject . l)
   let
     _
       dictionary (make-alist l)
-    define
-      get ke
+    define (get ke)
       assocv ke dictionary
-    define
-      dispatch meth . args
+    define (alist)
+      dictionary
+    define (dispatch meth . args)
       apply meth args
     dispatch

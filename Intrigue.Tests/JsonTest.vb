@@ -23,4 +23,16 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
                 ]]>
             )).ToString)
     End Sub
+
+    <TestMethod()> Public Sub Json_object_alist()
+
+        Assert.AreEqual(
+            "((""name"" ""Kiyomori"") (""age"" 33))",
+            Interpreter.DoEval(Util.NewString(
+                <![CDATA[
+                    define user { "name": "Kiyomori", "age": 33 }
+                    user 'alist
+                ]]>
+            )).ToString)
+    End Sub
 End Class
