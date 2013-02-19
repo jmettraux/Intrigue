@@ -194,6 +194,14 @@ given a list return the minimum number or the max one respectively. If a least o
 ### alist?
 alist? returns true if its argument is an association list
 
+### assoc
+works with association lists, works from the left until it finds a matching association
+
+```scheme
+assoc 'b '((a 0) (b 1) (c 2)) ; yields (b 1)
+assoc 'd '((a 0) (b 1) (c 2)) ; yields false
+```
+
 ### call
 calls a .NET method on the target atom.
 

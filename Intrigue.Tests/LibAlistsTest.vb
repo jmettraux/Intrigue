@@ -23,4 +23,18 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
             "false",
             Interpreter.DoEval("alist? '((1 2) ())").ToString)
     End Sub
+
+    <TestMethod()> Public Sub LibFunc_assoc()
+
+        Assert.AreEqual(
+            "false",
+            Interpreter.DoEval("assoc 'd '((a 0) (b 1) (c 2))").ToString)
+
+        Assert.AreEqual(
+            "(a 0)",
+            Interpreter.DoEval("assoc 'a '((a 0) (b 1) (c 2))").ToString)
+        Assert.AreEqual(
+            "(c 2)",
+            Interpreter.DoEval("assoc 'c '((a 0) (b 1) (c 2))").ToString)
+    End Sub
 End Class

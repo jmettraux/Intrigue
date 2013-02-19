@@ -13,3 +13,13 @@ define
       lambda (li) (and (list? li) (= 2 (length li)))
       o
     false
+
+;
+; assoc
+
+define
+  assoc ke li
+  cond
+    (empty? li) false
+    (equal? (caar li) ke) (car li)
+    true (assoc ke (cdr li))
